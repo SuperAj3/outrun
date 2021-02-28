@@ -193,7 +193,7 @@ func LoginMaintenance(helper *helper.Helper) {
 			"",
 			localizations.GetStringByLanguage(enums.LangJapanese, "DefaultMaintenanceMessage", true),
 			localizations.GetStringByLanguage(enums.LangEnglish, "DefaultMaintenanceMessage", true),
-			"https://sonic.runner.es/",
+			"https://www.sonicrunners.com/",
 		)
 		err = helper.SendResponse(response)
 		if err != nil {

@@ -44,7 +44,7 @@ func GetRedStarExchangeList(helper *helper.Helper) {
 	} else {
 		helper.Warn("Invalid item type!")
 		baseInfo.StatusCode = status.ClientError
-		response = responses.RedStarExchangeList(baseInfo, []obj.RedStarItem{}, 0, "2000-1-1")
+		response = responses.RedStarExchangeList(baseInfo, []obj.RedStarItem{}, 0, "1900-1-1")
 		response.Seq, _ = db.BoltGetSessionIDSeq(sid)
 		err = helper.SendResponse(response)
 		if err != nil {
@@ -53,7 +53,7 @@ func GetRedStarExchangeList(helper *helper.Helper) {
 		return
 	}
 
-	response = responses.RedStarExchangeList(baseInfo, redStarItems, 0, "2000-1-1")
+	response = responses.RedStarExchangeList(baseInfo, redStarItems, 0, "1900-1-1")
 	response.Seq, _ = db.BoltGetSessionIDSeq(sid)
 	err = helper.SendResponse(response)
 	if err != nil {

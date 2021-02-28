@@ -359,6 +359,7 @@ func CommitChaoWheelSpin(helper *helper.Helper) {
 		primaryLogic(false)
 	} else { // no tickets nor sufficient red rings
 		availStatus = status.RouletteUseLimit
+		helper.DebugOut("Player does not have any roulette tickets or at least " + strconv.Itoa(int(consts.ChaoRouletteRedRingCost)*int(request.Count)) + " red rings! This could indicate a desync")
 	}
 
 	helper.DebugOut("POST")

@@ -201,6 +201,7 @@ func CommitWheelSpin(helper *helper.Helper) {
 	} else {
 		// do not modify the wheel, set error status
 		responseStatus = status.RouletteUseLimit
+		helper.DebugOut("Player does not have any roulette tickets or free spins! This could indicate a desync")
 	}
 
 	baseInfo := helper.BaseInfo(emess.OK, responseStatus)

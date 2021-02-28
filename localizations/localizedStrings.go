@@ -12,7 +12,7 @@ var LocalizedStrings = map[string]map[string]string{
 		"DefaultAnnouncementMessage":      "Welcome to Sonic Runners Revival!",
 		"DefaultLoginRouletteMessage":     "Earn some items to help you get a high score, and maybe even a top place in the rankings!",
 		"DefaultMaintenanceMessage": "Sonic Runners Revival is currently in maintenance mode!\nPlease check our social media for more information!\n\n" +
-			"Our website: https://sonic.runner.es/\n" +
+			"Our website: https://www.sonicrunners.com/\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
 		"DefaultRewardLabel": "A gift from the Runners Revival Team.",
@@ -22,10 +22,13 @@ var LocalizedStrings = map[string]map[string]string{
 			"Discord: https://discord.gg/T5ytR6T",
 		"FirstBillionPointRunRewardLabel": "A reward for performing your first billion point run.",
 		"FirstLoginBonusRewardLabel":      "A Start Dash Login Bonus.",
-		"LeagueHighRankingRewardLabel":    "A reward for getting the following position in the Runners' League High Score Ranking: %v.",
-		"LeaguePromotionRewardLabel":      "Runners' League Promotion Reward. Story Mode.",
-		"LeagueTotalRankingRewardLabel":   "A reward for getting the following position in the Runners' League Total Score Ranking: %v.",
-		"LoginBonusRewardLabel":           "A Login Bonus.",
+		"InactiveAccountNotice": "The account on this device has been marked for deletion due to inactivity. If you would like to reclaim your account, please contact us as soon as possible, as your account will be fully deleted at the beginning of next month.\n" +
+			"Twitter: https://twitter.com/runnersrevival\n" +
+			"Discord: https://discord.gg/T5ytR6T",
+		"LeagueHighRankingRewardLabel":  "A reward for getting the following position in the Runners' League High Score Ranking: %v.",
+		"LeaguePromotionRewardLabel":    "Runners' League Promotion Reward. Story Mode.",
+		"LeagueTotalRankingRewardLabel": "A reward for getting the following position in the Runners' League Total Score Ranking: %v.",
+		"LoginBonusRewardLabel":         "A Login Bonus.",
 		"NewAccountsDisabledNotice": "Registration of new accounts is disabled at the moment. For more information, please visit our Twitter or Discord.\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
@@ -56,7 +59,7 @@ var LocalizedStrings = map[string]map[string]string{
 		"SuspensionReason_8": "an unknown reason (RID 8).",
 		"SuspensionReason_9": "an unknown reason (RID 9).",
 		"UpdateGameNotice": "Please update Sonic Runners Revival; this version is no longer supported on Sonic Runners Revival!\n\n" +
-			"Our website: https://sonic.runner.es/\n" +
+			"Our website: https://www.sonicrunners.com/\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
 		"WatermarkTicker_1": "This server is powered by [ff0000]Outrun for Revival!",
