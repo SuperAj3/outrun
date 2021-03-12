@@ -171,6 +171,9 @@ func GetPlayerInfo(table, id string) (netobj.PlayerInfo, error) {
 		&values.CharacterState,
 		&values.ChaoState,
 		&values.SuspendedUntil,
+		&values.SuspendReason,
+		&values.LastLoginDevice,
+		&values.LastLoginPlatform,
 	)
 	if err != nil {
 		return netobj.PlayerInfo{"", "", "", "", "", 0, 0, []netobj.Character{}, []netobj.Chao{}, 0}, err
@@ -193,6 +196,9 @@ func GetPlayerInfoFromMigrationPass(table, pass string) (netobj.PlayerInfo, stri
 		&values.CharacterState,
 		&values.ChaoState,
 		&values.SuspendedUntil,
+		&values.SuspendReason,
+		&values.LastLoginDevice,
+		&values.LastLoginPlatform,
 	)
 	if err != nil {
 		return netobj.PlayerInfo{"", "", "", "", "", 0, 0, []netobj.Character{}, []netobj.Chao{}, 0}, "", err

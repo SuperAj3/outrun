@@ -16,6 +16,9 @@ type PlayerInfo struct {
 	CharacterState    []Character `json:"characters" db:"characters"`
 	ChaoState         []Chao      `json:"chao" db:"chao"`
 	SuspendedUntil    int64       `json:"suspendedUntil" db:"suspended_until"`
+	SuspendReason     int64       `json:"suspendReason" db:"suspend_reason"`
+	LastLoginDevice   string      `json:"lastLoginDevice" db:"last_login_device"`
+	LastLoginPlatform int64       `json:"lastLoginPlatform" db:"last_login_platform"`
 }
 
 type StoredPlayerInfo struct {
@@ -29,6 +32,9 @@ type StoredPlayerInfo struct {
 	CharacterState    []byte `json:"characters" db:"characters"`
 	ChaoState         []byte `json:"chao" db:"chao"`
 	SuspendedUntil    int64  `json:"suspendedUntil" db:"suspended_until"`
+	SuspendReason     int64  `json:"suspendReason" db:"suspend_reason"`
+	LastLoginDevice   string `json:"lastLoginDevice" db:"last_login_device"`
+	LastLoginPlatform int64  `json:"lastLoginPlatform" db:"last_login_platform"`
 }
 
 func PlayerInfoToStoredPlayerInfo(pli PlayerInfo) StoredPlayerInfo {
@@ -51,6 +57,9 @@ func PlayerInfoToStoredPlayerInfo(pli PlayerInfo) StoredPlayerInfo {
 		characterstate,
 		chaostate,
 		pli.SuspendedUntil,
+		pli.SuspendReason,
+		pli.LastLoginDevice,
+		pli.LastLoginPlatform,
 	}
 }
 
@@ -76,5 +85,8 @@ func StoredPlayerInfoToPlayerInfo(pli StoredPlayerInfo) PlayerInfo {
 		characterstate,
 		chaostate,
 		pli.SuspendedUntil,
+		pli.SuspendReason,
+		pli.LastLoginDevice,
+		pli.LastLoginPlatform,
 	}
 }
