@@ -34,10 +34,13 @@ type Player struct {
 	Messages          []obj.Message               `json:"messageList"`
 	OperatorMessages  []obj.OperatorMessage       `json:"operatorMessageList"`
 	LoginBonusState   LoginBonusState             `json:"loginBonusState"`
-	SuspendedUntil    int64                       // TODO: use `json:"lastLogin"`
+	SuspendedUntil    int64
+	SuspendReason     int64
+	LastLoginDevice   string
+	LastLoginPlatform int64
 }
 
-func NewPlayer(id, username, password, migrationPassword, userPassword, key string, lang int64, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, suspendedUntil int64) Player {
+func NewPlayer(id, username, password, migrationPassword, userPassword, key string, lang int64, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, suspendedUntil, suspendReason int64, lastLoginDevice string, lastLoginPlatform int64) Player {
 	return Player{
 		id,
 		username,
@@ -62,6 +65,9 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		operatorMessages,
 		loginBonusState,
 		suspendedUntil,
+		suspendReason,
+		lastLoginDevice,
+		lastLoginPlatform,
 	}
 }
 

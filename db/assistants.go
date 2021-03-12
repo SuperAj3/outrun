@@ -76,6 +76,9 @@ func NewAccountWithID(uid string) netobj.Player {
 	loginBonusState := netobj.DefaultLoginBonusState(0)
 	language := int64(enums.LangEnglish)
 	suspendedUntil := int64(0)
+	suspendReason := int64(0)
+	lastLoginDevice := ""
+	lastLoginPlatform := int64(0)
 	return netobj.NewPlayer(
 		uid,
 		username,
@@ -99,6 +102,9 @@ func NewAccountWithID(uid string) netobj.Player {
 		operatorMessages,
 		loginBonusState,
 		suspendedUntil,
+		suspendReason,
+		lastLoginDevice,
+		lastLoginPlatform,
 	)
 }
 
@@ -135,6 +141,9 @@ func SavePlayer(player netobj.Player) error {
 		player.CharacterState,
 		player.ChaoState,
 		player.SuspendedUntil,
+		player.SuspendReason,
+		player.LastLoginDevice,
+		player.LastLoginPlatform,
 	}
 	err := dbaccess.SetPlayerInfo(consts.DBMySQLTableCorePlayerInfo, player.ID, playerInfo)
 	if err != nil {
