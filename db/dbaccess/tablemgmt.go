@@ -74,6 +74,9 @@ func GetPlayerFromDB(id string) (netobj.Player, error) {
 		[]obj.OperatorMessage{},
 		loginbonusstate,
 		playerinfo.SuspendedUntil,
+		playerinfo.SuspendReason,
+		playerinfo.LastLoginDevice,
+		playerinfo.LastLoginPlatform,
 	)
 	return player, nil
 }
