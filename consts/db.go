@@ -42,11 +42,11 @@ const (
 		migrate_password VARCHAR(12) NOT NULL,
 		user_password TEXT NOT NULL,
 		player_key VARCHAR(32) NOT NULL,
-		last_login BIGINT UNSIGNED NOT NULL,
+		last_login BIGINT NOT NULL,
 		language INTEGER NOT NULL,
 		characters JSON,
 		chao JSON,
-		suspended_until BIGINT UNSIGNED NOT NULL,
+		suspended_until BIGINT NOT NULL,
 		suspend_reason INTEGER NOT NULL,
 		last_login_device TEXT NOT NULL,
 		last_login_platform INTEGER NOT NULL,
@@ -67,7 +67,7 @@ const (
 		num_buy_red_rings INTEGER NOT NULL,
 		energy INTEGER NOT NULL,
 		energy_buy INTEGER NOT NULL,
-		energy_renews_at BIGINT UNSIGNED NOT NULL,
+		energy_renews_at BIGINT NOT NULL,
 		num_messages INTEGER NOT NULL,
 		ranking_league INTEGER NOT NULL,
 		quick_ranking_league INTEGER NOT NULL,
@@ -79,7 +79,7 @@ const (
 		total_distance BIGINT NOT NULL,
 		best_distance BIGINT NOT NULL,
 		daily_mission_id INTEGER UNSIGNED NOT NULL,
-		daily_mission_end_time BIGINT UNSIGNED NOT NULL,
+		daily_mission_end_time BIGINT NOT NULL,
 		daily_challenge_value INTEGER,
 		daily_challenge_complete TINYINT UNSIGNED NOT NULL,
 		num_daily_chal_cont INTEGER NOT NULL,
@@ -92,8 +92,8 @@ const (
 		dm_nextcont INTEGER NOT NULL,
 		league_high_score BIGINT NOT NULL,
 		quick_league_high_score BIGINT NOT NULL,
-		league_start_time BIGINT UNSIGNED NOT NULL,
-		league_reset_time BIGINT UNSIGNED NOT NULL,
+		league_start_time BIGINT NOT NULL,
+		league_reset_time BIGINT NOT NULL,
 		ranking_league_group INTEGER NOT NULL,
 		quick_ranking_league_group INTEGER NOT NULL,
 		total_score BIGINT NOT NULL,
@@ -113,7 +113,7 @@ const (
 		chapter INTEGER,
 		point INTEGER,
 		stage_total_score BIGINT,
-		chapter_start_time BIGINT UNSIGNED NOT NULL,
+		chapter_start_time BIGINT NOT NULL,
 		PRIMARY KEY (id)
 	) ENGINE = InnoDB;`
 	SQLOptionUserResultsSchema = `
@@ -134,7 +134,7 @@ const (
 	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableRouletteInfos + ` (
 		id BIGINT UNSIGNED NOT NULL,
 		login_roulette_id INTEGER,
-		roulette_period_end BIGINT UNSIGNED NOT NULL,
+		roulette_period_end BIGINT NOT NULL,
 		roulette_count_in_period INTEGER,
 		got_jackpot_this_period INTEGER,
 		PRIMARY KEY (id)
@@ -144,10 +144,10 @@ const (
 		id BIGINT UNSIGNED NOT NULL,
 		current_start_dash_bonus_day INTEGER,
 		current_login_bonus_day INTEGER,
-		last_login_bonus_time BIGINT UNSIGNED NOT NULL,
-		next_login_bonus_time BIGINT UNSIGNED NOT NULL,
-		login_bonus_start_time BIGINT UNSIGNED NOT NULL,
-		login_bonus_end_time BIGINT UNSIGNED NOT NULL,
+		last_login_bonus_time BIGINT NOT NULL,
+		next_login_bonus_time BIGINT NOT NULL,
+		login_bonus_start_time BIGINT NOT NULL,
+		login_bonus_end_time BIGINT NOT NULL,
 		PRIMARY KEY (id)
 	) ENGINE = InnoDB;`
 	SQLOperatorMessagesSchema = `
@@ -156,15 +156,15 @@ const (
 		userid BIGINT UNSIGNED NOT NULL,
 		contents TEXT,
 		item JSON,
-		expire_time BIGINT UNSIGNED NOT NULL,
+		expire_time BIGINT NOT NULL,
 		PRIMARY KEY (id)
 	) ENGINE = InnoDB;`
 	SQLRankingLeagueDataSchema = `
 	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableRankingLeagueData + ` (
 		league_id INT UNSIGNED NOT NULL,
 		group_id INT UNSIGNED NOT NULL,
-		start_time BIGINT UNSIGNED NOT NULL,
-		reset_time BIGINT UNSIGNED NOT NULL,
+		start_time BIGINT NOT NULL,
+		reset_time BIGINT NOT NULL,
 		league_player_count INTEGER,
 		group_player_count INTEGER,
 		PRIMARY KEY (league_id, group_id)
@@ -173,7 +173,7 @@ const (
 	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableSessionIDs + ` (
 		sid VARCHAR(48) NOT NULL,
 		uid BIGINT UNSIGNED NOT NULL,
-		assigned_at_time BIGINT UNSIGNED NOT NULL,
+		assigned_at_time BIGINT NOT NULL,
 		PRIMARY KEY (sid)
 	) ENGINE = InnoDB;`
 	SQLOperatorInfosSchema = `
