@@ -461,10 +461,6 @@ func QuickPostGameResults(helper *helper.Helper) {
 
 		// increase character(s)'s experience
 		expIncrease := request.Rings + request.FailureRings // all rings collected
-		abilityIndex := 1
-		for abilityIndex == 1 || mainC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
-			abilityIndex = rand.Intn(len(mainC.AbilityLevel))
-		}
 		// check that increases exist
 		_, ok := consts.UpgradeIncreases[mainC.ID]
 		if !ok {
@@ -481,6 +477,10 @@ func QuickPostGameResults(helper *helper.Helper) {
 		playCharacters[0].AbilityLevelUp = []int64{}
 		playCharacters[0].AbilityLevelUpExp = []int64{}
 		if lvupCharacters[0].Level < 100 {
+			abilityIndex := 1
+			for abilityIndex == 1 || mainC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
+				abilityIndex = rand.Intn(len(mainC.AbilityLevel))
+			}
 			playCharacters[0].Exp += expIncrease
 			lvupCharacters[0].Exp += expIncrease
 			for lvupCharacters[0].Exp >= lvupCharacters[0].Cost {
@@ -503,13 +503,13 @@ func QuickPostGameResults(helper *helper.Helper) {
 			}
 		}
 		if hasSubCharacter {
-			abilityIndex = 1
-			for abilityIndex == 1 || subC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
-				abilityIndex = rand.Intn(len(subC.AbilityLevel))
-			}
 			playCharacters[1].AbilityLevelUp = []int64{}
 			playCharacters[1].AbilityLevelUpExp = []int64{}
 			if lvupCharacters[1].Level < 100 {
+				abilityIndex := 1
+				for abilityIndex == 1 || subC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
+					abilityIndex = rand.Intn(len(subC.AbilityLevel))
+				}
 				playCharacters[1].Exp += expIncrease
 				lvupCharacters[1].Exp += expIncrease
 				for lvupCharacters[1].Exp >= lvupCharacters[1].Cost {
