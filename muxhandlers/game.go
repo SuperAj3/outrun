@@ -56,7 +56,7 @@ func GetCostList(helper *helper.Helper) {
 	}
 	// no player, agonstic
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	response := responses.DefaultCostList(baseInfo)
+	response := responses.DefinedCostList(baseInfo, gameconf.CFile.ContinueCost)
 	response.Seq, _ = db.BoltGetSessionIDSeq(sid)
 	err := helper.SendResponse(response)
 	if err != nil {
@@ -302,7 +302,7 @@ func ActRetry(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
-	redRingContinuePrice := gameconf.CFile.EnergyRecoveryMax
+	redRingContinuePrice := gameconf.CFile.ContinueCost
 	// TODO: Add campaign support
 	responseStatus := status.OK
 	if player.PlayerState.NumRedRings >= int64(redRingContinuePrice) { //does the player actually have enough red rings?
