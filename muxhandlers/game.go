@@ -302,7 +302,7 @@ func ActRetry(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
-	redRingContinuePrice := 5
+	redRingContinuePrice := gameconf.CFile.EnergyRecoveryMax
 	// TODO: Add campaign support
 	responseStatus := status.OK
 	if player.PlayerState.NumRedRings >= int64(redRingContinuePrice) { //does the player actually have enough red rings?
