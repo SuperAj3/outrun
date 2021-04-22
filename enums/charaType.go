@@ -25,6 +25,7 @@ const (
 	CharaTypeTikal
 	CharaTypeMephiles
 	CharaTypePSISilver
+	CharaType204LaunchChara
 	CharaTypeAmitieAmy = iota + 301000 - 22 // 300021 is not the correct ID for Amitie Amy.
 	CharaTypeGothicAmy
 	CharaTypeHalloweenShadow
@@ -57,6 +58,7 @@ const (
 	CTStrTikal           = "300018"
 	CTStrMephiles        = "300019"
 	CTStrPSISilver       = "300020"
+	CTStr204LaunchChara  = "300021"
 	CTStrAmitieAmy       = "301000"
 	CTStrGothicAmy       = "301001"
 	CTStrHalloweenShadow = "301002"
