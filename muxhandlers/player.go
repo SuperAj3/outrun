@@ -92,6 +92,7 @@ func GetCharacterState(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
+
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	response := responses.CharacterState(baseInfo, player.CharacterState)
 	response.Seq, _ = db.BoltGetSessionIDSeq(sid)

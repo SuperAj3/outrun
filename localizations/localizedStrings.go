@@ -32,7 +32,7 @@ var LocalizedStrings = map[string]map[string]string{
 		"NewAccountsDisabledNotice": "Registration of new accounts is disabled at the moment. For more information, please visit our Twitter or Discord.\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
-		"NewAccountsDisabledBetaNotice": "Registration of new accounts is not possible on this beta server. You will need to contact someone on the Revival Team so they can create a transfer ID and password for you.\n" +
+		"NewAccountsDisabledBetaNotice": "Registration is not possible with this server at this time. If you have accessed this server before and wish to get back to playing on this server, you will need to have a transfer ID and password on hand. If you've lost your transfer ID or your password, feel free to let us know in the beta channel on our Discord.\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
 		"QuickLeagueHighRankingRewardLabel":  "A reward for getting the following position in the Runners' League Timed Mode High Score Ranking: %v.",

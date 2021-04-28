@@ -124,6 +124,7 @@ func UnlockedCharacterState() []Character { // every character
 		DefaultCharacter(constobjs.CharacterTikal),
 		DefaultCharacter(constobjs.CharacterMephiles),
 		DefaultCharacter(constobjs.CharacterPSISilver),
+		//DefaultCharacter(constobjs.Character204LaunchChara),
 		DefaultCharacter(constobjs.CharacterAmitieAmy),
 		DefaultCharacter(constobjs.CharacterGothicAmy),
 		DefaultCharacter(constobjs.CharacterHalloweenShadow),
@@ -161,7 +162,7 @@ func DefaultCharacterState() []Character {
 		DefaultLockedCharacter(constobjs.CharacterTikal),
 		DefaultLockedCharacter(constobjs.CharacterMephiles),
 		DefaultLockedCharacter(constobjs.CharacterPSISilver),
-		// other characters will be added to the CharacterState as they are obtained on the roulette
+		//DefaultLockedCharacter(constobjs.Character204LaunchChara),
 		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterAmitieAmy),
 		DefaultGiftOnlyCharacter(constobjs.CharacterGothicAmy),
 		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenShadow),
@@ -246,6 +247,8 @@ func GenerateCharacterFromCharacterID(charid string) obj.Character {
 		return constobjs.CharacterMephiles
 	case enums.CTStrPSISilver:
 		return constobjs.CharacterPSISilver
+	case enums.CTStr204LaunchChara:
+		return constobjs.Character204LaunchChara
 	case enums.CTStrAmitieAmy:
 		return constobjs.CharacterAmitieAmy
 	case enums.CTStrGothicAmy:

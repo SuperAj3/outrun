@@ -38,10 +38,10 @@ func NewAccountWithID(uid string) netobj.Player {
 	}
 
 	username := ""
-	password := randChar("abcdefghijklmnopqrstuvwxyz1234567890", 10)
-	migrationPassword := randChar("abcdefghijklmnopqrstuvwxyz1234567890", 12)
+	password := randChar("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 10)
+	migrationPassword := randChar("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 12)
 	userPassword := ""
-	key := randChar("0123456789ABCDEF", 32)
+	key := randChar("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 12)
 	playerState := netobj.DefaultPlayerState()
 	characterState := netobj.DefaultCharacterState()
 	chaoState := constnetobjs.DefaultChaoState()

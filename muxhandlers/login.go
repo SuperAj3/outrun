@@ -12,6 +12,7 @@ import (
 
 	"github.com/Mtbcooler/outrun/analytics"
 	"github.com/Mtbcooler/outrun/analytics/factors"
+	"github.com/Mtbcooler/outrun/config"
 	"github.com/Mtbcooler/outrun/config/gameconf"
 	"github.com/Mtbcooler/outrun/config/infoconf"
 	"github.com/Mtbcooler/outrun/db"
@@ -49,28 +50,52 @@ func Login(helper *helper.Helper) {
 	if uid == "0" {
 		helper.Out("Entering Registration (Alpha) phase")
 		// game wants to get a brand-new ID
-		newPlayer, err := db.NewAccount()
-		if err != nil {
-			helper.InternalErr("Error creating account", err)
-			return
+
+		if config.CFile.AllowRegistrations {
+			newPlayer, err := db.NewAccount()
+			if err != nil {
+				helper.InternalErr("Error creating account", err)
+				return
+			}
+			err = db.SavePlayer(newPlayer)
+			if err != nil {
+				helper.InternalErr("Error saving player", err)
+				return
+			}
+			baseInfo.StatusCode = status.InvalidPassword
+			baseInfo.SetErrorMessage(emess.BadPassword)
+			response := responses.LoginRegister(
+				baseInfo,
+				newPlayer.ID,
+				newPlayer.Password,
+				newPlayer.Key,
+			)
+			err = helper.SendResponse(response)
+			if err != nil {
+				helper.InternalErr("Error responding", err)
+			}
+		} else {
+			// ...but registrations aren't enabled!
+			helper.Out("Blocked registration attempt")
+
+			localeStringName := "NewAccountsDisabledNotice"
+			if config.CFile.IsBetaServer {
+				localeStringName = "NewAccountsDisabledBetaNotice"
+			}
+			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+				0,
+				0,
+				"",
+				localizations.GetStringByLanguage(enums.LangJapanese, localeStringName, true),
+				localizations.GetStringByLanguage(enums.LangEnglish, localeStringName, true),
+				"https://sonicrunners.com/",
+			))
+			if err != nil {
+				helper.InternalErr("Error sending response", err)
+				return
+			}
 		}
-		err = db.SavePlayer(newPlayer)
-		if err != nil {
-			helper.InternalErr("Error saving player", err)
-			return
-		}
-		baseInfo.StatusCode = status.InvalidPassword
-		baseInfo.SetErrorMessage(emess.BadPassword)
-		response := responses.LoginRegister(
-			baseInfo,
-			newPlayer.ID,
-			newPlayer.Password,
-			newPlayer.Key,
-		)
-		err = helper.SendResponse(response)
-		if err != nil {
-			helper.InternalErr("Error responding", err)
-		}
+
 		return
 	} else if uid != "0" && password == "" {
 		helper.Out("Entering Pre-Login (Bravo) phase")
@@ -516,7 +541,7 @@ func GetMigrationPassword(helper *helper.Helper) {
 func Migration(helper *helper.Helper) {
 	randChar := func(charset string, length int64) string {
 		runes := []rune(charset)
-		final := make([]rune, 12)
+		final := make([]rune, length)
 		for i := range final {
 			final[i] = runes[rand.Intn(len(runes))]
 		}
@@ -549,8 +574,8 @@ func Migration(helper *helper.Helper) {
 		baseInfo.SetErrorMessage(emess.OK)
 
 		// TODO: Make clearing the migration password and user password a configurable option
-		playerInfo.MigrationPassword = randChar("abcdefghijklmnopqrstuvwxyz1234567890", 12) //generate a brand new transfer ID
-		playerInfo.UserPassword = ""                                                        //clear user password
+		playerInfo.MigrationPassword = randChar("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 12) //generate a brand new transfer ID
+		playerInfo.UserPassword = ""                                                                                  //clear user password
 
 		playerInfo.LastLogin = time.Now().UTC().Unix()
 		err = dbaccess.SetPlayerInfo(consts.DBMySQLTableCorePlayerInfo, pid, playerInfo)
