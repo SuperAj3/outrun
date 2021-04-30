@@ -577,6 +577,10 @@ func Migration(helper *helper.Helper) {
 		playerInfo.MigrationPassword = randChar("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 12) //generate a brand new transfer ID
 		playerInfo.UserPassword = ""                                                                                  //clear user password
 
+		if !config.CFile.AllowMultiDevice {
+			playerInfo.Password = randChar("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890", 10) // randomize password, preventing old device from being used
+		}
+
 		playerInfo.LastLogin = time.Now().UTC().Unix()
 		err = dbaccess.SetPlayerInfo(consts.DBMySQLTableCorePlayerInfo, pid, playerInfo)
 		if err != nil {
@@ -591,6 +595,9 @@ func Migration(helper *helper.Helper) {
 		helper.DebugOut("User ID: %s", pid)
 		helper.DebugOut("Username: %s", playerInfo.Username)
 		helper.DebugOut("New Transfer ID: %s", playerInfo.MigrationPassword)
+		if !config.CFile.AllowMultiDevice {
+			helper.DebugOut("New Internal Password: %s", playerInfo.Password)
+		}
 		response := responses.MigrationSuccess(baseInfo, sid, pid, playerInfo.Username, playerInfo.Password, netobj.DefaultPlayerVarious().EnergyRecoveryTime, netobj.DefaultPlayerVarious().EnergyRecoveryTime)
 		helper.SendResponse(response)
 	} else {

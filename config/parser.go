@@ -36,6 +36,7 @@ var Defaults = map[string]interface{}{
 	"DCustomSecret":                "",
 	"DIsBetaServer":                false,
 	"DAllowRegistrations":          true,
+	"DAllowMultiDevice":            true,
 }
 
 var CFile ConfigFile
@@ -69,6 +70,7 @@ type ConfigFile struct {
 	CustomSecret                string `json:"customSecret,omitempty"`
 	IsBetaServer                bool   `json:"isBetaServer,omitempty"`
 	AllowRegistrations          bool   `json:"allowRegistrations,omitempty"`
+	AllowMultiDevice            bool   `json:"allowMultiDevice,omitempty"`
 }
 
 func Parse(filename string) error {
@@ -101,6 +103,7 @@ func Parse(filename string) error {
 		Defaults["DCustomSecret"].(string),
 		Defaults["DIsBetaServer"].(bool),
 		Defaults["DAllowRegistrations"].(bool),
+		Defaults["DAllowMultiDevice"].(bool),
 	}
 	file, err := loadFile(filename)
 	if err != nil {
