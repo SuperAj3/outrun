@@ -87,12 +87,31 @@ func GetCharacterState(helper *helper.Helper) {
 	if !helper.CheckSession(true) {
 		return
 	}
+	recv := helper.GetGameRequest()
+	var request requests.BaseRequest
+	err := json.Unmarshal(recv, &request)
+	if err != nil {
+		helper.Err("Error unmarshalling", err)
+		return
+	}
 	player, err := helper.GetCallingPlayer()
 	if err != nil {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
-
+	if request.Version == "2.0.4" {
+		// 2.0.4 currently requires the new character to be in the CharacterState
+		charindex := player.IndexOfChara(enums.CTStr204LaunchChara)
+		if charindex == -1 {
+			helper.DebugOut("WORKAROUND FOR CRASH: Adding new character to CharacterState...")
+			player.CharacterState = append(player.CharacterState, netobj.DefaultSpecialLockedCharacter(constobjs.Character204LaunchChara))
+		}
+		err = db.SavePlayer(player)
+		if err != nil {
+			helper.InternalErr("Error saving player", err)
+			return
+		}
+	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	response := responses.CharacterState(baseInfo, player.CharacterState)
 	response.Seq, _ = db.BoltGetSessionIDSeq(sid)
