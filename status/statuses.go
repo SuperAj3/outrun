@@ -6,11 +6,11 @@ const (
 	OtherError                 = int64(-8)      // misc. error
 	NotReachable               = int64(-10)     // for proxy (handles 502) - not used in outrun
 	InvalidResponse            = int64(-20)     // ???
-	ClientError                = int64(-400)    // used in outrun, but typically a proxy error code
-	InternalServerError        = int64(-500)    // used in outrun, but typically a proxy error code
+	ClientError                = int64(-400)    // used in outrun, but typically an internal error code
+	InternalServerError        = int64(-500)    // used in outrun, but typically an internal error code
 	HSPPurchaseError           = int64(-600)    // ???
 	ServerBusy                 = int64(-700)    // not used in outrun
-	RequestParamError          = int64(-10100)  // ???
+	RequestParamError          = int64(-10100)  // malformed request param
 	NotAvailablePlayer         = int64(-10101)  // ???
 	MissingPlayer              = int64(-10102)  // player does not exist in database
 	ExpiredSession             = int64(-10103)  // not sure what this is for; it just retries the request if this is given

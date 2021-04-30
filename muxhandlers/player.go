@@ -9,7 +9,10 @@ import (
 	"github.com/Mtbcooler/outrun/db"
 	"github.com/Mtbcooler/outrun/db/dbaccess"
 	"github.com/Mtbcooler/outrun/emess"
+	"github.com/Mtbcooler/outrun/enums"
 	"github.com/Mtbcooler/outrun/helper"
+	"github.com/Mtbcooler/outrun/netobj"
+	"github.com/Mtbcooler/outrun/obj/constobjs"
 	"github.com/Mtbcooler/outrun/requests"
 	"github.com/Mtbcooler/outrun/responses"
 	"github.com/Mtbcooler/outrun/status"
@@ -88,7 +91,7 @@ func GetCharacterState(helper *helper.Helper) {
 		return
 	}
 	recv := helper.GetGameRequest()
-	var request requests.BaseRequest
+	var request requests.Base
 	err := json.Unmarshal(recv, &request)
 	if err != nil {
 		helper.Err("Error unmarshalling", err)
@@ -104,7 +107,7 @@ func GetCharacterState(helper *helper.Helper) {
 		charindex := player.IndexOfChara(enums.CTStr204LaunchChara)
 		if charindex == -1 {
 			helper.DebugOut("WORKAROUND FOR CRASH: Adding new character to CharacterState...")
-			player.CharacterState = append(player.CharacterState, netobj.DefaultSpecialLockedCharacter(constobjs.Character204LaunchChara))
+			player.CharacterState = append(player.CharacterState, netobj.DefaultGiftOnlyCharacter(constobjs.Character204LaunchChara))
 		}
 		err = db.SavePlayer(player)
 		if err != nil {
