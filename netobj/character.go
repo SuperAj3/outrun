@@ -125,14 +125,16 @@ func UnlockedCharacterState() []Character { // every character
 		DefaultCharacter(constobjs.CharacterMephiles),
 		DefaultCharacter(constobjs.CharacterPSISilver),
 		//DefaultCharacter(constobjs.Character204LaunchChara),
-		DefaultCharacter(constobjs.CharacterAmitieAmy),
-		DefaultCharacter(constobjs.CharacterGothicAmy),
-		DefaultCharacter(constobjs.CharacterHalloweenShadow),
-		DefaultCharacter(constobjs.CharacterHalloweenRouge),
-		DefaultCharacter(constobjs.CharacterHalloweenOmega),
-		DefaultCharacter(constobjs.CharacterXMasSonic),
-		DefaultCharacter(constobjs.CharacterXMasTails),
-		DefaultCharacter(constobjs.CharacterXMasKnuckles),
+
+		// EVENT CHARACTERS DISABLED FOR DEBUGGING
+		//DefaultCharacter(constobjs.CharacterAmitieAmy),
+		//DefaultCharacter(constobjs.CharacterGothicAmy),
+		//DefaultCharacter(constobjs.CharacterHalloweenShadow),
+		//DefaultCharacter(constobjs.CharacterHalloweenRouge),
+		//DefaultCharacter(constobjs.CharacterHalloweenOmega),
+		//DefaultCharacter(constobjs.CharacterXMasSonic),
+		//DefaultCharacter(constobjs.CharacterXMasTails),
+		//DefaultCharacter(constobjs.CharacterXMasKnuckles),
 	}
 }
 
@@ -163,14 +165,16 @@ func DefaultCharacterState() []Character {
 		DefaultLockedCharacter(constobjs.CharacterMephiles),
 		DefaultLockedCharacter(constobjs.CharacterPSISilver),
 		//DefaultLockedCharacter(constobjs.Character204LaunchChara),
-		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterAmitieAmy),
-		DefaultGiftOnlyCharacter(constobjs.CharacterGothicAmy),
-		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenShadow),
-		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenRouge),
-		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenOmega),
-		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasSonic),
-		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasTails),
-		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles),
+
+		// EVENT CHARACTERS DISABLED FOR DEBUGGING
+		//DefaultRouletteOnlyLockedCharacter(constobjs.CharacterAmitieAmy),
+		//DefaultGiftOnlyCharacter(constobjs.CharacterGothicAmy),
+		//DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenShadow),
+		//DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenRouge),
+		//DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenOmega),
+		//DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasSonic),
+		//DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasTails),
+		//DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles),
 	}
 }
 

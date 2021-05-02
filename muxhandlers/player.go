@@ -9,10 +9,7 @@ import (
 	"github.com/Mtbcooler/outrun/db"
 	"github.com/Mtbcooler/outrun/db/dbaccess"
 	"github.com/Mtbcooler/outrun/emess"
-	"github.com/Mtbcooler/outrun/enums"
 	"github.com/Mtbcooler/outrun/helper"
-	"github.com/Mtbcooler/outrun/netobj"
-	"github.com/Mtbcooler/outrun/obj/constobjs"
 	"github.com/Mtbcooler/outrun/requests"
 	"github.com/Mtbcooler/outrun/responses"
 	"github.com/Mtbcooler/outrun/status"
@@ -102,19 +99,24 @@ func GetCharacterState(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
-	if request.Version == "2.0.4" {
+	helper.DebugOut("Version: \"%s\"", request.Version)
+	/*if request.Version == "2.0.4" {
 		// 2.0.4 currently requires the new character to be in the CharacterState
 		charindex := player.IndexOfChara(enums.CTStr204LaunchChara)
 		if charindex == -1 {
 			helper.DebugOut("WORKAROUND FOR CRASH: Adding new character to CharacterState...")
 			player.CharacterState = append(player.CharacterState, netobj.DefaultGiftOnlyCharacter(constobjs.Character204LaunchChara))
+		} else {
+			helper.DebugOut("New character is located at index %d", charindex)
 		}
 		err = db.SavePlayer(player)
 		if err != nil {
 			helper.InternalErr("Error saving player", err)
 			return
 		}
-	}
+	} else {
+		helper.DebugOut("Not applying workaround")
+	}*/
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	response := responses.CharacterState(baseInfo, player.CharacterState)
 	response.Seq, _ = db.BoltGetSessionIDSeq(sid)
