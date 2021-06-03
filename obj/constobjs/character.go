@@ -255,8 +255,8 @@ var CharacterSticks = obj.Character{
 	200,    // red rings used for limit breaking
 }
 
-var Character204LaunchChara = obj.Character{
-	strconv.Itoa(enums.CharaType204LaunchChara),
+var CharacterMarine = obj.Character{
+	strconv.Itoa(enums.CharaTypeMarine),
 	1300,
 	NumRedRings,
 	500000, // used for limit breaking

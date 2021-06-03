@@ -124,7 +124,7 @@ func UnlockedCharacterState() []Character { // every character
 		DefaultCharacter(constobjs.CharacterTikal),
 		DefaultCharacter(constobjs.CharacterMephiles),
 		DefaultCharacter(constobjs.CharacterPSISilver),
-		//DefaultCharacter(constobjs.Character204LaunchChara),
+		//DefaultCharacter(constobjs.CharacterMarine),
 
 		// EVENT CHARACTERS DISABLED FOR DEBUGGING
 		//DefaultCharacter(constobjs.CharacterAmitieAmy),
@@ -164,7 +164,7 @@ func DefaultCharacterState() []Character {
 		DefaultLockedCharacter(constobjs.CharacterTikal),
 		DefaultLockedCharacter(constobjs.CharacterMephiles),
 		DefaultLockedCharacter(constobjs.CharacterPSISilver),
-		//DefaultLockedCharacter(constobjs.Character204LaunchChara),
+		//DefaultLockedCharacter(constobjs.CharacterMarine),
 
 		// EVENT CHARACTERS DISABLED FOR DEBUGGING
 		//DefaultRouletteOnlyLockedCharacter(constobjs.CharacterAmitieAmy),
@@ -251,8 +251,8 @@ func GenerateCharacterFromCharacterID(charid string) obj.Character {
 		return constobjs.CharacterMephiles
 	case enums.CTStrPSISilver:
 		return constobjs.CharacterPSISilver
-	case enums.CTStr204LaunchChara:
-		return constobjs.Character204LaunchChara
+	case enums.CTStrMarine:
+		return constobjs.CharacterMarine
 	case enums.CTStrAmitieAmy:
 		return constobjs.CharacterAmitieAmy
 	case enums.CTStrGothicAmy:
