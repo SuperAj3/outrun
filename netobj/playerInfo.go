@@ -6,35 +6,37 @@ import (
 )
 
 type PlayerInfo struct {
-	Username          string      `json:"username" db:"username"`
-	Password          string      `json:"password" db:"password"`
-	MigrationPassword string      `json:"migrationPassword" db:"migrate_password"` // used in migration
-	UserPassword      string      `json:"userPassword" db:"user_password"`         // used in migration
-	Key               string      `json:"key" db:"player_key"`
-	LastLogin         int64       `json:"lastLogin" db:"last_login"`
-	Language          int64       `json:"language" db:"language"`
-	CharacterState    []Character `json:"characters" db:"characters"`
-	ChaoState         []Chao      `json:"chao" db:"chao"`
-	SuspendedUntil    int64       `json:"suspendedUntil" db:"suspended_until"`
-	SuspendReason     int64       `json:"suspendReason" db:"suspend_reason"`
-	LastLoginDevice   string      `json:"lastLoginDevice" db:"last_login_device"`
-	LastLoginPlatform int64       `json:"lastLoginPlatform" db:"last_login_platform"`
+	Username           string      `json:"username" db:"username"`
+	Password           string      `json:"password" db:"password"`
+	MigrationPassword  string      `json:"migrationPassword" db:"migrate_password"` // used in migration
+	UserPassword       string      `json:"userPassword" db:"user_password"`         // used in migration
+	Key                string      `json:"key" db:"player_key"`
+	LastLogin          int64       `json:"lastLogin" db:"last_login"`
+	Language           int64       `json:"language" db:"language"`
+	CharacterState     []Character `json:"characters" db:"characters"`
+	ChaoState          []Chao      `json:"chao" db:"chao"`
+	SuspendedUntil     int64       `json:"suspendedUntil" db:"suspended_until"`
+	SuspendReason      int64       `json:"suspendReason" db:"suspend_reason"`
+	LastLoginDevice    string      `json:"lastLoginDevice" db:"last_login_device"`
+	LastLoginPlatform  int64       `json:"lastLoginPlatform" db:"last_login_platform"`
+	LastLoginVersionId int64       `json:"lastLoginPlatform" db:"last_login_versionid"`
 }
 
 type StoredPlayerInfo struct {
-	Username          string `json:"username" db:"username"`
-	Password          string `json:"password" db:"password"`
-	MigrationPassword string `json:"migrationPassword" db:"migrate_password"` // used in migration
-	UserPassword      string `json:"userPassword" db:"user_password"`         // used in migration
-	Key               string `json:"key" db:"player_key"`
-	LastLogin         int64  `json:"lastLogin" db:"last_login"`
-	Language          int64  `json:"language" db:"language"`
-	CharacterState    []byte `json:"characters" db:"characters"`
-	ChaoState         []byte `json:"chao" db:"chao"`
-	SuspendedUntil    int64  `json:"suspendedUntil" db:"suspended_until"`
-	SuspendReason     int64  `json:"suspendReason" db:"suspend_reason"`
-	LastLoginDevice   string `json:"lastLoginDevice" db:"last_login_device"`
-	LastLoginPlatform int64  `json:"lastLoginPlatform" db:"last_login_platform"`
+	Username           string `json:"username" db:"username"`
+	Password           string `json:"password" db:"password"`
+	MigrationPassword  string `json:"migrationPassword" db:"migrate_password"` // used in migration
+	UserPassword       string `json:"userPassword" db:"user_password"`         // used in migration
+	Key                string `json:"key" db:"player_key"`
+	LastLogin          int64  `json:"lastLogin" db:"last_login"`
+	Language           int64  `json:"language" db:"language"`
+	CharacterState     []byte `json:"characters" db:"characters"`
+	ChaoState          []byte `json:"chao" db:"chao"`
+	SuspendedUntil     int64  `json:"suspendedUntil" db:"suspended_until"`
+	SuspendReason      int64  `json:"suspendReason" db:"suspend_reason"`
+	LastLoginDevice    string `json:"lastLoginDevice" db:"last_login_device"`
+	LastLoginPlatform  int64  `json:"lastLoginPlatform" db:"last_login_platform"`
+	LastLoginVersionId int64  `json:"lastLoginPlatform" db:"last_login_versionid"`
 }
 
 func PlayerInfoToStoredPlayerInfo(pli PlayerInfo) StoredPlayerInfo {
@@ -60,6 +62,7 @@ func PlayerInfoToStoredPlayerInfo(pli PlayerInfo) StoredPlayerInfo {
 		pli.SuspendReason,
 		pli.LastLoginDevice,
 		pli.LastLoginPlatform,
+		pli.LastLoginVersionId,
 	}
 }
 
@@ -88,5 +91,6 @@ func StoredPlayerInfoToPlayerInfo(pli StoredPlayerInfo) PlayerInfo {
 		pli.SuspendReason,
 		pli.LastLoginDevice,
 		pli.LastLoginPlatform,
+		pli.LastLoginVersionId,
 	}
 }

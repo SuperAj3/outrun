@@ -56,8 +56,8 @@ func SetAnalyticsEntry(table, pid string, value []byte) error {
 func SetPlayerInfo(table, id string, value netobj.PlayerInfo) error {
 	CheckIfDBSet()
 	convertedValue := netobj.PlayerInfoToStoredPlayerInfo(value)
-	result, err := db.NamedExec("REPLACE INTO `"+table+"`(id, username, password, migrate_password, user_password, player_key, last_login, language, characters, chao, suspended_until)\n"+
-		"VALUES ("+id+", :username, :password, :migrate_password, :user_password, :player_key, :last_login, :language, :characters, :chao, :suspended_until)",
+	result, err := db.NamedExec("REPLACE INTO `"+table+"`(id, username, password, migrate_password, user_password, player_key, last_login, language, characters, chao, suspended_until, last_login_device, last_login_platform, last_login_versionid)\n"+
+		"VALUES ("+id+", :username, :password, :migrate_password, :user_password, :player_key, :last_login, :language, :characters, :chao, :suspended_until, :last_login_device, :last_login_platform, :last_login_versionid)",
 		convertedValue)
 	if err == nil && config.CFile.DebugPrints {
 		rowsAffected, _ := result.RowsAffected()
@@ -158,7 +158,7 @@ func GetAnalyticsEntry(table, pid string) ([]byte, error) {
 
 func GetPlayerInfo(table, id string) (netobj.PlayerInfo, error) {
 	CheckIfDBSet()
-	values := netobj.StoredPlayerInfo{"", "", "", "", "", 0, 0, []byte{}, []byte{}, 0, 0, "", 0}
+	values := netobj.StoredPlayerInfo{"", "", "", "", "", 0, 0, []byte{}, []byte{}, 0, 0, "", 0, 0}
 	var id2 int64
 	err := db.QueryRow("SELECT * FROM `"+table+"` WHERE id = ?", id).Scan(&id2,
 		&values.Username,
@@ -174,16 +174,17 @@ func GetPlayerInfo(table, id string) (netobj.PlayerInfo, error) {
 		&values.SuspendReason,
 		&values.LastLoginDevice,
 		&values.LastLoginPlatform,
+		&values.LastLoginVersionId,
 	)
 	if err != nil {
-		return netobj.PlayerInfo{"", "", "", "", "", 0, 0, []netobj.Character{}, []netobj.Chao{}, 0, 0, "", 0}, err
+		return netobj.PlayerInfo{"", "", "", "", "", 0, 0, []netobj.Character{}, []netobj.Chao{}, 0, 0, "", 0, 0}, err
 	}
 	return netobj.StoredPlayerInfoToPlayerInfo(values), nil
 }
 
 func GetPlayerInfoFromMigrationPass(table, pass string) (netobj.PlayerInfo, string, error) {
 	CheckIfDBSet()
-	values := netobj.StoredPlayerInfo{"", "", "", "", "", 0, 0, []byte{}, []byte{}, 0, 0, "", 0}
+	values := netobj.StoredPlayerInfo{"", "", "", "", "", 0, 0, []byte{}, []byte{}, 0, 0, "", 0, 0}
 	var pid string
 	err := db.QueryRow("SELECT * FROM `"+table+"` WHERE migrate_password = ?", pass).Scan(&pid,
 		&values.Username,
@@ -199,9 +200,10 @@ func GetPlayerInfoFromMigrationPass(table, pass string) (netobj.PlayerInfo, stri
 		&values.SuspendReason,
 		&values.LastLoginDevice,
 		&values.LastLoginPlatform,
+		&values.LastLoginVersionId,
 	)
 	if err != nil {
-		return netobj.PlayerInfo{"", "", "", "", "", 0, 0, []netobj.Character{}, []netobj.Chao{}, 0, 0, "", 0}, "", err
+		return netobj.PlayerInfo{"", "", "", "", "", 0, 0, []netobj.Character{}, []netobj.Chao{}, 0, 0, "", 0, 0}, "", err
 	}
 	return netobj.StoredPlayerInfoToPlayerInfo(values), pid, nil
 }

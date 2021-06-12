@@ -36,7 +36,9 @@ var (
 
 func Login(helper *helper.Helper) {
 	recv := helper.GetGameRequest()
-	var request requests.LoginRequest
+	request := requests.LoginRequest{
+		RevivalVerID: 0,
+	}
 	err := json.Unmarshal(recv, &request)
 	if err != nil {
 		helper.Err("Error unmarshalling", err)
@@ -154,32 +156,54 @@ func Login(helper *helper.Helper) {
 					return
 				}
 			} else {
-				sid, err := db.BoltAssignSessionID(uid, strconv.Itoa(int(request.Seq)))
-				if err != nil {
-					helper.InternalErr("Error assigning session ID", err)
-					return
+
+				if request.RevivalVerID < player.LastLoginVersionId {
+					// player is suspended! return a NextVersion response (bring up notifications menu with specified text)
+					helper.Out("Player is using outdated version!")
+					baseInfo.StatusCode = status.ServerNextVersion
+					err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+						player.PlayerState.NumRedRings,
+						player.PlayerState.NumBuyRedRings,
+						player.Username,
+						localizations.GetStringByLanguage(enums.LangJapanese, "VersionTooOldForAccountNotice", true),
+						localizations.GetStringByLanguage(player.Language, "VersionTooOldForAccountNotice", true),
+						"https://sonicrunners.com/",
+					))
+					if err != nil {
+						helper.InternalErr("Error sending response", err)
+						return
+					}
+				} else {
+					sid, err := db.BoltAssignSessionID(uid, strconv.Itoa(int(request.Seq)))
+					if err != nil {
+						helper.InternalErr("Error assigning session ID", err)
+						return
+					}
+					player.Language = request.Language
+					player.LastLogin = time.Now().UTC().Unix()
+					player.PlayerVarious.EnergyRecoveryMax = gameconf.CFile.EnergyRecoveryMax
+					player.PlayerVarious.EnergyRecoveryTime = gameconf.CFile.EnergyRecoveryTime
+					player.LastLoginDevice = request.Device
+					player.LastLoginPlatform = request.Platform
+					player.LastLoginVersionId = request.RevivalVerID
+					helper.DebugOut("Device: %s", request.Device)
+					helper.DebugOut("Platform: %v", request.Platform)
+					helper.DebugOut("Store ID: %v", request.StoreID)
+					err = db.SavePlayer(player)
+					if err != nil {
+						helper.InternalErr("Error saving player", err)
+						return
+					}
+					response := responses.LoginSuccess(baseInfo, sid, player.Username, player.PlayerVarious.EnergyRecoveryTime, player.PlayerVarious.EnergyRecoveryMax)
+					helper.DebugOut("seq = %v", request.Seq)
+					response.Seq = request.Seq
+					err = helper.SendResponse(response)
+					if err != nil {
+						helper.InternalErr("Error sending response", err)
+						return
+					}
+					analytics.Store(player.ID, factors.AnalyticTypeLogins)
 				}
-				player.Language = request.Language
-				player.LastLogin = time.Now().UTC().Unix()
-				player.PlayerVarious.EnergyRecoveryMax = gameconf.CFile.EnergyRecoveryMax
-				player.PlayerVarious.EnergyRecoveryTime = gameconf.CFile.EnergyRecoveryTime
-				helper.DebugOut("Device: %s", request.Device)
-				helper.DebugOut("Platform: %v", request.Platform)
-				helper.DebugOut("Store ID: %v", request.StoreID)
-				err = db.SavePlayer(player)
-				if err != nil {
-					helper.InternalErr("Error saving player", err)
-					return
-				}
-				response := responses.LoginSuccess(baseInfo, sid, player.Username, player.PlayerVarious.EnergyRecoveryTime, player.PlayerVarious.EnergyRecoveryMax)
-				helper.DebugOut("seq = %v", request.Seq)
-				response.Seq = request.Seq
-				err = helper.SendResponse(response)
-				if err != nil {
-					helper.InternalErr("Error sending response", err)
-					return
-				}
-				analytics.Store(player.ID, factors.AnalyticTypeLogins)
 			}
 		} else {
 			// Looks like the credentials don't match what's in the database!

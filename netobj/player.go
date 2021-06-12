@@ -12,35 +12,36 @@ import (
 )
 
 type Player struct {
-	ID                string                      `json:"userID"`
-	Username          string                      `json:"username"`
-	Password          string                      `json:"password"`
-	MigrationPassword string                      `json:"migrationPassword"` // used in migration
-	UserPassword      string                      `json:"userPassword"`      // used in migration
-	Key               string                      `json:"key"`
-	LastLogin         int64                       // TODO: use `json:"lastLogin"`
-	Language          int64                       // TODO: use `json:"language"`
-	PlayerState       PlayerState                 `json:"playerState"`
-	CharacterState    []Character                 `json:"characterState"`
-	ChaoState         []Chao                      `json:"chaoState"`
-	MileageMapState   MileageMapState             `json:"mileageMapState"`
-	MileageFriends    []MileageFriend             `json:"mileageFriendList"`
-	PlayerVarious     PlayerVarious               `json:"playerVarious"`
-	OptionUserResult  OptionUserResult            `json:"optionUserResult"`
-	LastWheelOptions  WheelOptions                `json:"ORN_wheelOptions"` // TODO: Make RouletteGroup to hold LastWheelOptions and RouletteInfo?
-	RouletteInfo      RouletteInfo                `json:"ORN_rouletteInfo"`
-	ChaoRouletteGroup ChaoRouletteGroup           `json:"ORN_chaoRouletteGroup"`
-	PersonalEvents    []eventconf.ConfiguredEvent `json:"ORN_personalEvents"`
-	Messages          []obj.Message               `json:"messageList"`
-	OperatorMessages  []obj.OperatorMessage       `json:"operatorMessageList"`
-	LoginBonusState   LoginBonusState             `json:"loginBonusState"`
-	SuspendedUntil    int64
-	SuspendReason     int64
-	LastLoginDevice   string
-	LastLoginPlatform int64
+	ID                 string                      `json:"userID"`
+	Username           string                      `json:"username"`
+	Password           string                      `json:"password"`
+	MigrationPassword  string                      `json:"migrationPassword"` // used in migration
+	UserPassword       string                      `json:"userPassword"`      // used in migration
+	Key                string                      `json:"key"`
+	LastLogin          int64                       // TODO: use `json:"lastLogin"`
+	Language           int64                       // TODO: use `json:"language"`
+	PlayerState        PlayerState                 `json:"playerState"`
+	CharacterState     []Character                 `json:"characterState"`
+	ChaoState          []Chao                      `json:"chaoState"`
+	MileageMapState    MileageMapState             `json:"mileageMapState"`
+	MileageFriends     []MileageFriend             `json:"mileageFriendList"`
+	PlayerVarious      PlayerVarious               `json:"playerVarious"`
+	OptionUserResult   OptionUserResult            `json:"optionUserResult"`
+	LastWheelOptions   WheelOptions                `json:"ORN_wheelOptions"` // TODO: Make RouletteGroup to hold LastWheelOptions and RouletteInfo?
+	RouletteInfo       RouletteInfo                `json:"ORN_rouletteInfo"`
+	ChaoRouletteGroup  ChaoRouletteGroup           `json:"ORN_chaoRouletteGroup"`
+	PersonalEvents     []eventconf.ConfiguredEvent `json:"ORN_personalEvents"`
+	Messages           []obj.Message               `json:"messageList"`
+	OperatorMessages   []obj.OperatorMessage       `json:"operatorMessageList"`
+	LoginBonusState    LoginBonusState             `json:"loginBonusState"`
+	SuspendedUntil     int64
+	SuspendReason      int64
+	LastLoginDevice    string
+	LastLoginPlatform  int64
+	LastLoginVersionId int64
 }
 
-func NewPlayer(id, username, password, migrationPassword, userPassword, key string, lang int64, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, suspendedUntil, suspendReason int64, lastLoginDevice string, lastLoginPlatform int64) Player {
+func NewPlayer(id, username, password, migrationPassword, userPassword, key string, lang int64, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, suspendedUntil, suspendReason int64, lastLoginDevice string, lastLoginPlatform, lastLoginVersionId int64) Player {
 	return Player{
 		id,
 		username,
@@ -68,6 +69,7 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		suspendReason,
 		lastLoginDevice,
 		lastLoginPlatform,
+		lastLoginVersionId,
 	}
 }
 

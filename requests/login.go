@@ -4,6 +4,7 @@ import "github.com/Mtbcooler/outrun/obj"
 
 type LoginRequest struct {
 	Version      string `json:"version"`
+	RevivalVerID int64  `json:"revivalVerId,string,omitempty"`
 	Device       string `json:"device"`
 	Seq          int64  `json:"seq,string"`
 	Platform     int64  `json:"platform,string"`

@@ -79,6 +79,7 @@ func NewAccountWithID(uid string) netobj.Player {
 	suspendReason := int64(0)
 	lastLoginDevice := ""
 	lastLoginPlatform := int64(0)
+	lastLoginVersionId := int64(0)
 	return netobj.NewPlayer(
 		uid,
 		username,
@@ -105,6 +106,7 @@ func NewAccountWithID(uid string) netobj.Player {
 		suspendReason,
 		lastLoginDevice,
 		lastLoginPlatform,
+		lastLoginVersionId,
 	)
 }
 
@@ -144,6 +146,7 @@ func SavePlayer(player netobj.Player) error {
 		player.SuspendReason,
 		player.LastLoginDevice,
 		player.LastLoginPlatform,
+		player.LastLoginVersionId,
 	}
 	err := dbaccess.SetPlayerInfo(consts.DBMySQLTableCorePlayerInfo, player.ID, playerInfo)
 	if err != nil {

@@ -62,6 +62,10 @@ var LocalizedStrings = map[string]map[string]string{
 			"Our website: https://www.sonicrunners.com/\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
+		"VersionTooOldForAccountNotice": "The account on this device has signed in with a newer version of Sonic Runners Revival. To prevent any instabilities, we prevent older versions of Sonic Runners Revival from signing into our server once they've logged in with a newer version of Sonic Runners Revival.\n\n" +
+			"Our website: https://www.sonicrunners.com/\n" +
+			"Twitter: https://twitter.com/runnersrevival\n" +
+			"Discord: https://discord.gg/T5ytR6T",
 		"WatermarkTicker_1": "This server is powered by [ff0000]Outrun for Revival!",
 		"WatermarkTicker_2": "User ID: [0000ff]%s",
 		"WatermarkTicker_3": "High score (Timed Mode): [0000ff]%v",

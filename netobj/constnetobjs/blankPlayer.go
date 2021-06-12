@@ -67,6 +67,7 @@ var BlankPlayer = func() netobj.Player {
 	suspendReason := int64(0)
 	lastLoginDevice := ""
 	lastLoginPlatform := int64(0)
+	lastLoginVersionId := int64(0)
 	return netobj.NewPlayer(
 		uid,
 		username,
@@ -93,5 +94,6 @@ var BlankPlayer = func() netobj.Player {
 		suspendReason,
 		lastLoginDevice,
 		lastLoginPlatform,
+		lastLoginVersionId,
 	)
 }() // TODO: Solve duplication requirement with db/assistants.go
