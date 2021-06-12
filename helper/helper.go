@@ -219,7 +219,9 @@ func (r *Helper) InvalidRequest() {
 }
 func (r *Helper) CheckSession(sendResponseOnFalseResult bool) bool {
 	recv := r.GetGameRequest()
-	var request requests.Base
+	request := requests.Base{
+		RevivalVerID: 0,
+	}
 	err := json.Unmarshal(recv, &request)
 	if err != nil {
 		// likely malformed request

@@ -145,7 +145,7 @@ func GetHighScores(mode, lbtype, offset, limit int64, ownid string, showScoresOf
 }
 
 // GetLeagueHighScores returns the list of high scores, your own entry if applicable, and an error if one is thrown
-func GetLeagueHighScores(mode, lbtype, league, leagueGroup, offset, limit int64, ownid string) ([]obj.LeaderboardEntry, interface{}, error) {
+func GetLeagueHighScores(mode, lbtype, league, leagueGroup, offset, limit int64, ownid string, rverid int64) ([]obj.LeaderboardEntry, interface{}, error) {
 	CheckIfDBSet()
 	leagueColumn := "ranking_league"
 	if mode == 1 {
@@ -237,6 +237,14 @@ func GetLeagueHighScores(mode, lbtype, league, leagueGroup, offset, limit int64,
 				subchaolv = c.Level
 			}
 		}
+		if rverid < 1 { // before 2.0.4
+			if mainchara == enums.CTStrMarine {
+				mainchara = enums.CTStrTikal
+			}
+			if subchara == enums.CTStrMarine {
+				subchara = enums.CTStrTikal
+			}
+		}
 		currentEntry = obj.NewLeaderboardEntry(
 			uid,
 			username,
@@ -273,8 +281,8 @@ func GetLeagueHighScores(mode, lbtype, league, leagueGroup, offset, limit int64,
 	return leaderboardEntries, myEntry, err
 }
 
-func GetOwnLeaderboardEntry(mode, lbtype int64, ownid string, showScoresOfZero bool) (interface{}, error) {
-	// TODO: OPTIMIZE THIS! This routine may potentially be very slow on servers with a large number of players!
+func GetOwnLeaderboardEntry(mode, lbtype int64, ownid string, showScoresOfZero bool, rverid int64) (interface{}, error) {
+	// TODO: OPTIMIZE THIS! This routine may potentially be very slow on servers with a large number of players like the official Revival server!
 	CheckIfDBSet()
 	leagueColumn := "ranking_league"
 	if mode == 1 {
@@ -361,6 +369,14 @@ func GetOwnLeaderboardEntry(mode, lbtype int64, ownid string, showScoresOfZero b
 				}
 				if c.ID == subchao {
 					subchaolv = c.Level
+				}
+			}
+			if rverid < 1 { // before 2.0.4
+				if mainchara == enums.CTStrMarine {
+					mainchara = enums.CTStrTikal
+				}
+				if subchara == enums.CTStrMarine {
+					subchara = enums.CTStrTikal
 				}
 			}
 			myEntry = obj.NewLeaderboardEntry(

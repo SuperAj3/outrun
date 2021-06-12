@@ -98,7 +98,7 @@ func DefaultWheelOptions(numRouletteTicket, rouletteCountInPeriod, rouletteRank,
 			items = append(items, randomItem1)
 			item = append(item, randomItemAmount1)
 		default:
-			for _ = range make([]byte, 7) { // loop 7 times
+			for range make([]byte, 7) { // loop 7 times
 				randomItem := randomItemList[rand.Intn(len(randomItemList))]
 				randomItemAmount := itemAmountRange[randomItem].GetRandom()
 				items = append(items, randomItem)

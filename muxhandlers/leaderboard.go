@@ -114,7 +114,7 @@ func GetWeeklyLeaderboardEntries(helper *helper.Helper) {
 			league = playerState.QuickRankingLeague
 			leagueGroup = playerState.QuickRankingLeagueGroup
 		}
-		entryList, myEntry, err = dbaccess.GetLeagueHighScores(mode, lbtype, league, leagueGroup, request.First-1, request.Count, uid)
+		entryList, myEntry, err = dbaccess.GetLeagueHighScores(mode, lbtype, league, leagueGroup, request.First-1, request.Count, uid, request.RevivalVerID)
 		if err != nil {
 			helper.InternalErr("Error getting high score table", err)
 			return

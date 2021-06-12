@@ -7,11 +7,11 @@ import (
 	"github.com/jinzhu/now"
 )
 
-func PlayerToLeaderboardEntry(player netobj.Player, mode int64) obj.LeaderboardEntry {
+func PlayerToLeaderboardEntry(player netobj.Player, mode, revivalVerId int64) obj.LeaderboardEntry {
 	friendID := player.ID
 	name := player.Username
-	url := player.Username + "_findme" // TODO: only used for testing right now
-	grade := int64(1)                  // TODO: make this specifiable in the future (this is the high score ranking it seems)
+	url := player.ID + "_findme" // TODO: where is this used?
+	grade := int64(1)
 	exposeOnline := int64(0)
 	rankingScore := player.PlayerState.HighScore
 	rankChanged := int64(0)
@@ -27,6 +27,14 @@ func PlayerToLeaderboardEntry(player netobj.Player, mode int64) obj.LeaderboardE
 	mainChaoLevel := int64(0)
 	subChaoID := player.PlayerState.SubChaoID
 	subChaoLevel := int64(0)
+	if revivalVerId < 1 { // before 2.0.4
+		if mainCharaID == enums.CTStrMarine {
+			mainCharaID = enums.CTStrTikal
+		}
+		if subCharaID == enums.CTStrMarine {
+			subCharaID = enums.CTStrTikal
+		}
+	}
 	if player.IndexOfChara(mainCharaID) != -1 {
 		mainCharaLevel = player.CharacterState[player.IndexOfChara(mainCharaID)].Level
 	}

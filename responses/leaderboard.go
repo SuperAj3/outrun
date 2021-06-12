@@ -69,14 +69,14 @@ func WeeklyLeaderboardEntries(base responseobjs.BaseInfo, pe interface{}, lo, st
 	return out
 }
 
-func DefaultWeeklyLeaderboardEntries(base responseobjs.BaseInfo, player netobj.Player, mode, ltype int64) WeeklyLeaderboardEntriesResponse {
+func DefaultWeeklyLeaderboardEntries(base responseobjs.BaseInfo, player netobj.Player, mode, ltype, rverid int64) WeeklyLeaderboardEntriesResponse {
 	startTime := now.BeginningOfWeek().UTC().Unix()
 	resetTime := now.EndOfWeek().UTC().Unix()
 	entries := []obj.LeaderboardEntry{}
 	var myEntry interface{}
 	if player.PlayerState.HighScore > 0 {
-		myEntry = conversion.PlayerToLeaderboardEntry(player, mode)
-		entries = append(entries, conversion.PlayerToLeaderboardEntry(player, mode))
+		myEntry = conversion.PlayerToLeaderboardEntry(player, mode, rverid)
+		entries = append(entries, conversion.PlayerToLeaderboardEntry(player, mode, rverid))
 	}
 	return WeeklyLeaderboardEntries(
 		base,
