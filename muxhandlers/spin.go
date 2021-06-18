@@ -200,6 +200,10 @@ func CommitWheelSpin(helper *helper.Helper) {
 		player.LastWheelOptions = netobj.UpgradeWheelOptions(player.LastWheelOptions, numRouletteTicket, rouletteCount, freeSpins, jackpot) // create wheel
 		if player.RouletteInfo.GotJackpotThisPeriod {
 			player.LastWheelOptions.NumJackpotRing = consts.RouletteUsedUpJackpotRings
+		} else {
+			if player.LastWheelOptions.NumJackpotRing < consts.RouletteStartingJackpotRings {
+				player.LastWheelOptions.NumJackpotRing = consts.RouletteStartingJackpotRings
+			}
 		}
 		if wonItem == strconv.Itoa(enums.IDTypeItemRouletteWin) && oldRanking == enums.WheelRankSuper { // won jackpot in super wheel
 			helper.DebugOut("Won jackpot in super wheel")
