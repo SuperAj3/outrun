@@ -29,7 +29,11 @@ func GetPlayerFromDB(id string) (netobj.Player, error) {
 	if err != nil {
 		return constnetobjs.BlankPlayer, err
 	}
-	wheeloptions := netobj.DefaultWheelOptions(playerstate.NumRouletteTicket, 0, enums.WheelRankNormal, 5, 0) // TODO: REPLACE ME! FOR TESTING ONLY!
+	wheeloptions, err := GetLastWheelOptions(consts.DBMySQLTableLastWheelOptions, id)
+	if err != nil {
+		log.Printf("[WARN] Couldn't get wheel options: %s\nUsing defaults...\n", err)
+		wheeloptions = netobj.DefaultWheelOptions(playerstate.NumRouletteTicket, 0, enums.WheelRankNormal, 5, 0, consts.RouletteStartingJackpotRings) // TODO: REPLACE ME! FOR TESTING ONLY!
+	}
 	rouletteinfo, err := GetRouletteInfo(consts.DBMySQLTableRouletteInfos, id)
 	if err != nil {
 		return constnetobjs.BlankPlayer, err
@@ -83,72 +87,77 @@ func GetPlayerFromDB(id string) (netobj.Player, error) {
 }
 
 func InitializeTablesIfNecessary() error {
-	log.Println("[INFO] Initializing analytics table... (1/14)")
+	log.Println("[INFO] Initializing analytics table... (1/15)")
 	_, err := db.Exec(consts.SQLAnalyticsSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing player info table... (2/14)")
+	log.Println("[INFO] Initializing player info table... (2/15)")
 	_, err = db.Exec(consts.SQLCorePlayerInfoSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing player states table... (3/14)")
+	log.Println("[INFO] Initializing player states table... (3/15)")
 	_, err = db.Exec(consts.SQLPlayerStatesSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing mileage map states table... (4/14)")
+	log.Println("[INFO] Initializing mileage map states table... (4/15)")
 	_, err = db.Exec(consts.SQLMileageMapStatesSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing user stats table... (5/14)")
+	log.Println("[INFO] Initializing user stats table... (5/15)")
 	_, err = db.Exec(consts.SQLOptionUserResultsSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing roulette info states table... (6/14)")
+	log.Println("[INFO] Initializing roulette info states table... (6/15)")
 	_, err = db.Exec(consts.SQLRouletteInfosSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing login bonus states table... (7/14)")
+	log.Println("[INFO] Initializing login bonus states table... (7/15)")
 	_, err = db.Exec(consts.SQLLoginBonusStatesSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing operator messages table... (8/14)")
+	log.Println("[INFO] Initializing operator messages table... (8/15)")
 	_, err = db.Exec(consts.SQLOperatorMessagesSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing ranking league data table... (9/14)")
+	log.Println("[INFO] Initializing ranking league data table... (9/15)")
 	_, err = db.Exec(consts.SQLRankingLeagueDataSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing session IDs table... (10/14)")
+	log.Println("[INFO] Initializing session IDs table... (10/15)")
 	_, err = db.Exec(consts.SQLSessionIDsSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing operator infos table... (11/14)")
+	log.Println("[INFO] Initializing operator infos table... (11/15)")
 	_, err = db.Exec(consts.SQLOperatorInfosSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing event states table... (12/14)")
+	log.Println("[INFO] Initializing event states table... (12/15)")
 	_, err = db.Exec(consts.SQLEventStatesSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing game results table... (13/14)")
+	log.Println("[INFO] Initializing game results table... (13/15)")
 	_, err = db.Exec(consts.SQLGameResultsSchema)
 	if err != nil {
 		return err
 	}
-	log.Println("[INFO] Initializing quick game results table... (14/14)")
+	log.Println("[INFO] Initializing quick game results table... (14/15)")
 	_, err = db.Exec(consts.SQLQuickGameResultsSchema)
+	if err != nil {
+		return err
+	}
+	log.Println("[INFO] Initializing last wheel options table... (15/15)")
+	_, err = db.Exec(consts.SQLLastWheelOptionsSchema)
 	return err
 }

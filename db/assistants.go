@@ -50,7 +50,7 @@ func NewAccountWithID(uid string) netobj.Player {
 	playerVarious := netobj.DefaultPlayerVarious()
 	optionUserResult := netobj.DefaultOptionUserResult()
 	rouletteInfo := netobj.DefaultRouletteInfo()
-	wheelOptions := netobj.DefaultWheelOptions(playerState.NumRouletteTicket, rouletteInfo.RouletteCountInPeriod, enums.WheelRankNormal, consts.RouletteFreeSpins, 0)
+	wheelOptions := netobj.DefaultWheelOptions(playerState.NumRouletteTicket, rouletteInfo.RouletteCountInPeriod, enums.WheelRankNormal, consts.RouletteFreeSpins, 0, consts.RouletteStartingJackpotRings)
 	// TODO: get rid of logic here?
 	allowedCharacters := []string{}
 	allowedChao := []string{}
@@ -169,6 +169,10 @@ func SavePlayer(player netobj.Player) error {
 		return err
 	}
 	err = dbaccess.SetLoginBonusState(consts.DBMySQLTableLoginBonusStates, player.ID, player.LoginBonusState)
+	if err != nil {
+		return err
+	}
+	err = dbaccess.SetLastWheelOptions(consts.DBMySQLTableLastWheelOptions, player.ID, player.LastWheelOptions)
 	return err
 	// TODO: Add in the rest of the saving!
 }

@@ -159,6 +159,7 @@ func CommitWheelSpin(helper *helper.Helper) {
 						player.ChaoState[chaoIndex].Level = maxChaoLevel              // reset to maximum
 						player.ChaoState[chaoIndex].Status = enums.ChaoStatusMaxLevel // set status to MaxLevel
 						player.ChaoState[chaoIndex].Acquired = maxChaoLevel + 1
+						player.PlayerState.ChaoEggs += 3 // maxed out; give 3 special eggs as compensation
 					}
 				}
 			} else {
@@ -190,9 +191,13 @@ func CommitWheelSpin(helper *helper.Helper) {
 		rouletteCount := player.RouletteInfo.RouletteCountInPeriod // get amount of times we've spun the wheel today
 		//player.LastWheelOptions = netobj.DefaultWheelOptions(numRouletteTicket, rouletteCount) // create wheel
 		//oldRanking := player.LastWheelOptions.RouletteRank
-		player.LastWheelOptions = netobj.UpgradeWheelOptions(player.LastWheelOptions, numRouletteTicket, rouletteCount, freeSpins) // create wheel
+		jackpot := player.LastWheelOptions.NumJackpotRing + consts.RouletteJackpotIncrementBy
+		if jackpot > consts.RouletteMaximumJackpotRings {
+			jackpot = consts.RouletteMaximumJackpotRings
+		}
+		player.LastWheelOptions = netobj.UpgradeWheelOptions(player.LastWheelOptions, numRouletteTicket, rouletteCount, freeSpins, jackpot) // create wheel
 		if player.RouletteInfo.GotJackpotThisPeriod {
-			player.LastWheelOptions.NumJackpotRing = 1
+			player.LastWheelOptions.NumJackpotRing = consts.RouletteUsedUpJackpotRings
 		}
 		if wonItem == strconv.Itoa(enums.IDTypeItemRouletteWin) && oldRanking == enums.WheelRankSuper { // won jackpot in super wheel
 			helper.DebugOut("Won jackpot in super wheel")

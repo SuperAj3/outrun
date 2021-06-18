@@ -136,6 +136,22 @@ func SetOperatorInfo(uid, id, param string) error {
 	return err
 }
 
+func SetLastWheelOptions(table, id string, value netobj.WheelOptions) error {
+	CheckIfDBSet()
+	convertedValue, err := netobj.WheelOptionsToSQLCompatibleWheelOptions(value)
+	if err != nil {
+		return err
+	}
+	result, err := db.NamedExec("REPLACE INTO `"+table+"`(id, items, item_count, item_weight, item_won, next_free_spin, spin_id, spin_cost, roulette_rank, num_roulette_token, num_jackpot_ring, num_remaining_roulette, item_list)\n"+
+		"VALUES ("+id+", :items, :item_count, :item_weight, :item_won, :next_free_spin, :spin_id, :spin_cost, :roulette_rank, :num_roulette_token, :num_jackpot_ring, :num_remaining_roulette, :item_list)",
+		convertedValue)
+	if err == nil && config.CFile.DebugPrints {
+		rowsAffected, _ := result.RowsAffected()
+		log.Printf("[DEBUG] SetLastWheelOptions operation complete; %v rows affected\n", rowsAffected)
+	}
+	return err
+}
+
 func Get(table, column, id string) (interface{}, error) {
 	CheckIfDBSet()
 	var value interface{}
@@ -284,6 +300,31 @@ func GetMileageMapState(table, id string) (netobj.MileageMapState, error) {
 		return netobj.DefaultMileageMapState(), err
 	}
 	return values, nil
+}
+
+func GetLastWheelOptions(table, id string) (netobj.WheelOptions, error) {
+	CheckIfDBSet()
+	values, _ := netobj.WheelOptionsToSQLCompatibleWheelOptions(netobj.DefaultWheelOptions(0, 0, 0, 0, 0, 0))
+	var id2 int64
+	err := db.QueryRow("SELECT * FROM `"+table+"` WHERE id = ?", id).Scan(&id2,
+		&values.Items,
+		&values.Item,
+		&values.ItemWeight,
+		&values.ItemWon,
+		&values.NextFreeSpin,
+		&values.SpinID,
+		&values.SpinCost,
+		&values.RouletteRank,
+		&values.NumRouletteToken,
+		&values.NumJackpotRing,
+		&values.NumRemainingRoulette,
+		&values.ItemList,
+	)
+	if err != nil {
+		return netobj.DefaultWheelOptions(0, 0, 0, 0, 0, 0), err
+	}
+	convertedValues, err := netobj.SQLCompatibleWheelOptionsToWheelOptions(values)
+	return convertedValues, nil
 }
 
 func GetOptionUserResult(table, id string) (netobj.OptionUserResult, error) {

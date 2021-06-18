@@ -231,6 +231,23 @@ const (
 		cheat_result VARCHAR(8) NOT NULL,
 		PRIMARY KEY (gameid)
 	) ENGINE = InnoDB;`
+	SQLLastWheelOptionsSchema = `
+	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableLastWheelOptions + ` (
+		id BIGINT UNSIGNED NOT NULL,
+		items JSON,
+		item_count JSON,
+		item_weight JSON,
+		item_won INTEGER,
+		next_free_spin BIGINT NOT NULL,
+		spin_id BIGINT,
+		spin_cost INTEGER,
+		roulette_rank INTEGER,
+		num_roulette_token INTEGER,
+		num_jackpot_ring INTEGER,
+		num_remaining_roulette INTEGER,
+		item_list JSON,
+		PRIMARY KEY (id)
+	) ENGINE = InnoDB;`
 	SQLPlayerStatesInsertTypeSchema = `(
 		id,
 		items,

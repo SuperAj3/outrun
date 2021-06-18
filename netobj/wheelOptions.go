@@ -16,7 +16,7 @@ import (
 
 type WheelOptions struct {
 	Items                []string   `json:"items" db:"items"`
-	Item                 []int64    `json:"item" db:"item"`
+	Item                 []int64    `json:"item" db:"item_count"`
 	ItemWeight           []int64    `json:"itemWeight" db:"item_weight"`
 	ItemWon              int64      `json:"itemWon" db:"item_won"`
 	NextFreeSpin         int64      `json:"nextFreeSpin" db:"next_free_spin"` // midnight (start of next day)
@@ -29,9 +29,9 @@ type WheelOptions struct {
 	ItemList             []obj.Item `json:"itemList" db:"item_list"`
 }
 
-type SqlWheelOptions struct {
+type SqlCompatibleWheelOptions struct {
 	Items                []byte `json:"items" db:"items"`
-	Item                 []byte `json:"item" db:"item"`
+	Item                 []byte `json:"item" db:"item_count"`
 	ItemWeight           []byte `json:"itemWeight" db:"item_weight"`
 	ItemWon              int64  `json:"itemWon" db:"item_won"`
 	NextFreeSpin         int64  `json:"nextFreeSpin" db:"next_free_spin"` // midnight (start of next day)
@@ -44,7 +44,7 @@ type SqlWheelOptions struct {
 	ItemList             []byte `json:"itemList" db:"item_list"`
 }
 
-func DefaultWheelOptions(numRouletteTicket, rouletteCountInPeriod, rouletteRank, freeSpins, spinID int64) WheelOptions {
+func DefaultWheelOptions(numRouletteTicket, rouletteCountInPeriod, rouletteRank, freeSpins, spinID, jackpotRings int64) WheelOptions {
 	// TODO: Modifying this seems like a good way of figuring out what the game thinks each ID means in terms of items.
 	// const the below
 	// NOTE: Free spins occur when numRemainingRoulette > numRouletteToken
@@ -141,7 +141,7 @@ func DefaultWheelOptions(numRouletteTicket, rouletteCountInPeriod, rouletteRank,
 	//rouletteRank := int64(enums.WheelRankNormal)
 	//numRouletteToken := playerState.NumRouletteTicket
 	numRouletteToken := numRouletteTicket // The game uses the _current_ value, not as if it was in the past (This is hard to explain, maybe TODO: explain this better?)
-	numJackpotRing := int64(consts.RouletteJackpotRings)
+	numJackpotRing := jackpotRings
 	// TODO: get rid of logic here!
 	numRemainingRoulette := numRouletteToken + freeSpins - rouletteCountInPeriod // TODO: is this proper?
 	if numRemainingRoulette < numRouletteToken {
@@ -165,7 +165,7 @@ func DefaultWheelOptions(numRouletteTicket, rouletteCountInPeriod, rouletteRank,
 	return out
 }
 
-func UpgradeWheelOptions(origWheel WheelOptions, numRouletteTicket, rouletteCountInPeriod, freeSpins int64) WheelOptions {
+func UpgradeWheelOptions(origWheel WheelOptions, numRouletteTicket, rouletteCountInPeriod, freeSpins, jackpotRings int64) WheelOptions {
 	rouletteRank := origWheel.RouletteRank
 	if origWheel.Items[origWheel.ItemWon] == strconv.Itoa(enums.IDTypeItemRouletteWin) { // if landed on big/super or jackpot
 		landedOnUpgrade := origWheel.RouletteRank == enums.WheelRankNormal || origWheel.RouletteRank == enums.WheelRankBig
@@ -187,20 +187,169 @@ func UpgradeWheelOptions(origWheel WheelOptions, numRouletteTicket, rouletteCoun
 	} else {
 		rouletteRank = enums.WheelRankNormal
 	}
-	newWheel := DefaultWheelOptions(numRouletteTicket, rouletteCountInPeriod, rouletteRank, freeSpins, origWheel.SpinID)
+	newWheel := DefaultWheelOptions(numRouletteTicket, rouletteCountInPeriod, rouletteRank, freeSpins, origWheel.SpinID, jackpotRings)
 	return newWheel
 }
 
-func UnmarshalWheelOptions(source SqlWheelOptions) (WheelOptions, error) {
+func SQLCompatibleWheelOptionsToWheelOptions(source SqlCompatibleWheelOptions) (WheelOptions, error) {
 	var items []string
-	json.Unmarshal(source.Items, &items)
+	err := json.Unmarshal(source.Items, &items)
+	if err != nil {
+		return WheelOptions{
+			[]string{},
+			[]int64{},
+			[]int64{},
+			source.ItemWon,
+			source.NextFreeSpin,
+			source.SpinID,
+			source.SpinCost,
+			source.RouletteRank,
+			source.NumRouletteToken,
+			source.NumJackpotRing,
+			source.NumRemainingRoulette,
+			[]obj.Item{},
+		}, err
+	}
 	var item []int64
-	json.Unmarshal(source.Item, &item)
+	err = json.Unmarshal(source.Item, &item)
+	if err != nil {
+		return WheelOptions{
+			items,
+			[]int64{},
+			[]int64{},
+			source.ItemWon,
+			source.NextFreeSpin,
+			source.SpinID,
+			source.SpinCost,
+			source.RouletteRank,
+			source.NumRouletteToken,
+			source.NumJackpotRing,
+			source.NumRemainingRoulette,
+			[]obj.Item{},
+		}, err
+	}
 	var itemWeight []int64
-	json.Unmarshal(source.ItemWeight, &itemWeight)
+	err = json.Unmarshal(source.ItemWeight, &itemWeight)
+	if err != nil {
+		return WheelOptions{
+			items,
+			item,
+			[]int64{},
+			source.ItemWon,
+			source.NextFreeSpin,
+			source.SpinID,
+			source.SpinCost,
+			source.RouletteRank,
+			source.NumRouletteToken,
+			source.NumJackpotRing,
+			source.NumRemainingRoulette,
+			[]obj.Item{},
+		}, err
+	}
 	var itemList []obj.Item
-	json.Unmarshal(source.ItemList, &itemList)
+	err = json.Unmarshal(source.ItemList, &itemList)
+	if err != nil {
+		return WheelOptions{
+			items,
+			item,
+			itemWeight,
+			source.ItemWon,
+			source.NextFreeSpin,
+			source.SpinID,
+			source.SpinCost,
+			source.RouletteRank,
+			source.NumRouletteToken,
+			source.NumJackpotRing,
+			source.NumRemainingRoulette,
+			[]obj.Item{},
+		}, err
+	}
 	return WheelOptions{
+		items,
+		item,
+		itemWeight,
+		source.ItemWon,
+		source.NextFreeSpin,
+		source.SpinID,
+		source.SpinCost,
+		source.RouletteRank,
+		source.NumRouletteToken,
+		source.NumJackpotRing,
+		source.NumRemainingRoulette,
+		itemList,
+	}, nil
+}
+
+func WheelOptionsToSQLCompatibleWheelOptions(source WheelOptions) (SqlCompatibleWheelOptions, error) {
+	items, err := json.Marshal(source.Items)
+	if err != nil {
+		return SqlCompatibleWheelOptions{
+			[]byte(""),
+			[]byte(""),
+			[]byte(""),
+			source.ItemWon,
+			source.NextFreeSpin,
+			source.SpinID,
+			source.SpinCost,
+			source.RouletteRank,
+			source.NumRouletteToken,
+			source.NumJackpotRing,
+			source.NumRemainingRoulette,
+			[]byte(""),
+		}, err
+	}
+	item, err := json.Marshal(source.Item)
+	if err != nil {
+		return SqlCompatibleWheelOptions{
+			items,
+			[]byte(""),
+			[]byte(""),
+			source.ItemWon,
+			source.NextFreeSpin,
+			source.SpinID,
+			source.SpinCost,
+			source.RouletteRank,
+			source.NumRouletteToken,
+			source.NumJackpotRing,
+			source.NumRemainingRoulette,
+			[]byte(""),
+		}, err
+	}
+	itemWeight, err := json.Marshal(source.ItemWeight)
+	if err != nil {
+		return SqlCompatibleWheelOptions{
+			items,
+			item,
+			[]byte(""),
+			source.ItemWon,
+			source.NextFreeSpin,
+			source.SpinID,
+			source.SpinCost,
+			source.RouletteRank,
+			source.NumRouletteToken,
+			source.NumJackpotRing,
+			source.NumRemainingRoulette,
+			[]byte(""),
+		}, err
+	}
+	itemList, err := json.Marshal(source.ItemList)
+	if err != nil {
+		return SqlCompatibleWheelOptions{
+			items,
+			item,
+			itemWeight,
+			source.ItemWon,
+			source.NextFreeSpin,
+			source.SpinID,
+			source.SpinCost,
+			source.RouletteRank,
+			source.NumRouletteToken,
+			source.NumJackpotRing,
+			source.NumRemainingRoulette,
+			[]byte(""),
+		}, err
+	}
+	return SqlCompatibleWheelOptions{
 		items,
 		item,
 		itemWeight,

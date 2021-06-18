@@ -37,5 +37,7 @@ func WheelRefreshLogic(player netobj.Player, wheel netobj.WheelOptions) netobj.W
 		wheel.NumRemainingRoulette = wheel.NumRouletteToken
 	}
 
+	wheel.NumJackpotRing = consts.RouletteStartingJackpotRings
+
 	return wheel
 }

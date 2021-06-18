@@ -368,6 +368,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 	lvupCharacters := []netobj.Character{
 		mainC,
 	}
+	copy(lvupCharacters, playCharacters)
 	if hasSubCharacter {
 		subC, err = player.GetSubChara()
 		if err != nil {
@@ -476,6 +477,8 @@ func QuickPostGameResults(helper *helper.Helper) {
 		}
 		playCharacters[0].AbilityLevelUp = []int64{}
 		playCharacters[0].AbilityLevelUpExp = []int64{}
+		lvupCharacters[0].AbilityLevelUp = []int64{}
+		lvupCharacters[0].AbilityLevelUpExp = []int64{}
 		if lvupCharacters[0].Level < 100 {
 			abilityIndex := 1
 			for abilityIndex == 1 || mainC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
@@ -487,12 +490,14 @@ func QuickPostGameResults(helper *helper.Helper) {
 				// more exp than cost = level up
 				// FIXME: The level up logic seems to be not working correctly.
 				if lvupCharacters[0].Level < 100 {
-					lvupCharacters[0].Level++                       // increase level
-					lvupCharacters[0].AbilityLevel[abilityIndex]++  // increase ability level
-					lvupCharacters[0].Exp -= lvupCharacters[0].Cost // remove cost from exp
+					lvupCharacters[0].Level++                                               // increase level
+					lvupCharacters[0].AbilityLevel[abilityIndex]++                          // increase ability level
+					lvupCharacters[0].Exp -= lvupCharacters[0].Cost                         // remove cost from exp
+					lvupCharacters[0].Cost += consts.UpgradeIncreases[lvupCharacters[0].ID] // increase cost
 					playCharacters[0].AbilityLevelUp = append(playCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
 					playCharacters[0].AbilityLevelUpExp = append(playCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
-					lvupCharacters[0].Cost += consts.UpgradeIncreases[lvupCharacters[0].ID] // increase cost
+					lvupCharacters[0].AbilityLevelUp = append(lvupCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
+					lvupCharacters[0].AbilityLevelUpExp = append(lvupCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
 				} else {
 					lvupCharacters[0].Exp = 0
 				}
@@ -505,6 +510,8 @@ func QuickPostGameResults(helper *helper.Helper) {
 		if hasSubCharacter {
 			playCharacters[1].AbilityLevelUp = []int64{}
 			playCharacters[1].AbilityLevelUpExp = []int64{}
+			lvupCharacters[1].AbilityLevelUp = []int64{}
+			lvupCharacters[1].AbilityLevelUpExp = []int64{}
 			if lvupCharacters[1].Level < 100 {
 				abilityIndex := 1
 				for abilityIndex == 1 || subC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
@@ -514,14 +521,16 @@ func QuickPostGameResults(helper *helper.Helper) {
 				lvupCharacters[1].Exp += expIncrease
 				for lvupCharacters[1].Exp >= lvupCharacters[1].Cost {
 					// more exp than cost = level up
-					// FIXME: The level up logic seems to be not working correctly.
+					// FIXME: The level up logic seems to be not working correctly. CHECK THE GAME CODE TO SEE IF THIS IS WHAT IT EXPECTS
 					if lvupCharacters[1].Level < 100 {
-						lvupCharacters[1].Level++                       // increase level
-						lvupCharacters[1].AbilityLevel[abilityIndex]++  // increase ability level
-						lvupCharacters[1].Exp -= lvupCharacters[1].Cost // remove cost from exp
+						lvupCharacters[1].Level++                                               // increase level
+						lvupCharacters[1].AbilityLevel[abilityIndex]++                          // increase ability level
+						lvupCharacters[1].Exp -= lvupCharacters[1].Cost                         // remove cost from exp
+						lvupCharacters[1].Cost += consts.UpgradeIncreases[lvupCharacters[1].ID] // increase cost
 						playCharacters[1].AbilityLevelUp = append(playCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
 						playCharacters[1].AbilityLevelUpExp = append(playCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
-						lvupCharacters[1].Cost += consts.UpgradeIncreases[lvupCharacters[1].ID] // increase cost
+						lvupCharacters[1].AbilityLevelUp = append(lvupCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
+						lvupCharacters[1].AbilityLevelUpExp = append(lvupCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
 					} else {
 						lvupCharacters[1].Exp = 0
 					}
@@ -600,8 +609,12 @@ func QuickPostGameResults(helper *helper.Helper) {
 		return
 	}
 	// apply the save after the response so that we don't break the leveling
+	lvupCharacters[0].AbilityLevelUp = []int64{}
+	lvupCharacters[0].AbilityLevelUpExp = []int64{}
 	mainC = lvupCharacters[0]
 	if hasSubCharacter {
+		lvupCharacters[1].AbilityLevelUp = []int64{}
+		lvupCharacters[1].AbilityLevelUpExp = []int64{}
 		subC = lvupCharacters[1]
 	}
 	player.CharacterState[mainCIndex] = mainC
@@ -655,9 +668,10 @@ func PostGameResults(helper *helper.Helper) {
 	playCharacters := []netobj.Character{ // assume only main character active right now
 		mainC,
 	}
-	lvupCharacters := []netobj.Character{ // TODO: the pointers for these seem to be all screwy. Fix ASAP!
+	lvupCharacters := []netobj.Character{
 		mainC,
 	}
+	copy(lvupCharacters, playCharacters)
 	if hasSubCharacter {
 		subC, err = player.GetSubChara()
 		if err != nil {
@@ -784,6 +798,8 @@ func PostGameResults(helper *helper.Helper) {
 		}
 		playCharacters[0].AbilityLevelUp = []int64{}
 		playCharacters[0].AbilityLevelUpExp = []int64{}
+		lvupCharacters[0].AbilityLevelUp = []int64{}
+		lvupCharacters[0].AbilityLevelUpExp = []int64{}
 		if lvupCharacters[0].Level < 100 {
 			abilityIndex := 1
 			for abilityIndex == 1 || mainC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
@@ -794,12 +810,14 @@ func PostGameResults(helper *helper.Helper) {
 			for lvupCharacters[0].Exp >= lvupCharacters[0].Cost {
 				// more exp than cost = level up
 				if lvupCharacters[0].Level < 100 {
-					lvupCharacters[0].Level++                       // increase level
-					lvupCharacters[0].AbilityLevel[abilityIndex]++  // increase ability level
-					lvupCharacters[0].Exp -= lvupCharacters[0].Cost // remove cost from exp
+					lvupCharacters[0].Level++                                               // increase level
+					lvupCharacters[0].AbilityLevel[abilityIndex]++                          // increase ability level
+					lvupCharacters[0].Exp -= lvupCharacters[0].Cost                         // remove cost from exp
+					lvupCharacters[0].Cost += consts.UpgradeIncreases[lvupCharacters[0].ID] // increase cost
 					playCharacters[0].AbilityLevelUp = append(playCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
 					playCharacters[0].AbilityLevelUpExp = append(playCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
-					lvupCharacters[0].Cost += consts.UpgradeIncreases[lvupCharacters[0].ID] // increase cost
+					lvupCharacters[0].AbilityLevelUp = append(playCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
+					lvupCharacters[0].AbilityLevelUpExp = append(playCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
 				} else {
 					lvupCharacters[0].Exp = 0
 				}
@@ -824,12 +842,14 @@ func PostGameResults(helper *helper.Helper) {
 				for lvupCharacters[1].Exp >= lvupCharacters[1].Cost {
 					// more exp than cost = level up
 					if lvupCharacters[1].Level < 100 {
-						lvupCharacters[1].Level++                       // increase level
-						lvupCharacters[1].AbilityLevel[abilityIndex]++  // increase ability level
-						lvupCharacters[1].Exp -= lvupCharacters[1].Cost // remove cost from exp
+						lvupCharacters[1].Level++                                               // increase level
+						lvupCharacters[1].AbilityLevel[abilityIndex]++                          // increase ability level
+						lvupCharacters[1].Exp -= lvupCharacters[1].Cost                         // remove cost from exp
+						lvupCharacters[1].Cost += consts.UpgradeIncreases[lvupCharacters[1].ID] // increase cost
 						playCharacters[1].AbilityLevelUp = append(playCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
 						playCharacters[1].AbilityLevelUpExp = append(playCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
-						lvupCharacters[1].Cost += consts.UpgradeIncreases[lvupCharacters[1].ID] // increase cost
+						lvupCharacters[1].AbilityLevelUp = append(lvupCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
+						lvupCharacters[1].AbilityLevelUpExp = append(lvupCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
 					} else {
 						lvupCharacters[1].Exp = 0
 					}
@@ -855,18 +875,6 @@ func PostGameResults(helper *helper.Helper) {
 		if hasSubCharacter {
 			helper.DebugOut("New subC Exp: %v / %v", lvupCharacters[1].Exp, lvupCharacters[1].Cost)
 			helper.DebugOut("New subC Level: %v", lvupCharacters[1].Level)
-		}
-		helper.DebugOut("Sent playCharacters[0] Exp: %v / %v", playCharacters[0].Exp, playCharacters[0].Cost)
-		helper.DebugOut("Sent playCharacters[0] Level: %v", playCharacters[0].Level)
-		helper.DebugOut("Sent playCharacters[0] Ability Levels: %v", playCharacters[0].AbilityLevel)
-		helper.DebugOut("Sent playCharacters[0] Ability Level ups: %v", playCharacters[0].AbilityLevelUp)
-		helper.DebugOut("Sent playCharacters[0] Ability Level up costs: %v", playCharacters[0].AbilityLevelUpExp)
-		if hasSubCharacter {
-			helper.DebugOut("Sent playCharacters[1] Exp: %v / %v", playCharacters[1].Exp, playCharacters[1].Cost)
-			helper.DebugOut("Sent playCharacters[1] Level: %v", playCharacters[1].Level)
-			helper.DebugOut("Sent playCharacters[1] Ability Levels: %v", playCharacters[1].AbilityLevel)
-			helper.DebugOut("Sent playCharacters[1] Ability Level ups: %v", playCharacters[1].AbilityLevelUp)
-			helper.DebugOut("Sent playCharacters[1] Ability Level up costs: %v", playCharacters[1].AbilityLevelUpExp)
 		}
 
 		player.MileageMapState.StageTotalScore += request.Score
@@ -989,7 +997,6 @@ func PostGameResults(helper *helper.Helper) {
 		subCIndex = player.IndexOfChara(subC.ID) // TODO: check if -1
 	}
 
-	// TODO: bind all of these to the ban function /s
 	helper.DebugOut("CheatResult: %s", request.CheatResult)
 	if request.CheatResult[0] != '0' {
 		helper.DebugOut("(CheatResult) flag 1 set!!!")
@@ -1021,6 +1028,18 @@ func PostGameResults(helper *helper.Helper) {
 	response.Seq, _ = db.BoltGetSessionIDSeq(sid)
 	eresponse := responses.DefaultPostGameResultsEvent(baseInfo, player, playCharacters, incentives, []obj.Item{}, netobj.NewEventState(request.EventValue, -1))
 	eresponse.Seq, _ = db.BoltGetSessionIDSeq(sid)
+	helper.DebugOut("Sent playCharacters[0] Exp: %v / %v", playCharacters[0].Exp, playCharacters[0].Cost)
+	helper.DebugOut("Sent playCharacters[0] Level: %v", playCharacters[0].Level)
+	helper.DebugOut("Sent playCharacters[0] Ability Levels: %v", playCharacters[0].AbilityLevel)
+	helper.DebugOut("Sent playCharacters[0] Ability Level ups: %v", playCharacters[0].AbilityLevelUp)
+	helper.DebugOut("Sent playCharacters[0] Ability Level up costs: %v", playCharacters[0].AbilityLevelUpExp)
+	if hasSubCharacter {
+		helper.DebugOut("Sent playCharacters[1] Exp: %v / %v", playCharacters[1].Exp, playCharacters[1].Cost)
+		helper.DebugOut("Sent playCharacters[1] Level: %v", playCharacters[1].Level)
+		helper.DebugOut("Sent playCharacters[1] Ability Levels: %v", playCharacters[1].AbilityLevel)
+		helper.DebugOut("Sent playCharacters[1] Ability Level ups: %v", playCharacters[1].AbilityLevelUp)
+		helper.DebugOut("Sent playCharacters[1] Ability Level up costs: %v", playCharacters[1].AbilityLevelUpExp)
+	}
 	if len(request.EventID) > 0 {
 		helper.DebugOut("Event ID: %s", request.EventID)
 		helper.DebugOut("Event Value: %v", request.EventValue)
@@ -1033,8 +1052,12 @@ func PostGameResults(helper *helper.Helper) {
 		return
 	}
 	// apply the save after the response so that we don't break the leveling
+	lvupCharacters[0].AbilityLevelUp = []int64{}
+	lvupCharacters[0].AbilityLevelUpExp = []int64{}
 	mainC = lvupCharacters[0]
 	if hasSubCharacter {
+		lvupCharacters[1].AbilityLevelUp = []int64{}
+		lvupCharacters[1].AbilityLevelUpExp = []int64{}
 		subC = lvupCharacters[1]
 	}
 	player.CharacterState[mainCIndex] = mainC

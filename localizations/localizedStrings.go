@@ -5,7 +5,8 @@ import (
 )
 
 var LocalizedStrings = map[string]map[string]string{
-	"en": map[string]string{
+	"en": {
+		"CheatWarningNotice":              "Your previous run was flagged by our automatic cheat detection system, and as such, did not count towards your high score, total score, or story progression.\nKeep in mind that we are cracking down on cheaters, so this incident has been reported. Repeated cheating may result in your account being suspended, reset, or deleted.\n\nThis notice is only shown once, so you can now close the game and reopen it to continue playing.",
 		"DailyBattleWinRewardLabel":       "Daily Battle Reward.",
 		"DailyBattleWinStreakRewardLabel": "Daily Battle %v-Win Streak Reward.",
 		"DailyChallengeRewardLabel":       "A Daily Challenge Reward.",
@@ -48,17 +49,17 @@ var LocalizedStrings = map[string]map[string]string{
 			"If you feel this is in error, please get in touch!\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
-		"SuspensionReason_0": "an unspecified reason.",
-		"SuspensionReason_1": "cheating in-game.\nPlease don't do that!",
-		"SuspensionReason_2": "packet manipulation or exploiting a server glitch.\nPlease stop.",
+		"SuspensionReason_0": "an unspecified reason. Please contact a Runners Revival Team member (preferably from the Yacker modmail bot on our Discord server) for more information about this suspension.",
+		"SuspensionReason_1": "repeatedly cheating during runs.",
+		"SuspensionReason_2": "packet manipulation or exploiting a server glitch.",
 		"SuspensionReason_3": "attempting to mess up the economy through various methods.",
-		"SuspensionReason_4": "an unknown reason (RID 4).",
-		"SuspensionReason_5": "an unknown reason (RID 5).",
-		"SuspensionReason_6": "an unknown reason (RID 6).",
-		"SuspensionReason_7": "an unknown reason (RID 7).",
+		"SuspensionReason_4": "leaking details about a prerelease build of Sonic Runners Revival.",
+		"SuspensionReason_5": "setting an inappropriate nickname for yourself. When you are unsuspended, you will need to pick a new nickname for yourself.",
+		"SuspensionReason_6": "repeatedly setting inappropriate nicknames for yourself.",
+		"SuspensionReason_7": "intentionally attacking the Runners Revival service in one form or another.",
 		"SuspensionReason_8": "an unknown reason (RID 8).",
 		"SuspensionReason_9": "an unknown reason (RID 9).",
-		"UpdateGameNotice": "Please update Sonic Runners Revival; this version is no longer supported on Sonic Runners Revival!\n\n" +
+		"UpdateGameNotice": "Please update your game; this version is no longer supported on Sonic Runners Revival!\n\n" +
 			"Our website: https://www.sonicrunners.com/\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
@@ -70,7 +71,7 @@ var LocalizedStrings = map[string]map[string]string{
 		"WatermarkTicker_2": "User ID: [0000ff]%s",
 		"WatermarkTicker_3": "High score (Timed Mode): [0000ff]%v",
 		"WatermarkTicker_4": "High score (Story Mode): [0000ff]%v",
-		"WatermarkTicker_5": "Total distance ran (Story Mode): [0000ff]%v",
+		"WatermarkTicker_5": "Total distance ran (Story Mode): [003fff]%v",
 	},
 }
 
