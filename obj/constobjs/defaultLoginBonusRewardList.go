@@ -95,6 +95,7 @@ var TestLoginBonusRewardList = func() []obj.LoginBonusReward {
 				obj.NewSelectReward(
 					[]obj.Item{
 						obj.NewItem("910000", 1000), // 1000 Rings
+						obj.NewItem("900000", 1),    // 1 Red Ring
 					},
 				),
 			},
@@ -105,6 +106,7 @@ var TestLoginBonusRewardList = func() []obj.LoginBonusReward {
 				obj.NewSelectReward(
 					[]obj.Item{
 						obj.NewItem("910000", 2000), // 2000 Rings
+						obj.NewItem("900000", 2),    // 2 Red Rings
 					},
 				),
 			},
@@ -115,6 +117,7 @@ var TestLoginBonusRewardList = func() []obj.LoginBonusReward {
 				obj.NewSelectReward(
 					[]obj.Item{
 						obj.NewItem("910000", 3000), // 3000 Rings
+						obj.NewItem("900000", 3),    // 3 Red Rings
 					},
 				),
 			},
@@ -125,6 +128,7 @@ var TestLoginBonusRewardList = func() []obj.LoginBonusReward {
 				obj.NewSelectReward(
 					[]obj.Item{
 						obj.NewItem("910000", 4000), // 4000 Rings
+						obj.NewItem("900000", 4),    // 4 Red Rings
 					},
 				),
 			},
@@ -135,6 +139,7 @@ var TestLoginBonusRewardList = func() []obj.LoginBonusReward {
 				obj.NewSelectReward(
 					[]obj.Item{
 						obj.NewItem("910000", 5000), // 5000 Rings
+						obj.NewItem("900000", 5),    // 5 Red Rings
 					},
 				),
 			},
@@ -145,6 +150,7 @@ var TestLoginBonusRewardList = func() []obj.LoginBonusReward {
 				obj.NewSelectReward(
 					[]obj.Item{
 						obj.NewItem("910000", 6000), // 6000 Rings
+						obj.NewItem("900000", 6),    // 6 Red Rings
 					},
 				),
 			},
@@ -155,6 +161,7 @@ var TestLoginBonusRewardList = func() []obj.LoginBonusReward {
 				obj.NewSelectReward(
 					[]obj.Item{
 						obj.NewItem("910000", 7000), // 7000 Rings
+						obj.NewItem("900000", 7),    // 7 Red Rings
 					},
 				),
 			},

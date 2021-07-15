@@ -279,7 +279,7 @@ func CommitChaoWheelSpin(helper *helper.Helper) {
 							prizeChaoLevel -= excess                                      // shave it from prize level
 							player.ChaoState[chaoIndex].Level = 10                        // reset to maximum
 							player.ChaoState[chaoIndex].Status = enums.ChaoStatusMaxLevel // set status to MaxLevel
-							player.ChaoState[chaoIndex].Acquired = 10 + 1
+							//player.ChaoState[chaoIndex].Acquired = 10 + 1
 						}
 					} else {
 						player.PlayerState.ChaoEggs += 3 // maxed out; give 3 special eggs as compensation

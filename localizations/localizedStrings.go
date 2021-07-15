@@ -6,7 +6,9 @@ import (
 
 var LocalizedStrings = map[string]map[string]string{
 	"en": {
-		"CheatWarningNotice":              "Your previous run was flagged by our automatic cheat detection system, and as such, did not count towards your high score, total score, or story progression.\nKeep in mind that we are cracking down on cheaters, so this incident has been reported. Repeated cheating may result in your account being suspended, reset, or deleted.\n\nThis notice is only shown once, so you can now close the game and reopen it to continue playing.",
+		"LoginNotice_1":                   "This is a test message for login notices. Such notices may appear when you are disconnected from the server with an error code of -8, and will elaborate on what disconnected you.\nSuch examples of this are cheat detection, or account restrictions.\n\nThis message is merely a test for this new system, and does not indicate anything wrong on your side.",
+		"LoginNotice_2":                   "Your previous run was flagged by our automatic cheat detection system, and as such, did not count towards your high score, total score, or story progression.\nKeep in mind that we are cracking down on cheaters, so this incident has been reported. Repeated cheating may result in your account being suspended, reset, or deleted.",
+		"LoginNotice_footer":              "\n\nThis notice is only shown once, so you can now close the game and reopen it to continue playing.",
 		"DailyBattleWinRewardLabel":       "Daily Battle Reward.",
 		"DailyBattleWinStreakRewardLabel": "Daily Battle %v-Win Streak Reward.",
 		"DailyChallengeRewardLabel":       "A Daily Challenge Reward.",
@@ -26,6 +28,11 @@ var LocalizedStrings = map[string]map[string]string{
 		"InactiveAccountNotice": "The account on this device has been marked for deletion due to inactivity. If you would like to reclaim your account, please contact us as soon as possible, as your account will be fully deleted at the beginning of next month.\n" +
 			"Twitter: https://twitter.com/runnersrevival\n" +
 			"Discord: https://discord.gg/T5ytR6T",
+		"LeaderboardUpdateUnderwayNotice": "We are currently doing preparations for the Leaderboard Update. This update is entirely server-side, so you will not need to update the Sonic Runners Revival app to continue playing after the maintenance.\n\n" +
+			"This update will include:\n* Leaderboards\n* Daily Battles\n* Working account transfers\n* Reworked Item Roulette jackpot system\n\n" +
+			"Our website: https://www.sonicrunners.com/\n" +
+			"Twitter: https://twitter.com/runnersrevival\n" +
+			"Discord: https://discord.gg/T5ytR6T",
 		"LeagueHighRankingRewardLabel":  "A reward for getting the following position in the Runners' League High Score Ranking: %v.",
 		"LeaguePromotionRewardLabel":    "Runners' League Promotion Reward. Story Mode.",
 		"LeagueTotalRankingRewardLabel": "A reward for getting the following position in the Runners' League Total Score Ranking: %v.",
@@ -40,6 +47,10 @@ var LocalizedStrings = map[string]map[string]string{
 		"QuickLeaguePromotionRewardLabel":    "Runners' League Promotion Reward. Timed Mode.",
 		"QuickLeagueTotalRankingRewardLabel": "A reward for getting the following position in the Runners' League Timed Mode Total Score Ranking: %v.",
 		"Rank999RewardLabel":                 "A reward for reaching Rank 999. Very few players are dedicated enough to reach this rank!",
+		"RevivalURLChangeNotice": "This version of Sonic Runners Revival is no longer playable due to changes in our infrastructure.\n\n" +
+			"Our website: https://www.sonicrunners.com/\n" +
+			"Twitter: https://twitter.com/runnersrevival\n" +
+			"Discord: https://discord.gg/T5ytR6T",
 		"SuspensionNotice_Temporary": "The account on this device has been temporarily suspended from Sonic Runners Revival for %s\n" +
 			"You will be able to play the game again at: %s\n\n" +
 			"If you feel this is in error, please get in touch!\n" +

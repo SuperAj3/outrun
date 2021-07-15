@@ -812,6 +812,7 @@ func PostGameResults(helper *helper.Helper) {
 				if lvupCharacters[0].Level < 100 {
 					lvupCharacters[0].Level++                                               // increase level
 					lvupCharacters[0].AbilityLevel[abilityIndex]++                          // increase ability level
+					playCharacters[0].AbilityLevel[abilityIndex]++                          // increase ability level
 					lvupCharacters[0].Exp -= lvupCharacters[0].Cost                         // remove cost from exp
 					lvupCharacters[0].Cost += consts.UpgradeIncreases[lvupCharacters[0].ID] // increase cost
 					playCharacters[0].AbilityLevelUp = append(playCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
@@ -844,6 +845,7 @@ func PostGameResults(helper *helper.Helper) {
 					if lvupCharacters[1].Level < 100 {
 						lvupCharacters[1].Level++                                               // increase level
 						lvupCharacters[1].AbilityLevel[abilityIndex]++                          // increase ability level
+						playCharacters[1].AbilityLevel[abilityIndex]++                          // increase ability level
 						lvupCharacters[1].Exp -= lvupCharacters[1].Cost                         // remove cost from exp
 						lvupCharacters[1].Cost += consts.UpgradeIncreases[lvupCharacters[1].ID] // increase cost
 						playCharacters[1].AbilityLevelUp = append(playCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
