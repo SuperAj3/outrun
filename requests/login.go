@@ -11,6 +11,7 @@ type LoginRequest struct {
 	SalesLocate  int64  `json:"salesLocate,string"`
 	StoreID      int64  `json:"storeId,string"`
 	PlatformSNS  int64  `json:"platform_sns,string"`
+	RevivalVerID int64  `json:"revivalVerId,string,omitempty"`
 	obj.LineAuth `json:"lineAuth"`
 }
 
