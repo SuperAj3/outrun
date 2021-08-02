@@ -36,9 +36,7 @@ func Login(helper *helper.Helper) {
 	password := request.LineAuth.Password
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	if request.Version != "2.0.3" { // TODO: make this version number configurable
-		// version not for Revival release servers
-		// this check is temporary for the duration of 2.0.4 beta testing
+	if request.RevivalVerID != 1 && request.RevivalVerID != 0 {
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
 		err := helper.SendResponse(response)
@@ -49,6 +47,21 @@ func Login(helper *helper.Helper) {
 	}
 	if uid == "0" && password == "" {
 		helper.Out("Entering LoginAlpha")
+		if request.RevivalVerID == 0 {
+			baseInfo.StatusCode = status.ServerNextVersion
+			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+				0,
+				0,
+				"",
+				"Sonic Runners Revival has been updated! This version of Revival will no longer work. Since you seem to be a new player, you shouldn't need to do much to update to the new version.\n\nWe semi-regularly update Sonic Runners Revival with new features and content that wouldn't be possible without app updates. This update contains security features that aren't present in 2.0.3, so to protect our players, older versions of the game are no longer playable on Sonic Runners Revival.\n\nDownload the new version here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T",
+				"Sonic Runners Revival has been updated! This version of Revival will no longer work. Since you seem to be a new player, you shouldn't need to do much to update to the new version.\n\nWe semi-regularly update Sonic Runners Revival with new features and content that wouldn't be possible without app updates. This update contains security features that aren't present in 2.0.3, so to protect our players, older versions of the game are no longer playable on Sonic Runners Revival.\n\nDownload the new version here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T",
+				"https://sonicrunners.com/",
+			))
+			if err != nil {
+				helper.InternalErr("Error sending response", err)
+			}
+			return
+		}
 		newPlayer := db.NewAccount()
 		err = db.SavePlayer(newPlayer)
 		if err != nil {
@@ -88,6 +101,21 @@ func Login(helper *helper.Helper) {
 			helper.InternalErr("Error getting player", err)
 			return
 		}
+		if request.RevivalVerID == 0 {
+			baseInfo.StatusCode = status.ServerNextVersion
+			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+				player.PlayerState.NumRedRings,
+				player.PlayerState.NumBuyRedRings,
+				player.Username,
+				"Sonic Runners Revival has been updated! This version of Revival will no longer work. Don't worry about your progress, it should be brought over to the new version automatically when you first start the new version up, just as long as you have this version of the app still installed.\n\nIn the event your data isn't transferred automatically, please take note of your support ID ("+player.ID+"), as you'll need it to transfer your data.\n\nWe semi-regularly update Sonic Runners Revival with new features and content that wouldn't be possible without app updates. This update contains security features that aren't present in 2.0.3, so to protect our players, older versions of the game are no longer playable on Sonic Runners Revival.\n\nDownload the new version here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T (DM @Yacker#5350 for support regarding data transfer)",
+				"Sonic Runners Revival has been updated! This version of Revival will no longer work. Don't worry about your progress, it should be brought over to the new version automatically when you first start the new version up, just as long as you have this version of the app still installed.\n\nIn the event your data isn't transferred automatically, please take note of your support ID ("+player.ID+"), as you'll need it to transfer your data.\n\nWe semi-regularly update Sonic Runners Revival with new features and content that wouldn't be possible without app updates. This update contains security features that aren't present in 2.0.3, so to protect our players, older versions of the game are no longer playable on Sonic Runners Revival.\n\nDownload the new version here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T (DM @Yacker#5350 for support regarding data transfer)",
+				"https://sonicrunners.com/",
+			))
+			if err != nil {
+				helper.InternalErr("Error sending response", err)
+			}
+			return
+		}
 		response := responses.LoginCheckKey(baseInfo, player.Key)
 		//response.BaseResponse = responses.NewBaseResponseV(baseInfo, request.Version)
 		err = helper.SendResponse(response)
@@ -112,6 +140,21 @@ func Login(helper *helper.Helper) {
 		if request.Password == logic.GenerateLoginPasskey(player) {
 			baseInfo.StatusCode = status.OK
 			baseInfo.SetErrorMessage(emess.OK)
+			if request.RevivalVerID == 0 {
+				baseInfo.StatusCode = status.ServerNextVersion
+				err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+					player.PlayerState.NumRedRings,
+					player.PlayerState.NumBuyRedRings,
+					player.Username,
+					"Sonic Runners Revival has been updated! This version of Revival will no longer work. Don't worry about your progress, it should be brought over to the new version automatically when you first start the new version up, just as long as you have this version of the app still installed.\n\nIn the event your data isn't transferred automatically, please take note of your support ID ("+player.ID+"), as you'll need it to transfer your data.\n\nWe semi-regularly update Sonic Runners Revival with new features and content that wouldn't be possible without app updates. This update contains security features that aren't present in 2.0.3, so to protect our players, older versions of the game are no longer playable on Sonic Runners Revival.\n\nDownload the new version here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T (DM @Yacker#5350 for support regarding data transfer)",
+					"Sonic Runners Revival has been updated! This version of Revival will no longer work. Don't worry about your progress, it should be brought over to the new version automatically when you first start the new version up, just as long as you have this version of the app still installed.\n\nIn the event your data isn't transferred automatically, please take note of your support ID ("+player.ID+"), as you'll need it to transfer your data.\n\nWe semi-regularly update Sonic Runners Revival with new features and content that wouldn't be possible without app updates. This update contains security features that aren't present in 2.0.3, so to protect our players, older versions of the game are no longer playable on Sonic Runners Revival.\n\nDownload the new version here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T (DM @Yacker#5350 for support regarding data transfer)",
+					"https://sonicrunners.com/",
+				))
+				if err != nil {
+					helper.InternalErr("Error sending response", err)
+				}
+				return
+			}
 			sid, err := db.AssignSessionID(uid)
 			if err != nil {
 				helper.InternalErr("Error assigning session ID", err)
