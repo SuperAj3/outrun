@@ -164,8 +164,7 @@ func main() {
 	router.HandleFunc("/favicon.ico", FaviconResponse)
 	
 
-	if ServerMode == 0
-	{
+	if ServerMode == 0 {
 		// Login
 		router.HandleFunc(prefix+"/Login/login/", h(muxhandlers.Login, LogExecutionTime))
 		router.HandleFunc(prefix+"/Sgn/sendApollo/", h(muxhandlers.SendApollo, LogExecutionTime))
@@ -231,13 +230,11 @@ func main() {
 			router.PathPrefix("/").HandlerFunc(OutputUnknownRequest)
 		}
 	}
-	if ServerMode == 1
-	{
+	if ServerMode == 1 {
 		log.Println(" == STARTING IN NEXT VERSION MAINTENANCE MODE == ")
 		router.HandleFunc(prefix+"/Login/login/", h(muxhandlers.LoginNextVersion, LogExecutionTime))
 	}
-	if ServerMode == 2
-	{
+	if ServerMode == 2 {
 		log.Println(" == STARTING IN MAINTENANCE MODE == ")
 		router.HandleFunc(prefix+"/Login/login/", h(muxhandlers.LoginMaintenance, LogExecutionTime))
 	}
