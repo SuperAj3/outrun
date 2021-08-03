@@ -191,6 +191,29 @@ func Login(helper *helper.Helper) {
 	}
 }
 
+func LoginNextVersion(helper *helper.Helper) {
+	baseInfo := helper.BaseInfo(emess.OK, status.ServerNextVersion)
+	err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+		0,
+		0,
+		"",
+		"Sonic Runners Revival’s game service is currently undergoing extended maintenance to prepare for a content and security update. We apologize for any inconvenience this may cause. Please check our social media regularly for updates on the matter.\n\nOur website: https://www.sonicrunners.com/\nYouTube: https://www.youtube.com/c/SonicRunnersRevival\nTwitter: https://twitter.com/runnersrevival\nDiscord: https://discord.gg/T5ytR6T",
+		"Sonic Runners Revival’s game service is currently undergoing extended maintenance to prepare for a content and security update. We apologize for any inconvenience this may cause. Please check our social media regularly for updates on the matter.\n\nOur website: https://www.sonicrunners.com/\nYouTube: https://www.youtube.com/c/SonicRunnersRevival\nTwitter: https://twitter.com/runnersrevival\nDiscord: https://discord.gg/T5ytR6T",
+		"https://sonicrunners.com/",
+	))
+	if err != nil {
+		helper.InternalErr("Error sending response", err)
+	}
+}
+
+func LoginMaintenance(helper *helper.Helper) {
+	baseInfo := helper.BaseInfo(emess.OK, status.ServerMaintenance)
+	err = helper.SendResponse(responses.NewBaseResponse(baseInfo))
+	if err != nil {
+		helper.InternalErr("Error sending response", err)
+	}
+}
+
 func GetVariousParameter(helper *helper.Helper) {
 	player, err := helper.GetCallingPlayer()
 	if err != nil {
