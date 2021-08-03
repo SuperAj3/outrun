@@ -193,7 +193,7 @@ func Login(helper *helper.Helper) {
 
 func LoginNextVersion(helper *helper.Helper) {
 	baseInfo := helper.BaseInfo(emess.OK, status.ServerNextVersion)
-	err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+	err := helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 		0,
 		0,
 		"",
@@ -208,7 +208,7 @@ func LoginNextVersion(helper *helper.Helper) {
 
 func LoginMaintenance(helper *helper.Helper) {
 	baseInfo := helper.BaseInfo(emess.OK, status.ServerMaintenance)
-	err = helper.SendResponse(responses.NewBaseResponse(baseInfo))
+	err := helper.SendResponse(responses.NewBaseResponse(baseInfo))
 	if err != nil {
 		helper.InternalErr("Error sending response", err)
 	}
