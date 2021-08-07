@@ -193,12 +193,13 @@ func Login(helper *helper.Helper) {
 
 func LoginNextVersion(helper *helper.Helper) {
 	baseInfo := helper.BaseInfo(emess.OK, status.ServerNextVersion)
+	// Please update this message for any future versions of Sonic Runners Revival as they come!
 	err := helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 		0,
 		0,
 		"",
-		"Sonic Runners Revival's game service is currently undergoing extended maintenance to prepare for a content and security update. We apologize for any inconvenience this may cause. Please check our social media regularly for updates on the matter.\n\nOur website: https://www.sonicrunners.com/\nYouTube: https://www.youtube.com/c/SonicRunnersRevival\nTwitter: https://twitter.com/runnersrevival\nDiscord: https://discord.gg/T5ytR6T",
-		"Sonic Runners Revival's game service is currently undergoing extended maintenance to prepare for a content and security update. We apologize for any inconvenience this may cause. Please check our social media regularly for updates on the matter.\n\nOur website: https://www.sonicrunners.com/\nYouTube: https://www.youtube.com/c/SonicRunnersRevival\nTwitter: https://twitter.com/runnersrevival\nDiscord: https://discord.gg/T5ytR6T",
+		"Sonic Runners Revival's game service is currently undergoing extended maintenance to prepare for the 2.1.0 update, which focuses on security, new content, and general improvements to the overall experience. We apologize for any inconvenience this may cause.\n\nThere is no ETA on when this maintenance period will end, so please check our social media regularly for updates on the matter.\n\nOur website: https://www.sonicrunners.com/\nYouTube: https://www.youtube.com/c/SonicRunnersRevival\nTwitter: https://twitter.com/runnersrevival\nDiscord: https://discord.gg/T5ytR6T",
+		"Sonic Runners Revival's game service is currently undergoing extended maintenance to prepare for the 2.1.0 update, which focuses on security, new content, and general improvements to the overall experience. We apologize for any inconvenience this may cause.\n\nThere is no ETA on when this maintenance period will end, so please check our social media regularly for updates on the matter.\n\nOur website: https://www.sonicrunners.com/\nYouTube: https://www.youtube.com/c/SonicRunnersRevival\nTwitter: https://twitter.com/runnersrevival\nDiscord: https://discord.gg/T5ytR6T",
 		"https://sonicrunners.com/",
 	))
 	if err != nil {
