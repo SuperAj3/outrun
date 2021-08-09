@@ -475,18 +475,32 @@ func QuickPostGameResults(helper *helper.Helper) {
 				return
 			}
 		}
+
+		// Recalculate level
+		actualLevel := int64(0)
+		index := 0
+		for index < len(lvupCharacters[0].AbilityLevel) {
+			actualLevel += lvupCharacters[0].AbilityLevel[index]
+			index++
+		}
+		if lvupCharacters[0].Level != actualLevel {
+			helper.DebugOut("Main character level has DESYNCED!\nStored: %v\nActual: %v", lvupCharacters[0].Level, actualLevel)
+			lvupCharacters[0].Level = actualLevel
+		}
+
 		playCharacters[0].AbilityLevelUp = []int64{}
 		playCharacters[0].AbilityLevelUpExp = []int64{}
 		lvupCharacters[0].AbilityLevelUp = []int64{}
 		lvupCharacters[0].AbilityLevelUpExp = []int64{}
 		if lvupCharacters[0].Level < 100 {
+			helper.DebugOut("Level of main character: %v", lvupCharacters[0].Level)
 			abilityIndex := 1
 			for abilityIndex == 1 || mainC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
 				abilityIndex = rand.Intn(len(mainC.AbilityLevel))
 			}
 			playCharacters[0].Exp += expIncrease
 			lvupCharacters[0].Exp += expIncrease
-			for lvupCharacters[0].Exp >= lvupCharacters[0].Cost {
+			for lvupCharacters[0].Exp >= lvupCharacters[0].Cost && lvupCharacters[0].Status != enums.CharacterStatusMaxLevel {
 				// more exp than cost = level up
 				// FIXME: The level up logic seems to be not working correctly.
 				if lvupCharacters[0].Level < 100 {
@@ -507,8 +521,23 @@ func QuickPostGameResults(helper *helper.Helper) {
 					abilityIndex = rand.Intn(len(mainC.AbilityLevel))
 				}
 			}
+		} else {
+			lvupCharacters[0].Status = enums.CharacterStatusMaxLevel
 		}
 		if hasSubCharacter {
+
+			// Recalculate level
+			actualLevel := int64(0)
+			index := 0
+			for index < len(lvupCharacters[1].AbilityLevel) {
+				actualLevel += lvupCharacters[1].AbilityLevel[index]
+				index++
+			}
+			if lvupCharacters[1].Level != actualLevel {
+				helper.DebugOut("Sub character level has DESYNCED!\nStored: %v\nActual: %v", lvupCharacters[1].Level, actualLevel)
+				lvupCharacters[1].Level = actualLevel
+			}
+
 			playCharacters[1].AbilityLevelUp = []int64{}
 			playCharacters[1].AbilityLevelUpExp = []int64{}
 			lvupCharacters[1].AbilityLevelUp = []int64{}
@@ -520,7 +549,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 				}
 				playCharacters[1].Exp += expIncrease
 				lvupCharacters[1].Exp += expIncrease
-				for lvupCharacters[1].Exp >= lvupCharacters[1].Cost {
+				for lvupCharacters[1].Exp >= lvupCharacters[1].Cost && lvupCharacters[1].Status != enums.CharacterStatusMaxLevel {
 					// more exp than cost = level up
 					// FIXME: The level up logic seems to be not working correctly. CHECK THE GAME CODE TO SEE IF THIS IS WHAT IT EXPECTS
 					if lvupCharacters[1].Level < 100 {
@@ -541,6 +570,8 @@ func QuickPostGameResults(helper *helper.Helper) {
 						abilityIndex = rand.Intn(len(subC.AbilityLevel))
 					}
 				}
+			} else {
+				lvupCharacters[1].Status = enums.CharacterStatusMaxLevel
 			}
 		}
 
@@ -802,14 +833,28 @@ func PostGameResults(helper *helper.Helper) {
 		playCharacters[0].AbilityLevelUpExp = []int64{}
 		lvupCharacters[0].AbilityLevelUp = []int64{}
 		lvupCharacters[0].AbilityLevelUpExp = []int64{}
+
+		// Recalculate level
+		actualLevel := int64(0)
+		index := 0
+		for index < len(lvupCharacters[0].AbilityLevel) {
+			actualLevel += lvupCharacters[0].AbilityLevel[index]
+			index++
+		}
+		if lvupCharacters[0].Level != actualLevel {
+			helper.DebugOut("Main character level has DESYNCED!\nStored: %v\nActual: %v", lvupCharacters[0].Level, actualLevel)
+			lvupCharacters[0].Level = actualLevel
+		}
+
 		if lvupCharacters[0].Level < 100 {
+			helper.DebugOut("Main character level is %v", lvupCharacters[0].Level)
 			abilityIndex := 1
-			for abilityIndex == 1 || mainC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
-				abilityIndex = rand.Intn(len(mainC.AbilityLevel))
+			for abilityIndex == 1 || lvupCharacters[0].AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
+				abilityIndex = rand.Intn(len(lvupCharacters[0].AbilityLevel))
 			}
 			playCharacters[0].Exp += expIncrease
 			lvupCharacters[0].Exp += expIncrease
-			for lvupCharacters[0].Exp >= lvupCharacters[0].Cost {
+			for lvupCharacters[0].Exp >= lvupCharacters[0].Cost && lvupCharacters[0].Status != enums.CharacterStatusMaxLevel {
 				// more exp than cost = level up
 				if lvupCharacters[0].Level < 100 {
 					lvupCharacters[0].Level++                                               // increase level
@@ -831,19 +876,33 @@ func PostGameResults(helper *helper.Helper) {
 				}
 			}
 		} else {
+			lvupCharacters[0].Status = enums.CharacterStatusMaxLevel
 			helper.DebugOut("Main character level is maxed out!")
 		}
 		if hasSubCharacter {
+			// Recalculate level
+			actualLevel := int64(0)
+			index := 0
+			for index < len(lvupCharacters[1].AbilityLevel) {
+				actualLevel += lvupCharacters[1].AbilityLevel[index]
+				index++
+			}
+			if lvupCharacters[1].Level != actualLevel {
+				helper.DebugOut("Sub character level has DESYNCED!\nStored: %v\nActual: %v", lvupCharacters[1].Level, actualLevel)
+				lvupCharacters[1].Level = actualLevel
+			}
+
 			playCharacters[1].AbilityLevelUp = []int64{}
 			playCharacters[1].AbilityLevelUpExp = []int64{}
 			if lvupCharacters[1].Level < 100 {
+				helper.DebugOut("Sub character level is %v", lvupCharacters[1].Level)
 				abilityIndex := 1
-				for abilityIndex == 1 || subC.AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
-					abilityIndex = rand.Intn(len(subC.AbilityLevel))
+				for abilityIndex == 1 || lvupCharacters[1].AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
+					abilityIndex = rand.Intn(len(lvupCharacters[1].AbilityLevel))
 				}
 				playCharacters[1].Exp += expIncrease
 				lvupCharacters[1].Exp += expIncrease
-				for lvupCharacters[1].Exp >= lvupCharacters[1].Cost {
+				for lvupCharacters[1].Exp >= lvupCharacters[1].Cost && lvupCharacters[1].Status != enums.CharacterStatusMaxLevel {
 					// more exp than cost = level up
 					if lvupCharacters[1].Level < 100 {
 						lvupCharacters[1].Level++                                               // increase level
@@ -861,10 +920,11 @@ func PostGameResults(helper *helper.Helper) {
 					}
 					abilityIndex = 1
 					for abilityIndex == 1 || lvupCharacters[1].AbilityLevel[abilityIndex] >= 10 { // unused ability is at index 1
-						abilityIndex = rand.Intn(len(subC.AbilityLevel))
+						abilityIndex = rand.Intn(len(lvupCharacters[1].AbilityLevel))
 					}
 				}
 			} else {
+				lvupCharacters[1].Status = enums.CharacterStatusMaxLevel
 				helper.DebugOut("Sub character level is maxed out!")
 			}
 		}
@@ -1014,7 +1074,7 @@ func PostGameResults(helper *helper.Helper) {
 		helper.DebugOut("(CheatResult) flag 3 set!!!")
 	}
 	if request.CheatResult[3] != '0' {
-		helper.DebugOut("(CheatResult) Too many continues used!!!")
+		helper.DebugOut("(CheatResult) flag 4 set!!!")
 	}
 	if request.CheatResult[4] != '0' {
 		helper.DebugOut("(CheatResult) flag 5 set!!!")
