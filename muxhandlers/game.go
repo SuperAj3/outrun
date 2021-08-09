@@ -499,6 +499,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 					lvupCharacters[0].AbilityLevelUp = append(lvupCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
 					lvupCharacters[0].AbilityLevelUpExp = append(lvupCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
 				} else {
+					lvupCharacters[0].Status = enums.CharacterStatusMaxLevel
 					lvupCharacters[0].Exp = 0
 				}
 				abilityIndex = 1
@@ -532,6 +533,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 						lvupCharacters[1].AbilityLevelUp = append(lvupCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
 						lvupCharacters[1].AbilityLevelUpExp = append(lvupCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
 					} else {
+						lvupCharacters[1].Status = enums.CharacterStatusMaxLevel
 						lvupCharacters[1].Exp = 0
 					}
 					abilityIndex = 1
@@ -820,6 +822,7 @@ func PostGameResults(helper *helper.Helper) {
 					lvupCharacters[0].AbilityLevelUp = append(playCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
 					lvupCharacters[0].AbilityLevelUpExp = append(playCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
 				} else {
+					lvupCharacters[0].Status = enums.CharacterStatusMaxLevel
 					lvupCharacters[0].Exp = 0
 				}
 				abilityIndex = 1
@@ -853,6 +856,7 @@ func PostGameResults(helper *helper.Helper) {
 						lvupCharacters[1].AbilityLevelUp = append(lvupCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
 						lvupCharacters[1].AbilityLevelUpExp = append(lvupCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
 					} else {
+						lvupCharacters[1].Status = enums.CharacterStatusMaxLevel
 						lvupCharacters[1].Exp = 0
 					}
 					abilityIndex = 1
