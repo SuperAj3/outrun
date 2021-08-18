@@ -1,5 +1,7 @@
 # Outrun for Revival
 
+**THIS BRANCH IS NOT INTENDED TO BE SELF-HOSTED. This version of Outrun for Revival is only designed to work with 2.1.0. For a version of Outrun for Revival which is self-hostable, go [here](https://github.com/Mtbcooler/outrun/tree/self-hostable) instead.**
+
 ### Summary
 
 Outrun for Revival is a fork of Outrun, a custom server for Sonic Runners reverse engineered from the [Sonic Runners Revival](https://sonic.runner.es/) project back during the Open Beta. It is intended for use on the Sonic Runners Revival server, but can be used for your own private servers as well.
