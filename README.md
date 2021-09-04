@@ -1,6 +1,6 @@
 # Outrun for Revival
 
-**Not everything works in this branch yet. Please use the master branch for the stable version.**
+**Not everything works in this branch yet, and some features may be buggy. Please use the master branch for the stable version, or the self-hostable branch for a self-hostable version.**
 
 ### Summary
 
@@ -19,6 +19,9 @@ Notable:
   - Events
   - Campaigns
   - Leaderboards
+  - Gift Box (WIP)
+  - Daily Challenge
+  - Login Bonuses
 
 Functional:
   - Android and iOS support
@@ -60,6 +63,8 @@ Binary releases can be found [in the releases tab.](https://github.com/fluofoxxo
 13. Transfer the APK to an Android device and use ZipSigner to sign it
 14. Install the APK
 
+#### Final steps
+Coming soon! This section will talk about how to set up your instance with a MySQL server.
 
 ### Misc.
 
