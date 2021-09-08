@@ -27,7 +27,7 @@ const PriceRedRings = 9001
 var CharacterSonic = obj.Character{
 	strconv.Itoa(enums.CharaTypeSonic),
 	0,           // unlocked from the start, no cost
-	NumRedRings, // ?
+	NumRedRings, // unused? characters can only be unlocked and leveled up thru rings
 	100000,       // used for limit breaking
 	50,          // red rings used for limit breaking
 }
@@ -103,6 +103,7 @@ var CharacterCream = obj.Character{
 	10000, // used for limit breaking
 	5,    // red rings used for limit breaking
 }
+
 var CharacterEspio = obj.Character{
 	strconv.Itoa(enums.CharaTypeEspio),
 	650,
@@ -250,6 +251,14 @@ var CharacterWerehog = obj.Character{
 var CharacterSticks = obj.Character{
 	strconv.Itoa(enums.CharaTypeSticks),
 	750,
+	NumRedRings,
+	500000, // used for limit breaking
+	200,    // red rings used for limit breaking
+}
+
+var CharacterMarine = obj.Character{
+	strconv.Itoa(enums.CharaTypeMarine),
+	1300,
 	NumRedRings,
 	500000, // used for limit breaking
 	200,    // red rings used for limit breaking

@@ -36,7 +36,7 @@ func Login(helper *helper.Helper) {
 	password := request.LineAuth.Password
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	if request.RevivalVerID != 1 && request.RevivalVerID != 0 {
+	if request.RevivalVerID != 1 && request.RevivalVerID != 0 && !config.CFile.LegacyCompatibilityMode {
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
 		err := helper.SendResponse(response)
@@ -47,7 +47,7 @@ func Login(helper *helper.Helper) {
 	}
 	if uid == "0" && password == "" {
 		helper.Out("Entering LoginAlpha")
-		if request.RevivalVerID == 0 {
+		if request.RevivalVerID == 0 && !config.CFile.LegacyCompatibilityMode {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				0,
@@ -101,7 +101,7 @@ func Login(helper *helper.Helper) {
 			helper.InternalErr("Error getting player", err)
 			return
 		}
-		if request.RevivalVerID == 0 {
+		if request.RevivalVerID == 0 && !config.CFile.LegacyCompatibilityMode {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				player.PlayerState.NumRedRings,
@@ -140,7 +140,7 @@ func Login(helper *helper.Helper) {
 		if request.Password == logic.GenerateLoginPasskey(player) {
 			baseInfo.StatusCode = status.OK
 			baseInfo.SetErrorMessage(emess.OK)
-			if request.RevivalVerID == 0 {
+			if request.RevivalVerID == 0 && !config.CFile.LegacyCompatibilityMode {
 				baseInfo.StatusCode = status.ServerNextVersion
 				err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 					player.PlayerState.NumRedRings,

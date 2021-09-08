@@ -14,4 +14,5 @@ var DataVersionForGameVersion = map[string]string{
 	"2.0.0": "043",
 	"2.0.1": "047",
 	"2.0.3": "050",
+	"2.1.0": "051",
 }

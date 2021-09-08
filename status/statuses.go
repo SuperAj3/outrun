@@ -39,6 +39,9 @@ const (
 	EnergyLimitPurchaseTrigger = int64(-21010)
 	NotStartEvent              = int64(-10201)
 	AlreadyEndEvent            = int64(-10202)
+	UsernameUnacceptable       = int64(-40000) // 2.1.0 and later; generic server side rejection of username change
+	UsernameTooLong            = int64(-40001) // 2.1.0 and later; username not saved due to length
+	UsernameHasNGWord          = int64(-40002) // 2.1.0 and later; username not saved due to ng word
 	VersionForApplication      = int64(-999002)
 	Timeout                    = int64(-7)
 	OtherError                 = int64(-8)

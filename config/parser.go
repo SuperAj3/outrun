@@ -29,6 +29,7 @@ var Defaults = map[string]interface{}{
 	"DSilenceGameConfigErrors":     false,
 	"DCampaignConfigFilename":      "campaign_config.json",
 	"DSilenceCampaignConfigErrors": false,
+	"DLegacyCompatibilityMode":     false,
 }
 
 var CFile ConfigFile
@@ -55,6 +56,7 @@ type ConfigFile struct {
 	SilenceGameConfigErrors     bool   `json:"silenceGameConfigErrors,omitempty"`
 	CampaignConfigFilename      string `json:"campaignConfigFilename,omitempty"`
 	SilenceCampaignConfigErrors bool   `json:"silenceCampaignConfigErrors,omitempty"`
+	LegacyCompatibilityMode     bool   `json:"legacyCompatibilityMode,omitempty"` // disables the 2.1.0 version check
 }
 
 func Parse(filename string) error {
@@ -80,6 +82,7 @@ func Parse(filename string) error {
 		Defaults["DSilenceGameConfigErrors"].(bool),
 		Defaults["DCampaignConfigFilename"].(string),
 		Defaults["DSilenceCampaignConfigErrors"].(bool),
+		Defaults["DLegacyCompatibilityMode"].(bool),
 	}
 	file, err := loadFile(filename)
 	if err != nil {
