@@ -41,6 +41,13 @@ type ToolboxValueReply struct {
 	Result interface{}
 }
 
+type ToolboxPlayerCountReply struct {
+	Status               uint
+	ActiveCount          int64
+	TotalRegisteredCount int64
+	AdditionalInfo       string
+}
+
 type ChangeValueArgs struct {
 	UID   string
 	Value interface{}

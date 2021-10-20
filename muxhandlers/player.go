@@ -85,18 +85,18 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterAmitieAmy))
 	}
-	/*charindex := player.IndexOfChara(enums.CTStrXMasSonic)
+	charindex = player.IndexOfChara(enums.CTStrHalloweenShadow)
 	if charindex == -1 {
-		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasSonic))
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenShadow))
 	}
-	charindex = player.IndexOfChara(enums.CTStrXMasTails)
+	charindex = player.IndexOfChara(enums.CTStrHalloweenRouge)
 	if charindex == -1 {
-		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasTails))
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenRouge))
 	}
-	charindex = player.IndexOfChara(enums.CTStrXMasKnuckles)
+	charindex = player.IndexOfChara(enums.CTStrHalloweenOmega)
 	if charindex == -1 {
-		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles))
-	}*/
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenOmega))
+	}
 	err = db.SavePlayer(player)
 	if err != nil {
 		helper.InternalErr("Error saving player", err)
