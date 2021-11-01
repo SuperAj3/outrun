@@ -529,7 +529,7 @@ func (t *Toolbox) Debug_FixCharacterPrices(uids string, reply *ToolboxReply) err
 	return nil
 }
 
-// Purges players who haven't logged in for 6 months
+// Purges players who haven't logged in for 11 months
 // If testmode is true, it only counts how many players could be purged
 func (t *Toolbox) Debug_PurgeInactivePlayers(testmode bool, reply *ToolboxReply) error {
 	playerIDs := []string{}
@@ -545,7 +545,7 @@ func (t *Toolbox) Debug_PurgeInactivePlayers(testmode bool, reply *ToolboxReply)
 			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
 			return err
 		}
-		if player.LastLogin < time.Now().AddDate(0, -6, 0).UTC().Unix() {
+		if player.LastLogin < time.Now().AddDate(0, -11, 0).UTC().Unix() {
 			log.Printf("[RPC-DEBUG] Player %s hasn't logged in for six or more months! (Last Login: %v)\n", uid)
 			numberOfPurgedPlayers++
 			if !testmode {
