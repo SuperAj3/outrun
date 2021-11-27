@@ -9,7 +9,10 @@ import (
 	"github.com/Mtbcooler/outrun/db"
 	"github.com/Mtbcooler/outrun/db/dbaccess"
 	"github.com/Mtbcooler/outrun/emess"
+	"github.com/Mtbcooler/outrun/enums"
 	"github.com/Mtbcooler/outrun/helper"
+	"github.com/Mtbcooler/outrun/netobj"
+	"github.com/Mtbcooler/outrun/obj/constobjs"
 	"github.com/Mtbcooler/outrun/requests"
 	"github.com/Mtbcooler/outrun/responses"
 	"github.com/Mtbcooler/outrun/status"
@@ -100,12 +103,11 @@ func GetCharacterState(helper *helper.Helper) {
 		return
 	}
 	helper.DebugOut("Version: \"%s\"", request.Version)
-	/*if request.Version == "2.0.4" {
-		// 2.0.4 currently requires the new character to be in the CharacterState
-		charindex := player.IndexOfChara(enums.CTStr204LaunchChara)
+	if request.Version == "2.1.0" {
+		charindex := player.IndexOfChara(enums.CTStrMarine)
 		if charindex == -1 {
-			helper.DebugOut("WORKAROUND FOR CRASH: Adding new character to CharacterState...")
-			player.CharacterState = append(player.CharacterState, netobj.DefaultGiftOnlyCharacter(constobjs.Character204LaunchChara))
+			helper.DebugOut("Adding Marine to CharacterState...")
+			player.CharacterState = append(player.CharacterState, netobj.DefaultCharacter(constobjs.CharacterMarine))
 		} else {
 			helper.DebugOut("New character is located at index %d", charindex)
 		}
@@ -115,8 +117,8 @@ func GetCharacterState(helper *helper.Helper) {
 			return
 		}
 	} else {
-		helper.DebugOut("Not applying workaround")
-	}*/
+		helper.DebugOut("Not applying Marine update")
+	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	response := responses.CharacterState(baseInfo, player.CharacterState)
 	response.Seq, _ = db.BoltGetSessionIDSeq(sid)

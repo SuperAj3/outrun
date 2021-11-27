@@ -12,7 +12,7 @@ type QuickPostGameResultsRequest struct {
 	Animals                int64  `json:"numAnimals,string"`
 	MaxCombo               int64  `json:"maxCombo,string"`
 	Closed                 int64  `json:"closed"`
-	CheatResult            string `json:"cheatResult"`
+	CheatResult            string `json:"cheatResult"` // a set of 8 flags from UnmanagedProcess
 }
 
 type PostGameResultsRequest struct {
