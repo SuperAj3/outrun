@@ -548,6 +548,10 @@ func PostGameResults(helper *helper.Helper) {
 		helper.Err("Error unmarshalling", err)
 		return
 	}
+	var unsignedScore int64 = int64(uint32(request.Score))
+	if unsignedScore > request.Distance * 2500 {
+	return;
+	}
 	player, err := helper.GetCallingPlayer()
 	if err != nil {
 		helper.InternalErr("Error getting calling player", err)
