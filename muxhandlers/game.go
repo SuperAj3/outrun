@@ -549,7 +549,7 @@ func PostGameResults(helper *helper.Helper) {
 		return
 	}
 	var unsignedScore int64 = int64(uint32(request.Score))
-	if unsignedScore > request.Distance * 2500 {
+	if unsignedScore > request.Distance * 15000 {
 	return;
 	}
 	player, err := helper.GetCallingPlayer()
