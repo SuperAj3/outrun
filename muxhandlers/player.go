@@ -8,7 +8,10 @@ import (
 	"github.com/Mtbcooler/outrun/consts"
 	"github.com/Mtbcooler/outrun/db"
 	"github.com/Mtbcooler/outrun/emess"
+	"github.com/Mtbcooler/outrun/enums"
 	"github.com/Mtbcooler/outrun/helper"
+	"github.com/Mtbcooler/outrun/netobj"
+	"github.com/Mtbcooler/outrun/obj/constobjs"
 	"github.com/Mtbcooler/outrun/requests"
 	"github.com/Mtbcooler/outrun/responses"
 	"github.com/Mtbcooler/outrun/status"
@@ -94,7 +97,7 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenOmega))
 	}*/
-	charindex = player.IndexOfChara("301001")
+	charindex := player.IndexOfChara(enums.CTStrGothicAmy)
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultSpecialLockedCharacter(constobjs.CharacterGothicAmy))
 	}
