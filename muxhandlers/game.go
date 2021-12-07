@@ -3,7 +3,9 @@ package muxhandlers
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"os"
 	"strconv"
 	"time"
 
@@ -28,6 +30,9 @@ import (
 	"github.com/Mtbcooler/outrun/status"
 	"github.com/jinzhu/now"
 )
+
+const GAME_RESULT_LOG_DIRECTORY = "logging/story_game_results/"
+const QUICK_GAME_RESULT_LOG_DIRECTORY = "logging/timed_game_results/"
 
 func GetDailyChallengeData(helper *helper.Helper) {
 	player, err := helper.GetCallingPlayer()
@@ -548,10 +553,6 @@ func PostGameResults(helper *helper.Helper) {
 		helper.Err("Error unmarshalling", err)
 		return
 	}
-	var unsignedScore int64 = int64(uint32(request.Score))
-	if unsignedScore > request.Distance * 25000 {
-	return;
-	}
 	player, err := helper.GetCallingPlayer()
 	if err != nil {
 		helper.InternalErr("Error getting calling player", err)
@@ -598,6 +599,30 @@ func PostGameResults(helper *helper.Helper) {
 	var oldRewardPoint, newRewardPoint int64
 
 	if request.Closed == 0 { // If the game wasn't exited out of
+		var unsignedScore int64 = int64(uint32(request.Score))
+		if unsignedScore > request.Distance * 25000 && gameconf.CFile.EnableVerification {
+			// highly experimental
+			timeStr := strconv.Itoa(int(time.Now().Unix()))
+			os.MkdirAll(GAME_RESULT_LOG_DIRECTORY, 0644)
+			deets := fmt.Sprintf("%s (%s)\r\nScore: %v\r\nRings: %v (%v lost), Red Rings: %v\r\nDistance: %v\r\nAnimals: %v\r\nGame-reported cheat result: %s", player.Username, player.ID, request.Score, request.Rings, request.FailureRings, request.Distance, request.Animals, request.CheatResult)
+			path := GAME_RESULT_LOG_DIRECTORY + player.ID + "_" + timeStr + ".txt"
+			err := ioutil.WriteFile(path, deets, 0644)
+			if err != nil {
+				helper.InternalErr("Unable to log run", err.Error())
+			}
+
+			if gameconf.CFile.PenalizeUnverifiables {
+				request.Rings = 0;
+				request.FailureRings = 0;
+				request.RedRings = 0;
+				request.Animals = 0;
+				request.Distance = 0;
+				request.Score = 0;
+				request.DailyChallengeValue = 0;
+				request.DailyChallengeComplete = 0;
+				request.ReachPoint = player.MileageMapState.Point
+			}
+		}
 		oldRewardEpisode = player.MileageMapState.Episode
 		oldRewardChapter = player.MileageMapState.Chapter
 		oldRewardPoint = player.MileageMapState.Point
@@ -606,6 +631,7 @@ func PostGameResults(helper *helper.Helper) {
 		player.PlayerState.NumRouletteTicket += request.RedRings // TODO: URGENT! Remove as soon as possible!
 		player.PlayerState.Animals += request.Animals
 		player.OptionUserResult.NumTakeAllRings += request.Rings
+		player.OptionUserResult.NumTakeAllRings += request.FailureRings
 		player.OptionUserResult.NumTakeAllRedRings += request.RedRings
 		playerHighScore := player.PlayerState.HighScore
 		if request.Score > playerHighScore {

@@ -28,6 +28,7 @@ var CharacterMap = map[string]string{ // TODO: move to consts?
 	"werehog":         enums.CTStrWerehog,
 	"sticks":          enums.CTStrSticks,
 	"tikal":           enums.CTStrTikal,
+	"marine":          enums.CTStrMarine,
 	"mephiles":        enums.CTStrMephiles,
 	"psiSilver":       enums.CTStrPSISilver,
 	"espSilver":       enums.CTStrPSISilver,
@@ -62,6 +63,8 @@ var Defaults = map[string]interface{}{
 	"DEnergyRecoveryMax":         int64(10),
 	"DEnergyRecoveryTime":        int64(600),
 	"DEnableStartDashLoginBonus": true,
+	"DEnableVerification":        true,
+	"DPenalizeUnverifiables":     false,
 }
 
 var CFile ConfigFile
@@ -81,6 +84,8 @@ type ConfigFile struct {
 	EnergyRecoveryMax         int64  `json:"energyRecoveryMax,omitempty"`
 	EnergyRecoveryTime        int64  `json:"energyRecoveryTime,omitempty"`
 	EnableStartDashLoginBonus bool   `json:"enableStartDashLoginBonus,omitempty`
+	EnableVerification        bool   `json:"enableVerification,omitempty"`
+	PenalizeUnverifiables     bool   `json:"penalizeUnverifiables,omitempty"`
 }
 
 func Parse(filename string) error {
@@ -99,6 +104,8 @@ func Parse(filename string) error {
 		Defaults["DEnergyRecoveryMax"].(int64),
 		Defaults["DEnergyRecoveryTime"].(int64),
 		Defaults["DEnableStartDashLoginBonus"].(bool),
+		Defaults["DEnableVerification"].(bool),
+		Defaults["DPenalizeUnverifiables"].(bool),
 	}
 	file, err := loadFile(filename)
 	if err != nil {
