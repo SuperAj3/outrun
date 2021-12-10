@@ -37,7 +37,7 @@ func Login(helper *helper.Helper) {
 	password := request.LineAuth.Password
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	if request.RevivalVerID != 1 && request.RevivalVerID != 0 && !config.CFile.LegacyCompatibilityMode {
+	if request.RevivalVerID != 2 && request.RevivalVerID != 0 && !config.CFile.LegacyCompatibilityMode {
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
 		err := helper.SendResponse(response)
