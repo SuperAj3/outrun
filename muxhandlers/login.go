@@ -37,7 +37,9 @@ func Login(helper *helper.Helper) {
 	password := request.LineAuth.Password
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
+	helper.Out("User logging in with Revival Version ID "+request.RevivalVerID)
 	if request.RevivalVerID != 2 && request.RevivalVerID != 0 && !config.CFile.LegacyCompatibilityMode {
+		helper.Out("Version does not match what was expected!")
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
 		err := helper.SendResponse(response)
