@@ -101,6 +101,10 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultSpecialLockedCharacter(constobjs.CharacterGothicAmy))
 	}
+	charindex := player.IndexOfChara(enums.CTStrMarine)
+	if charindex == -1 {
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine))
+	}
 	err = db.SavePlayer(player)
 	if err != nil {
 		helper.InternalErr("Error saving player", err)
