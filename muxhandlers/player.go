@@ -97,11 +97,11 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenOmega))
 	}*/
-	charindex := player.IndexOfChara(enums.CTStrGothicAmy)
+	charindex = player.IndexOfChara(enums.CTStrGothicAmy)
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultSpecialLockedCharacter(constobjs.CharacterGothicAmy))
 	}
-	charindex := player.IndexOfChara(enums.CTStrMarine)
+	charindex = player.IndexOfChara(enums.CTStrMarine)
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine))
 	}
