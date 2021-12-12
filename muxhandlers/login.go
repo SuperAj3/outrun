@@ -65,7 +65,7 @@ func Login(helper *helper.Helper) {
 			}
 			return
 		}
-		if uid !== 5684022511 {
+		if uid != 5684022511 {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				0,
