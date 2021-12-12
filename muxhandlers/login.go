@@ -158,7 +158,7 @@ func Login(helper *helper.Helper) {
 				}
 				return
 			}
-			if uid != "5684022511" || "1740310365" { // this hack is terrible and should only be used in emergencies
+			if uid != "5684022511" { // this hack is terrible and should only be used in emergencies
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				0,
