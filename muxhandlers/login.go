@@ -65,6 +65,21 @@ func Login(helper *helper.Helper) {
 			}
 			return
 		}
+		if uid !== 5684022511 {
+			baseInfo.StatusCode = status.ServerNextVersion
+			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+				0,
+				0,
+				"",
+				"The Sonic Runners Revival game server is currently undergoing emergency maintenance due to unforseen issues with the roulette. We will return as soon as possible.",
+				"The Sonic Runners Revival game server is currently undergoing emergency maintenance due to unforseen issues with the roulette. We will return as soon as possible.",
+				"https://sonicrunners.com/",
+			))
+			if err != nil {
+				helper.InternalErr("Error sending response", err)
+			}
+			return
+		}
 		newPlayer := db.NewAccount()
 		err = db.SavePlayer(newPlayer)
 		if err != nil {
