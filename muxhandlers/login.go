@@ -158,12 +158,12 @@ func Login(helper *helper.Helper) {
 				}
 				return
 			}
-			allowedToLogin := true
+			allowedToLogin := false
 			whitelistedIDs := []string{"5684022511", "5013570373", "8792354989", "7892875001", "3464221619"}
 			for _, idInList := range whitelistedIDs {
-			if uid != idInList { // this hack is terrible and should only be used in emergencies
-				allowedToLogin = false
-				return
+			if uid == idInList { // this hack is terrible and should only be used in emergencies
+				allowedToLogin = true
+				break
 				}
 			}
 			if allowedToLogin == false {
