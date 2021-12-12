@@ -158,29 +158,6 @@ func Login(helper *helper.Helper) {
 				}
 				return
 			}
-			allowedToLogin := false
-			whitelistedIDs := []string{"5684022511", "5013570373", "8792354989", "7892875001", "3464221619"}
-			for _, idInList := range whitelistedIDs {
-			if uid == idInList { // this hack is terrible and should only be used in emergencies
-				allowedToLogin = true
-				break
-				}
-			}
-			if allowedToLogin == false {
-			baseInfo.StatusCode = status.ServerNextVersion
-			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
-				0,
-				0,
-				"",
-				"The Sonic Runners Revival game server is currently undergoing emergency maintenance due to unforseen issues with the roulette. We will return as soon as possible.",
-				"The Sonic Runners Revival game server is currently undergoing emergency maintenance due to unforseen issues with the roulette. We will return as soon as possible.",
-				"https://sonicrunners.com/",
-			))
-			if err != nil {
-				helper.InternalErr("Error sending response", err)
-			}
-			return
-		}
 			sid, err := db.AssignSessionID(uid)
 			if err != nil {
 				helper.InternalErr("Error assigning session ID", err)
