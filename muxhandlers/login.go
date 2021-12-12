@@ -158,7 +158,9 @@ func Login(helper *helper.Helper) {
 				}
 				return
 			}
-			if uid != "5684022511" || uid != "5013570373" || uid != "8792354989" || uid != "7892875001" || uid != "3464221619" { // this hack is terrible and should only be used in emergencies
+			whitelistedIDs := []string{"5684022511", "5013570373", "8792354989", "7892875001", "3464221619"}
+			for index, element := range whitelistedIDs {
+			if uid != element { // this hack is terrible and should only be used in emergencies
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				0,
@@ -173,6 +175,7 @@ func Login(helper *helper.Helper) {
 			}
 			return
 		}
+	}
 			sid, err := db.AssignSessionID(uid)
 			if err != nil {
 				helper.InternalErr("Error assigning session ID", err)
