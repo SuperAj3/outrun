@@ -160,7 +160,7 @@ func Login(helper *helper.Helper) {
 			}
 			var idInList string
 			whitelistedIDs := []string{"5684022511", "5013570373", "8792354989", "7892875001", "3464221619"}
-			for idInList := range whitelistedIDs {
+			for _, idInList := range whitelistedIDs {
 			if uid != idInList { // this hack is terrible and should only be used in emergencies
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
