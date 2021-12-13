@@ -512,6 +512,7 @@ func (t *Toolbox) Debug_FixCharacterPrices(uids string, reply *ToolboxReply) err
 		"300018": constobjs.CharacterTikal,
 		"300019": constobjs.CharacterMephiles,
 		"300020": constobjs.CharacterPSISilver,
+		"300021": constobjs.CharacterMarine,
 		"301000": constobjs.CharacterAmitieAmy,
 		"301001": constobjs.CharacterGothicAmy,
 		"301002": constobjs.CharacterHalloweenShadow,
