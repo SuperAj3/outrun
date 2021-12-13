@@ -154,6 +154,6 @@ func DefaultCharacterState() []Character {
 		DefaultLockedCharacter(constobjs.CharacterTikal),
 		DefaultLockedCharacter(constobjs.CharacterMephiles),
 		DefaultLockedCharacter(constobjs.CharacterPSISilver),
-		DefaultRouletteLockedCharacter(constobjs.CharacterMarine),
+		DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine),
 	}
 }
