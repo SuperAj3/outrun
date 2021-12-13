@@ -364,6 +364,40 @@ func (t *Toolbox) Debug_ResetPlayersRank(uids string, reply *ToolboxReply) error
 	return nil
 }
 
+func (t *Toolbox) Debug_FixMarineRedRings(uids string, reply *ToolboxReply) error {
+	wh := constobjs.CharacterMarine
+	whid := wh.ID
+	whrr := wh.PriceRedRings
+	whrrpr := wh.Price
+	allUIDs := strings.Split(uids, ",")
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		i := player.IndexOfChara(whid)
+		if i == -1 {
+			reply.Status = StatusOK
+			reply.Info = "index not found!"
+			return fmt.Errorf("index not found!")
+		}
+		player.CharacterState[i].Character.PriceRedRings = whrr // TODO: check if needed
+		player.CharacterState[i].PriceRedRings = whrr
+		player.CharacterState[i].Price = whrrpr
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+			return err
+		}
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
 func (t *Toolbox) Debug_FixWerehogRedRings(uids string, reply *ToolboxReply) error {
 	wh := constobjs.CharacterWerehog
 	whid := wh.ID
