@@ -175,7 +175,10 @@ func GetMessage(helper *helper.Helper) {
 				player.ChaoState[chaoIndex].Acquired = 1
 				player.ChaoState[chaoIndex].Level = 0
 			}
-			player.ChaoState[chaoIndex].Level += currentPresent.NumItem
+			player.ChaoState[chaoIndex].Level += currentPresent.NumItem - 1
+			if player.ChaoState[chaoIndex].Level < 0 {
+				player.ChaoState[chaoIndex].Level = 0
+			}
 			if player.ChaoState[chaoIndex].Level > 10 { // if max chao level
 				player.ChaoState[chaoIndex].Level = 10                        // reset to maximum
 				player.ChaoState[chaoIndex].Status = enums.ChaoStatusMaxLevel // set status to MaxLevel
@@ -189,6 +192,13 @@ func GetMessage(helper *helper.Helper) {
 			if player.CharacterState[charIndex].Status == enums.CharacterStatusLocked {
 				// unlock the character
 				player.CharacterState[charIndex].Status = enums.CharacterStatusUnlocked
+				if currentPresent.NumItem > 1 {
+					starUpCount := currentPresent.NumItem - 1
+					for starUpCount > 0 && player.CharacterState[charIndex].Star < 10 { // 10 is max amount of stars a character can have before game breaks
+						starUpCount--
+						player.CharacterState[charIndex].Star++
+					}
+				}
 			} else {
 				starUpCount := currentPresent.NumItem
 				for starUpCount > 0 && player.CharacterState[charIndex].Star < 10 { // 10 is max amount of stars a character can have before game breaks
