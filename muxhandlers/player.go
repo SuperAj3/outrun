@@ -105,6 +105,18 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine))
 	}
+	charindex = player.IndexOfChara(enums.CTStrXMasSonic)
+	if charindex == -1 {
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasSonic))
+	}
+	charindex = player.IndexOfChara(enums.CTStrXMasTails)
+	if charindex == -1 {
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasTails))
+	}
+	charindex = player.IndexOfChara(enums.CTStrXMasKnuckles)
+	if charindex == -1 {
+	player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles))
+	}
 	err = db.SavePlayer(player)
 	if err != nil {
 		helper.InternalErr("Error saving player", err)
