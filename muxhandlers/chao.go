@@ -166,7 +166,7 @@ func CommitChaoWheelSpin(helper *helper.Helper) {
 	availStatus := status.OK
 	// set initial prize
 	prize := netobj.CharacterIDToChaoSpinPrize("0") // This will almost certainly give the game errors if improperly counting payment!
-	spinResults := []netobj.ChaoSpinResult{}        // TODO: Find out why it's an array
+	spinResults := []netobj.ChaoSpinResult{}        // In 1.1.4, this *wasn't* an array. It was made into an array to facilitate multispin
 
 	helper.DebugOut("PRE")
 	helper.DebugOut("Items: %s", items)
@@ -194,7 +194,7 @@ func CommitChaoWheelSpin(helper *helper.Helper) {
 				player.PlayerState.NumChaoRouletteTicket -= consts.ChaoRouletteTicketCost * request.Count // spend ticket(s)
 			} else {
 				player.PlayerState.ChaoEggs -= 10
-				actions = 1 // ensure we only spin once for the free spin
+				actions = 1 // ensure we only spin once for the free spin; the game doesn't reset the selected spin count on getting into the free spin
 			}
 		} else { // paying with red ring(s)
 			player.PlayerState.NumRedRings -= consts.ChaoRouletteRedRingCost * request.Count // spend red ring(s)
