@@ -100,22 +100,27 @@ func GetCharacterState(helper *helper.Helper) {
 	}*/
 	charindex := player.IndexOfChara(enums.CTStrGothicAmy)
 	if charindex == -1 {
+		helper.Out("Adding Gothic Amy to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultSpecialLockedCharacter(constobjs.CharacterGothicAmy))
 	}
 	charindex = player.IndexOfChara(enums.CTStrMarine)
 	if charindex == -1 {
+		helper.Out("Adding Marine to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine))
 	}
 	charindex = player.IndexOfChara(enums.CTStrXMasSonic)
 	if charindex == -1 {
+		helper.Out("Adding Xmas Sonic to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasSonic))
 	}
 	charindex = player.IndexOfChara(enums.CTStrXMasTails)
 	if charindex == -1 {
+		helper.Out("Adding Xmas Tails to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasTails))
 	}
 	charindex = player.IndexOfChara(enums.CTStrXMasKnuckles)
 	if charindex == -1 {
+		helper.Out("Adding Xmas Knuckles to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles))
 	}
 
