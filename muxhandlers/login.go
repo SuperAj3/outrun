@@ -38,7 +38,7 @@ func Login(helper *helper.Helper) {
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	helper.Out("User logging in with Revival Version ID %v (%s)", request.RevivalVerID, request.Version)
-	if request.Version != "2.1.1" && request.Version != "2.1.0" && request.Version != "2.0.3" && !config.CFile.LegacyCompatibilityMode {
+	if request.Version != "2.1.1" && request.Version != "2.0.3" && !config.CFile.LegacyCompatibilityMode {
 		helper.Out("Version does not match what was expected!")
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
