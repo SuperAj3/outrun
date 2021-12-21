@@ -228,6 +228,14 @@ func (p *Player) IndexOfChara(cid string) int {
 	}
 	return -1
 }
+func (p *Player) HasChara(cid string) bool {
+	for _, char := range p.CharacterState {
+		if char.ID == cid {
+			return true
+		}
+	}
+	return false
+}
 func (p *Player) GetChao(chid string) (Chao, error) {
 	var chao Chao
 	found := false

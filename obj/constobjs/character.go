@@ -217,7 +217,7 @@ var CharacterPSISilver = obj.Character{
 }
 
 var CharacterXMasSonic = obj.Character{
-	strconv.Itoa(enums.CharaTypeXMasSonic),
+	enums.CTStrXMasSonic,
 	30000,
 	NumRedRings,
 	1200000, // used for limit breaking
@@ -225,7 +225,7 @@ var CharacterXMasSonic = obj.Character{
 }
 
 var CharacterXMasTails = obj.Character{
-	strconv.Itoa(enums.CharaTypeXMasTails),
+	enums.CTStrXMasTails,
 	30000,
 	NumRedRings,
 	1200000, // used for limit breaking
@@ -233,7 +233,7 @@ var CharacterXMasTails = obj.Character{
 }
 
 var CharacterXMasKnuckles = obj.Character{
-	strconv.Itoa(enums.CharaTypeXMasKnuckles),
+	enums.CTStrXMasKnuckles,
 	30000,
 	NumRedRings,
 	1200000, // used for limit breaking
