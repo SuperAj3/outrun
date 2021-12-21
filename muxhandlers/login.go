@@ -50,7 +50,7 @@ func Login(helper *helper.Helper) {
 	}
 	if uid == "0" && password == "" {
 		helper.Out("Entering LoginAlpha")
-		if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode || request.Version == "2.1.0" && !config.CFile.LegacyCompatibilityMode {
+		if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				0,
@@ -104,7 +104,7 @@ func Login(helper *helper.Helper) {
 			helper.InternalErr("Error getting player", err)
 			return
 		}
-		if request.RevivalVerID == 0 && !config.CFile.LegacyCompatibilityMode {
+		if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				player.PlayerState.NumRedRings,
@@ -143,7 +143,7 @@ func Login(helper *helper.Helper) {
 		if request.Password == logic.GenerateLoginPasskey(player) {
 			baseInfo.StatusCode = status.OK
 			baseInfo.SetErrorMessage(emess.OK)
-			if request.RevivalVerID == 0 && !config.CFile.LegacyCompatibilityMode {
+			if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
 				baseInfo.StatusCode = status.ServerNextVersion
 				err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 					player.PlayerState.NumRedRings,
@@ -196,7 +196,7 @@ func Login(helper *helper.Helper) {
 
 func LoginNextVersion(helper *helper.Helper) {
 	baseInfo := helper.BaseInfo(emess.OK, status.ServerNextVersion)
-	// Please update this message for any future versions of Sonic Runners Revival as they come!
+	// TODO: can we please not have this message hardcoded?
 	err := helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 		0,
 		0,

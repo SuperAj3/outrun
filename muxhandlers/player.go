@@ -115,7 +115,11 @@ func GetCharacterState(helper *helper.Helper) {
 	}
 	charindex = player.IndexOfChara(enums.CTStrXMasKnuckles)
 	if charindex == -1 {
-	player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles))
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles))
+	}
+
+	if strconv.Itoa(enums.CharaTypeXMasSonic) != enums.CTStrXMasSonic {
+		helper.Warn("Enum is wrong! Defined type for Xmas Sonic: %s (int) != %s (str)", strconv.Itoa(enums.CharaTypeXMasSonic), enums.CTStrXMasSonic)
 	}
 	err = db.SavePlayer(player)
 	if err != nil {
