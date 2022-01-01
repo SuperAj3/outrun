@@ -59,6 +59,7 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		messages,
 		operatorMessages,
 		loginBonusState,
+		false,
 	}
 }
 
