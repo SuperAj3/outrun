@@ -36,7 +36,7 @@ type Player struct {
 	InRun             bool                        `json:"inRun"`
 }
 
-func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState) Player {
+func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, inRun bool) Player {
 	return Player{
 		id,
 		username,
@@ -59,7 +59,7 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		messages,
 		operatorMessages,
 		loginBonusState,
-		false,
+		inRun,
 	}
 }
 
