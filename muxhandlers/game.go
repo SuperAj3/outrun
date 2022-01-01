@@ -167,6 +167,7 @@ func QuickActStart(helper *helper.Helper) {
 		helper.InternalErr("Error sending response", err)
 		return
 	}
+	player.InRun = true
 	err = db.SavePlayer(player)
 	if err != nil {
 		helper.InternalErr("Error saving player", err)
@@ -257,6 +258,7 @@ func ActStart(helper *helper.Helper) {
 		helper.InternalErr("Error sending response", err)
 		return
 	}
+	player.InRun = true
 	err = db.SavePlayer(player)
 	if err != nil {
 		helper.InternalErr("Error saving player", err)
@@ -274,6 +276,13 @@ func ActRetry(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
+
+	if !player.InRun {
+		helper.Out("Player is not in a run!")
+		helper.InvalidRequest()
+		return
+	}
+
 	redRingContinuePrice := 3
 	// TODO: Add campaign support
 	responseStatus := status.OK
@@ -315,6 +324,14 @@ func QuickPostGameResults(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
+
+	if !player.InRun {
+		helper.Out("Player is not in a run!")
+		helper.InvalidRequest()
+		return
+	}
+
+	player.InRun = false
 
 	//update energy counter
 	for time.Now().UTC().Unix() >= player.PlayerState.EnergyRenewsAt && player.PlayerState.Energy < player.PlayerVarious.EnergyRecoveryMax {
@@ -558,6 +575,14 @@ func PostGameResults(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
+
+	if !player.InRun {
+		helper.Out("Player is not in a run!")
+		helper.InvalidRequest()
+		return
+	}
+
+	player.InRun = false
 
 	//update energy counter
 	for time.Now().UTC().Unix() >= player.PlayerState.EnergyRenewsAt && player.PlayerState.Energy < player.PlayerVarious.EnergyRecoveryMax {

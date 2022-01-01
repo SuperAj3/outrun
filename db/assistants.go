@@ -93,6 +93,7 @@ func NewAccountWithID(uid string) netobj.Player {
 		messages,
 		operatorMessages,
 		loginBonusState,
+		false,
 	)
 }
 

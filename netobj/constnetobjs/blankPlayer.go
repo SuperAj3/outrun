@@ -83,5 +83,6 @@ var BlankPlayer = func() netobj.Player {
 		messages,
 		operatorMessages,
 		loginBonusState,
+		false,
 	)
 }() // TODO: Solve duplication requirement with db/assistants.go

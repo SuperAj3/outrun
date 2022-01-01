@@ -33,6 +33,7 @@ type Player struct {
 	Messages          []obj.Message               `json:"messageList"`
 	OperatorMessages  []obj.OperatorMessage       `json:"operatorMessageList"`
 	LoginBonusState   LoginBonusState             `json:"loginBonusState"`
+	InRun             bool                        `json:"inRun"`
 }
 
 func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState) Player {
