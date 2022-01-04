@@ -364,8 +364,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 		if player.PlayerState.NumRings >= 2147483647 { // Client uses Int32 for Ring count
 			helper.Out("Player reached maximum Ring count! Cannot add any more Rings!")
 			return
-		}
-		else {
+		} else {
 			player.PlayerState.NumRings += request.Rings
 		}
 		player.PlayerState.NumRedRings += request.RedRings
@@ -660,8 +659,7 @@ func PostGameResults(helper *helper.Helper) {
 		if player.PlayerState.NumRings >= 2147483647 { // Client uses Int32 for Ring count
 			helper.Out("Player reached maximum Ring count! Cannot add any more Rings!")
 			return
-		}
-		else {
+		} else {
 			player.PlayerState.NumRings += request.Rings
 		}
 		player.PlayerState.NumRedRings += request.RedRings
