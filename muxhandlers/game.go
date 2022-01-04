@@ -361,7 +361,13 @@ func QuickPostGameResults(helper *helper.Helper) {
 		}
 	}
 	if request.Closed == 0 { // If the game wasn't exited out of
-		player.PlayerState.NumRings += request.Rings
+		if player.PlayerState.NumRings >= 2147483647 { // Client uses Int32 for Ring count
+			helper.Out("Player reached maximum Ring count! Cannot add any more Rings!")
+			return
+		}
+		else {
+			player.PlayerState.NumRings += request.Rings
+		}
 		player.PlayerState.NumRedRings += request.RedRings
 		//player.PlayerState.NumRouletteTicket += request.RedRings // TODO: URGENT! Remove as soon as possible!
 		player.PlayerState.Animals += request.Animals
@@ -651,7 +657,13 @@ func PostGameResults(helper *helper.Helper) {
 		oldRewardEpisode = player.MileageMapState.Episode
 		oldRewardChapter = player.MileageMapState.Chapter
 		oldRewardPoint = player.MileageMapState.Point
-		player.PlayerState.NumRings += request.Rings
+		if player.PlayerState.NumRings >= 2147483647 { // Client uses Int32 for Ring count
+			helper.Out("Player reached maximum Ring count! Cannot add any more Rings!")
+			return
+		}
+		else {
+			player.PlayerState.NumRings += request.Rings
+		}
 		player.PlayerState.NumRedRings += request.RedRings
 		player.PlayerState.NumRouletteTicket += request.RedRings // TODO: URGENT! Remove as soon as possible!
 		player.PlayerState.Animals += request.Animals
