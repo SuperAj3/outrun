@@ -361,9 +361,17 @@ func QuickPostGameResults(helper *helper.Helper) {
 		}
 	}
 	if request.Closed == 0 { // If the game wasn't exited out of
-		if player.PlayerState.NumRings >= 2147483647 { // Client uses Int32 for Ring count
-			helper.Out("Player reached maximum Ring count! Cannot add any more Rings!")
-		} else {
+		var finalRingCount int64 = player.PlayerState.NumRings + request.Rings
+		const maxRingValue = 2147483647 // int32 maximum value
+		if finalRingCount >= maxRingValue {
+			// Find how many Rings it will take to hit max, and only add those to prevent overflows
+			var ringsOverMax int64 = finalRingCount - maxRingValue
+			var ringsToSafelyAdd int64 = request.Rings - ringsOverMax
+			helper.Out("Player will reach maximum Ring count; only adding enough Rings to hit max!")
+			player.PlayerState.NumRings += ringsToSafelyAdd
+		} else if player.PlayerState.NumRings == maxRingValue {
+			helper.Out("Player has the maximum amount of Rings; cannot add any more!")
+		} else { 
 			player.PlayerState.NumRings += request.Rings
 		}
 		player.PlayerState.NumRedRings += request.RedRings
@@ -655,9 +663,17 @@ func PostGameResults(helper *helper.Helper) {
 		oldRewardEpisode = player.MileageMapState.Episode
 		oldRewardChapter = player.MileageMapState.Chapter
 		oldRewardPoint = player.MileageMapState.Point
-		if player.PlayerState.NumRings >= 2147483647 { // Client uses Int32 for Ring count
-			helper.Out("Player reached maximum Ring count! Cannot add any more Rings!")
-		} else {
+		var finalRingCount int64 = player.PlayerState.NumRings + request.Rings
+		const maxRingValue = 2147483647 // int32 maximum value
+		if finalRingCount >= maxRingValue {
+			// Find how many Rings it will take to hit max, and only add those to prevent overflows
+			var ringsOverMax int64 = finalRingCount - maxRingValue
+			var ringsToSafelyAdd int64 = request.Rings - ringsOverMax
+			helper.Out("Player will reach maximum Ring count; only adding enough Rings to hit max!")
+			player.PlayerState.NumRings += ringsToSafelyAdd
+		} else if player.PlayerState.NumRings == maxRingValue {
+			helper.Out("Player has the maximum amount of Rings; cannot add any more!")
+		} else { 
 			player.PlayerState.NumRings += request.Rings
 		}
 		player.PlayerState.NumRedRings += request.RedRings
