@@ -367,10 +367,12 @@ func QuickPostGameResults(helper *helper.Helper) {
 			// Find how many Rings it will take to hit max, and only add those to prevent overflows
 			var ringsOverMax int64 = finalRingCount - maxRingValue
 			var ringsToSafelyAdd int64 = request.Rings - ringsOverMax
-			helper.Out("Player will reach maximum Ring count; only adding enough Rings to hit max!")
-			player.PlayerState.NumRings += ringsToSafelyAdd
-		} else if player.PlayerState.NumRings == maxRingValue {
-			helper.Out("Player has the maximum amount of Rings; cannot add any more!")
+			if player.PlayerState.NumRings == maxRingValue {
+				helper.Out("Player has the maximum amount of Rings; cannot add any more!")
+			} else {
+				helper.Out("Player will reach maximum Ring count; only adding enough Rings to hit max!")
+				player.PlayerState.NumRings += ringsToSafelyAdd
+			}
 		} else { 
 			player.PlayerState.NumRings += request.Rings
 		}
@@ -669,10 +671,12 @@ func PostGameResults(helper *helper.Helper) {
 			// Find how many Rings it will take to hit max, and only add those to prevent overflows
 			var ringsOverMax int64 = finalRingCount - maxRingValue
 			var ringsToSafelyAdd int64 = request.Rings - ringsOverMax
-			helper.Out("Player will reach maximum Ring count; only adding enough Rings to hit max!")
-			player.PlayerState.NumRings += ringsToSafelyAdd
-		} else if player.PlayerState.NumRings == maxRingValue {
-			helper.Out("Player has the maximum amount of Rings; cannot add any more!")
+			if player.PlayerState.NumRings == maxRingValue {
+				helper.Out("Player has the maximum amount of Rings; cannot add any more!")
+			} else {
+				helper.Out("Player will reach maximum Ring count; only adding enough Rings to hit max!")
+				player.PlayerState.NumRings += ringsToSafelyAdd
+			}
 		} else { 
 			player.PlayerState.NumRings += request.Rings
 		}
