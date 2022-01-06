@@ -1,4 +1,4 @@
-module github.com/fluofoxxo/outrun
+module github.com/Mtbcooler/outrun
 
 go 1.17
 
