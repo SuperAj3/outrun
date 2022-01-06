@@ -35,7 +35,7 @@ Functional:
 
 ### Building
 
-1. [Download and install Go 1.15.8](https://golang.org/dl/) (**NOTE:** Go 1.16+ currently break the ability to build some or all of Outrun, such as RPC programs. A fix will be deployed whenever one is available.)
+1. [Download and install Go 1.15.8](https://golang.org/dl/)
 2. [Download and install Git](https://git-scm.com/downloads) (for `go get`)
 3. Set your [GOPATH](https://github.com/golang/go/wiki/SettingGOPATH) environment variable
 4. Open a terminal/command prompt
