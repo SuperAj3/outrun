@@ -17,13 +17,13 @@ type QuickPostGameResultsRequest struct {
 
 type PostGameResultsRequest struct {
 	QuickPostGameResultsRequest
-	BossDestroyed int64  `json:"bossDestroyed"`
-	ChapterClear  int64  `json:"chapterClear"`
-	GetChaoEgg    int64  `json:"getChaoEgg"`
-	NumBossAttack int64  `json:"numBossAttack,string"`
-	ReachPoint    int64  `json:"reachPoint,string"`
-	EventID       string `json:"eventId,omitempty"`
-	EventValue    int64  `json:"eventValue,string,omitempty"`
+	BossDestroyed int64 `json:"bossDestroyed"`
+	ChapterClear  int64 `json:"chapterClear"`
+	GetChaoEgg    int64 `json:"getChaoEgg"`
+	NumBossAttack int64 `json:"numBossAttack,string"`
+	ReachPoint    int64 `json:"reachPoint,string"`
+	EventID       int64 `json:"eventId,string,omitempty"`
+	EventValue    int64 `json:"eventValue,string,omitempty"`
 }
 
 type QuickActStartRequest struct {

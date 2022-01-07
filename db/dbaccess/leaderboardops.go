@@ -50,6 +50,8 @@ func GetHighScores(mode, lbtype, offset, limit int64, ownid string, showScoresOf
 		} else {
 			columnToSortBy = "best_total_score"
 		}
+	case 8, 9: // event object score
+		columnToSortBy = "event_param"
 	default:
 		log.Printf("[WARN] Unknown leaderboard type %v", lbtype)
 		columnToSortBy = "high_score"
@@ -182,6 +184,8 @@ func GetLeagueHighScores(mode, lbtype, league, leagueGroup, offset, limit int64,
 		} else {
 			columnToSortBy = "best_total_score"
 		}
+	case 8, 9: // event object score
+		columnToSortBy = "event_param"
 	default:
 		log.Printf("[WARN] Unknown leaderboard type %v", lbtype)
 		columnToSortBy = "high_score"
@@ -237,14 +241,14 @@ func GetLeagueHighScores(mode, lbtype, league, leagueGroup, offset, limit int64,
 				subchaolv = c.Level
 			}
 		}
-		if rverid < 1 { // before 2.0.4
+		/*if rverid < 1 { // before 2.0.4
 			if mainchara == enums.CTStrMarine {
 				mainchara = enums.CTStrTikal
 			}
 			if subchara == enums.CTStrMarine {
 				subchara = enums.CTStrTikal
 			}
-		}
+		}*/
 		currentEntry = obj.NewLeaderboardEntry(
 			uid,
 			username,
@@ -314,6 +318,8 @@ func GetOwnLeaderboardEntry(mode, lbtype int64, ownid string, showScoresOfZero b
 		} else {
 			columnToSortBy = "best_total_score"
 		}
+	case 8, 9: // event object score
+		columnToSortBy = "event_param"
 	default:
 		log.Printf("[WARN] Unknown leaderboard type %v", lbtype)
 		columnToSortBy = "high_score"
@@ -449,6 +455,8 @@ func GetNumOfLeaderboardPlayers(mode, lbtype int64) (int64, error) {
 		} else {
 			hsc = "high_score"
 		}
+	case 8, 9: // event object score
+		hsc = "event_param"
 	default:
 		hsc = "high_score"
 	}
@@ -596,7 +604,7 @@ func ResetAllRankingLeagueData() error {
 func ClearLeagueHighScores() error {
 	CheckIfDBSet()
 	rowsAffected := int64(0)
-	result, err := db.Exec("UPDATE `" + consts.DBMySQLTablePlayerStates + "` SET league_high_score = 0, quick_league_high_score = 0, total_score = 0, quick_total_score = 0")
+	result, err := db.Exec("UPDATE `" + consts.DBMySQLTablePlayerStates + "` SET league_high_score = 0, quick_league_high_score = 0, total_score = 0, quick_total_score = 0, event_param = 0")
 	if err == nil && config.CFile.DebugPrints {
 		rowsAffected, _ = result.RowsAffected()
 		log.Printf("[DEBUG] ClearLeagueHighScores operation completed; %v rows affected\n", rowsAffected)

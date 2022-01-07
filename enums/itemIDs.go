@@ -97,6 +97,11 @@ const (
 )
 
 const (
+	ItemIDRaidbossEnergy = 940000
+	ItemIDRaidbossRing   = 960000
+)
+
+const (
 	ItemIDStrRedRing = "900000"
 	ItemIDStrRing    = "910000"
 )

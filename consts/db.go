@@ -62,45 +62,46 @@ const (
 		subchara_id TEXT NOT NULL,
 		mainchao_id TEXT NOT NULL,
 		subchao_id TEXT NOT NULL,
-		num_rings INTEGER NOT NULL,
-		num_buy_rings INTEGER NOT NULL,
-		num_red_rings INTEGER NOT NULL,
-		num_buy_red_rings INTEGER NOT NULL,
-		energy INTEGER NOT NULL,
-		energy_buy INTEGER NOT NULL,
-		energy_renews_at BIGINT NOT NULL,
-		num_messages INTEGER NOT NULL,
-		ranking_league INTEGER NOT NULL,
-		quick_ranking_league INTEGER NOT NULL,
-		num_roulette_ticket INTEGER NOT NULL,
-		num_chao_roulette_ticket INTEGER NOT NULL,
-		chao_eggs INTEGER NOT NULL,
-		high_score BIGINT NOT NULL,
-		quick_high_score BIGINT NOT NULL,
+		num_rings INTEGER NOT NULL DEFAULT '0',
+		num_buy_rings INTEGER NOT NULL DEFAULT '0',
+		num_red_rings INTEGER NOT NULL DEFAULT '0',
+		num_buy_red_rings INTEGER NOT NULL DEFAULT '0',
+		energy INTEGER NOT NULL DEFAULT '0',
+		energy_buy INTEGER NOT NULL DEFAULT '0',
+		energy_renews_at BIGINT NOT NULL DEFAULT '0',
+		num_messages INTEGER NOT NULL DEFAULT '0',
+		ranking_league INTEGER NOT NULL DEFAULT '0',
+		quick_ranking_league INTEGER NOT NULL DEFAULT '0',
+		num_roulette_ticket INTEGER NOT NULL DEFAULT '0',
+		num_chao_roulette_ticket INTEGER NOT NULL DEFAULT '0',
+		chao_eggs INTEGER NOT NULL DEFAULT '0',
+		high_score BIGINT NOT NULL DEFAULT '0',
+		quick_high_score BIGINT NOT NULL DEFAULT '0',
 		total_distance BIGINT NOT NULL,
 		best_distance BIGINT NOT NULL,
-		daily_mission_id INTEGER UNSIGNED NOT NULL,
-		daily_mission_end_time BIGINT NOT NULL,
+		daily_mission_id INTEGER UNSIGNED NOT NULL DEFAULT '0',
+		daily_mission_end_time BIGINT NOT NULL DEFAULT '0',
 		daily_challenge_value INTEGER,
-		daily_challenge_complete TINYINT UNSIGNED NOT NULL,
-		num_daily_chal_cont INTEGER NOT NULL,
-		num_plays INTEGER NOT NULL,
-		num_animals INTEGER NOT NULL,
-		rank INTEGER UNSIGNED NOT NULL,
-		dm_cat INTEGER NOT NULL,
-		dm_set INTEGER NOT NULL,
-		dm_pos INTEGER NOT NULL,
-		dm_nextcont INTEGER NOT NULL,
-		league_high_score BIGINT NOT NULL,
-		quick_league_high_score BIGINT NOT NULL,
+		daily_challenge_complete TINYINT UNSIGNED NOT NULL DEFAULT '0',
+		num_daily_chal_cont INTEGER NOT NULL DEFAULT '0',
+		num_plays INTEGER NOT NULL DEFAULT '0',
+		num_animals INTEGER NOT NULL DEFAULT '0',
+		rank INTEGER UNSIGNED NOT NULL DEFAULT '0',
+		dm_cat INTEGER NOT NULL DEFAULT '0',
+		dm_set INTEGER NOT NULL DEFAULT '0',
+		dm_pos INTEGER NOT NULL DEFAULT '0',
+		dm_nextcont INTEGER NOT NULL DEFAULT '0',
+		league_high_score BIGINT NOT NULL DEFAULT '0',
+		quick_league_high_score BIGINT NOT NULL DEFAULT '0',
 		league_start_time BIGINT NOT NULL,
 		league_reset_time BIGINT NOT NULL,
 		ranking_league_group INTEGER NOT NULL,
 		quick_ranking_league_group INTEGER NOT NULL,
-		total_score BIGINT NOT NULL,
-		quick_total_score BIGINT NOT NULL,
-		best_total_score BIGINT NOT NULL,
-		best_quick_total_score BIGINT NOT NULL,
+		total_score BIGINT NOT NULL DEFAULT '0',
+		quick_total_score BIGINT NOT NULL DEFAULT '0',
+		best_total_score BIGINT NOT NULL DEFAULT '0',
+		best_quick_total_score BIGINT NOT NULL DEFAULT '0',
+		event_param BIGINT NOT NULL DEFAULT '0',
 		PRIMARY KEY (id)
 	) ENGINE = InnoDB;`
 	SQLMileageMapStatesSchema = `
@@ -184,12 +185,12 @@ const (
 		param TEXT,
 		PRIMARY KEY (uid, id)
 	) ENGINE = InnoDB;`
-	SQLEventStatesSchema = `
+	/*SQLEventStatesSchema = `
 	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableEventStates + ` (
 		uid BIGINT UNSIGNED NOT NULL,
 		param INTEGER NOT NULL,
 		PRIMARY KEY (uid)
-	) ENGINE = InnoDB;`
+	) ENGINE = InnoDB;`*/
 	SQLGameResultsSchema = `
 	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableGameResults + ` (
 		gameid BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -294,7 +295,8 @@ const (
 		total_score,
 		quick_total_score,
 		best_total_score,
-		best_quick_total_score
+		best_quick_total_score,
+		event_param
 	)
 	VALUES (
 		:id,
@@ -342,6 +344,7 @@ const (
 		:total_score,
 		:quick_total_score,
 		:best_total_score,
-		:best_quick_total_score
+		:best_quick_total_score,
+		:event_param
 	)`
 )

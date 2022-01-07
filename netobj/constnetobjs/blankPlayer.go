@@ -63,6 +63,8 @@ var BlankPlayer = func() netobj.Player {
 	operatorMessages := []obj.OperatorMessage{}
 	loginBonusState := netobj.DefaultLoginBonusState(0)
 	language := int64(enums.LangEnglish)
+	eventState := netobj.DefaultEventState()
+	eventUserRaidbossState := netobj.DefaultUserRaidbossState()
 	suspendedUntil := int64(0)
 	suspendReason := int64(0)
 	lastLoginDevice := ""
@@ -90,6 +92,8 @@ var BlankPlayer = func() netobj.Player {
 		messages,
 		operatorMessages,
 		loginBonusState,
+		eventState,
+		eventUserRaidbossState,
 		suspendedUntil,
 		suspendReason,
 		lastLoginDevice,

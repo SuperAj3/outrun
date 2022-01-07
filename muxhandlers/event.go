@@ -3,8 +3,6 @@ package muxhandlers
 import (
 	"encoding/json"
 
-	"github.com/Mtbcooler/outrun/netobj"
-
 	"github.com/Mtbcooler/outrun/config/eventconf"
 	"github.com/Mtbcooler/outrun/db"
 	"github.com/Mtbcooler/outrun/emess"
@@ -70,15 +68,25 @@ func GetEventReward(helper *helper.Helper) {
 }
 
 func GetEventState(helper *helper.Helper) {
+	sid, _ := helper.GetSessionID()
+	if !helper.CheckSession(true) {
+		return
+	}
+	player, err := helper.GetCallingPlayer()
+	if err != nil {
+		helper.InternalErr("Error getting calling player", err)
+		return
+	}
 	recv := helper.GetGameRequest()
 	var request requests.GenericEventRequest
-	err := json.Unmarshal(recv, &request)
+	err = json.Unmarshal(recv, &request)
 	if err != nil {
 		helper.Err("Error unmarshalling", err)
 		return
 	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	response := responses.EventState(baseInfo, netobj.DefaultEventState())
+	response := responses.EventState(baseInfo, player.EventState)
+	response.Seq, _ = db.BoltGetSessionIDSeq(sid)
 	err = helper.SendResponse(response)
 	if err != nil {
 		helper.InternalErr("Error sending response", err)

@@ -508,8 +508,8 @@ func QuickPostGameResults(helper *helper.Helper) {
 					lvupCharacters[0].AbilityLevel[abilityIndex]++                          // increase ability level
 					lvupCharacters[0].Exp -= lvupCharacters[0].Cost                         // remove cost from exp
 					lvupCharacters[0].Cost += consts.UpgradeIncreases[lvupCharacters[0].ID] // increase cost
-					playCharacters[0].AbilityLevelUp = append(playCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
-					playCharacters[0].AbilityLevelUpExp = append(playCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
+					//playCharacters[0].AbilityLevelUp = append(playCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
+					//playCharacters[0].AbilityLevelUpExp = append(playCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
 					lvupCharacters[0].AbilityLevelUp = append(lvupCharacters[0].AbilityLevelUp, int64(abilityIndex-1))
 					lvupCharacters[0].AbilityLevelUpExp = append(lvupCharacters[0].AbilityLevelUpExp, lvupCharacters[0].Cost)
 				} else {
@@ -557,8 +557,8 @@ func QuickPostGameResults(helper *helper.Helper) {
 						lvupCharacters[1].AbilityLevel[abilityIndex]++                          // increase ability level
 						lvupCharacters[1].Exp -= lvupCharacters[1].Cost                         // remove cost from exp
 						lvupCharacters[1].Cost += consts.UpgradeIncreases[lvupCharacters[1].ID] // increase cost
-						playCharacters[1].AbilityLevelUp = append(playCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
-						playCharacters[1].AbilityLevelUpExp = append(playCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
+						//playCharacters[1].AbilityLevelUp = append(playCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
+						//playCharacters[1].AbilityLevelUpExp = append(playCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
 						lvupCharacters[1].AbilityLevelUp = append(lvupCharacters[1].AbilityLevelUp, int64(abilityIndex-1))
 						lvupCharacters[1].AbilityLevelUpExp = append(lvupCharacters[1].AbilityLevelUpExp, lvupCharacters[1].Cost)
 					} else {
@@ -943,114 +943,126 @@ func PostGameResults(helper *helper.Helper) {
 			helper.DebugOut("New subC Level: %v", lvupCharacters[1].Level)
 		}
 
-		player.MileageMapState.StageTotalScore += request.Score
-		player.MileageMapState.StageDistance += request.Distance
-		if request.Score > player.MileageMapState.StageMaxScore {
-			player.MileageMapState.StageMaxScore = request.Score
-		}
-
-		goToNextChapter := request.ChapterClear == 1
-
-		player.MileageMapState.NumBossAttack = request.NumBossAttack // TODO: This is guesswork! See if this is correct behavior!
-
-		chaoEggs := request.GetChaoEgg
-		player.PlayerState.ChaoEggs += chaoEggs
-		if chaoEggs > 0 || player.PlayerState.ChaoEggs >= 10 {
-			player.ChaoRouletteGroup.ChaoWheelOptions = netobj.DefaultChaoWheelOptions(player.PlayerState) // create a new wheel
-			if player.PlayerState.ChaoEggs >= 10 {
-				player.PlayerState.ChaoEggs = 10
+		doStoryProgression := true
+		if request.EventID != 0 { // Is this an event stage?
+			if strconv.Itoa(int(request.EventID))[1:] == "1" || strconv.Itoa(int(request.EventID))[1:] == "2" {
+				// This is a special stage; don't do story progression since it'll screw with the current point.
+				doStoryProgression = false
 			}
+			helper.DebugOut("Event ID: %v", request.EventID)
+			helper.DebugOut("Player got %v event object(s)", request.EventValue)
+			player.EventState.Param += request.EventValue
+			//TODO: Send rewards to gift box
 		}
+		if doStoryProgression {
+			player.MileageMapState.StageTotalScore += request.Score
+			player.MileageMapState.StageDistance += request.Distance
+			if request.Score > player.MileageMapState.StageMaxScore {
+				player.MileageMapState.StageMaxScore = request.Score
+			}
 
-		// TODO: Add chao eggs to player
-		newPoint := request.ReachPoint
+			goToNextChapter := request.ChapterClear == 1
 
-		goToNextEpisode := true
-		if goToNextChapter {
-			helper.DebugOut("Chapter has been cleared")
-			maxChapters, episodeHasMultipleChapters := consts.EpisodeWithChapters[player.MileageMapState.Episode]
-			if episodeHasMultipleChapters {
-				goToNextEpisode = false
-				player.MileageMapState.Chapter++
-				if player.MileageMapState.Chapter > maxChapters {
-					// there's no more chapters for this episode!
-					goToNextEpisode = true
+			player.MileageMapState.NumBossAttack = request.NumBossAttack // TODO: This is guesswork! See if this is correct behavior!
+
+			chaoEggs := request.GetChaoEgg
+			player.PlayerState.ChaoEggs += chaoEggs
+			if chaoEggs > 0 || player.PlayerState.ChaoEggs >= 10 {
+				player.ChaoRouletteGroup.ChaoWheelOptions = netobj.DefaultChaoWheelOptions(player.PlayerState) // create a new wheel
+				if player.PlayerState.ChaoEggs >= 10 {
+					player.PlayerState.ChaoEggs = 10
 				}
 			}
-			if goToNextEpisode {
-				player.MileageMapState.Episode++
-				player.MileageMapState.Chapter = 1
-				helper.DebugOut("goToNextEpisode -> Episode: %v", player.MileageMapState.Episode)
-				if config.CFile.Debug {
-					//player.MileageMapState.Episode = 11
-				}
-			}
-			player.MileageMapState.Point = 0
-			player.MileageMapState.StageMaxScore = 0
-			player.MileageMapState.StageTotalScore = 0
-			player.MileageMapState.StageDistance = 0
-			player.MileageMapState.ChapterStartTime = time.Now().Unix()
-			player.PlayerState.Rank++
-			if player.PlayerState.Rank > 998 { // don't let rank go up past 999
-				player.PlayerState.Rank = 998
-			}
-			if player.PlayerState.Energy < player.PlayerVarious.EnergyRecoveryMax {
-				player.PlayerState.Energy = player.PlayerVarious.EnergyRecoveryMax //restore energy
-			}
-		} else {
-			helper.DebugOut("Chapter has NOT been cleared")
-			player.MileageMapState.Point = newPoint
-		}
-		newRewardEpisode = player.MileageMapState.Episode
-		newRewardChapter = player.MileageMapState.Chapter
-		newRewardPoint = player.MileageMapState.Point
-		// add rewards to PlayerState
-		wonRewards := campaign.GetWonRewards(oldRewardEpisode, oldRewardChapter, oldRewardPoint, newRewardEpisode, newRewardChapter, newRewardPoint)
-		helper.DebugOut("wonRewards length: %v", wonRewards)
-		helper.DebugOut("Previous red rings: %v", player.PlayerState.NumRings)
-		helper.DebugOut("Previous rings: %v", player.PlayerState.NumRings)
-		newItems := player.PlayerState.Items
-		for _, reward := range wonRewards { // TODO: This is O(n^2). Maybe alleviate this?
-			helper.DebugOut("Reward: %s", reward.ItemID)
-			helper.DebugOut("Reward amount: %v", reward.NumItem)
-			if reward.ItemID[:2] == "12" { // ID is an item
-				// check if the item is already in the player's inventory
-				itemIndex := player.IndexOfItem(reward.ItemID)
-				if itemIndex != -1 {
-					player.PlayerState.Items[itemIndex].Amount += reward.NumItem
-					if player.PlayerState.Items[itemIndex].Amount > 99 {
-						helper.DebugOut("item amount is maxed out!")
-						player.PlayerState.Items[itemIndex].Amount = 99
+
+			// TODO: Add chao eggs to player
+			newPoint := request.ReachPoint
+
+			goToNextEpisode := true
+			if goToNextChapter {
+				helper.DebugOut("Chapter has been cleared")
+				maxChapters, episodeHasMultipleChapters := consts.EpisodeWithChapters[player.MileageMapState.Episode]
+				if episodeHasMultipleChapters {
+					goToNextEpisode = false
+					player.MileageMapState.Chapter++
+					if player.MileageMapState.Chapter > maxChapters {
+						// there's no more chapters for this episode!
+						goToNextEpisode = true
 					}
-				} else {
-					helper.Warn("Unknown item reward '%s'", reward.ItemID)
 				}
-			} else if reward.ItemID == strconv.Itoa(enums.ItemIDRing) { // Rings
-				player.PlayerState.NumRings += reward.NumItem
-			} else if reward.ItemID == strconv.Itoa(enums.ItemIDRedRing) { // Red rings
-				player.PlayerState.NumRedRings += reward.NumItem
-			} else if reward.ItemID == enums.CTStrTails { // Tails node
-				tailsIndex := player.IndexOfChara(enums.CTStrTails)
-				player.CharacterState[tailsIndex].Status = enums.CharacterStatusUnlocked
-			} else if reward.ItemID == enums.CTStrKnuckles { // Knuckles node
-				knucklesIndex := player.IndexOfChara(enums.CTStrKnuckles)
-				player.CharacterState[knucklesIndex].Status = enums.CharacterStatusUnlocked
+				if goToNextEpisode {
+					player.MileageMapState.Episode++
+					player.MileageMapState.Chapter = 1
+					helper.DebugOut("goToNextEpisode -> Episode: %v", player.MileageMapState.Episode)
+					if config.CFile.Debug {
+						//player.MileageMapState.Episode = 11
+					}
+				}
+				player.MileageMapState.Point = 0
+				player.MileageMapState.StageMaxScore = 0
+				player.MileageMapState.StageTotalScore = 0
+				player.MileageMapState.StageDistance = 0
+				player.MileageMapState.ChapterStartTime = time.Now().Unix()
+				player.PlayerState.Rank++
+				if player.PlayerState.Rank > 998 { // don't let rank go up past 999
+					player.PlayerState.Rank = 998
+				}
+				if player.PlayerState.Energy < player.PlayerVarious.EnergyRecoveryMax {
+					player.PlayerState.Energy = player.PlayerVarious.EnergyRecoveryMax //restore energy
+				}
 			} else {
-				helper.Warn("Unknown reward '%s', ignoring", reward.ItemID)
+				helper.DebugOut("Chapter has NOT been cleared")
+				player.MileageMapState.Point = newPoint
 			}
-			// TODO: allow for any character joining the cast, as well as possibly chao? (no story mode episodes currently do this, but maybe for new episodes in future updates?)
-		}
-		helper.DebugOut("Current rings: %v", player.PlayerState.NumRings)
-		helper.DebugOut("Current red rings: %v", player.PlayerState.NumRedRings)
-		player.PlayerState.Items = newItems
+			newRewardEpisode = player.MileageMapState.Episode
+			newRewardChapter = player.MileageMapState.Chapter
+			newRewardPoint = player.MileageMapState.Point
+			// add rewards to PlayerState
+			wonRewards := campaign.GetWonRewards(oldRewardEpisode, oldRewardChapter, oldRewardPoint, newRewardEpisode, newRewardChapter, newRewardPoint)
+			helper.DebugOut("wonRewards length: %v", wonRewards)
+			helper.DebugOut("Previous red rings: %v", player.PlayerState.NumRings)
+			helper.DebugOut("Previous rings: %v", player.PlayerState.NumRings)
+			newItems := player.PlayerState.Items
+			for _, reward := range wonRewards { // TODO: This is O(n^2). Maybe alleviate this?
+				helper.DebugOut("Reward: %s", reward.ItemID)
+				helper.DebugOut("Reward amount: %v", reward.NumItem)
+				if reward.ItemID[:2] == "12" { // ID is an item
+					// check if the item is already in the player's inventory
+					itemIndex := player.IndexOfItem(reward.ItemID)
+					if itemIndex != -1 {
+						player.PlayerState.Items[itemIndex].Amount += reward.NumItem
+						if player.PlayerState.Items[itemIndex].Amount > 99 {
+							helper.DebugOut("item amount is maxed out!")
+							player.PlayerState.Items[itemIndex].Amount = 99
+						}
+					} else {
+						helper.Warn("Unknown item reward '%s'", reward.ItemID)
+					}
+				} else if reward.ItemID == strconv.Itoa(enums.ItemIDRing) { // Rings
+					player.PlayerState.NumRings += reward.NumItem
+				} else if reward.ItemID == strconv.Itoa(enums.ItemIDRedRing) { // Red rings
+					player.PlayerState.NumRedRings += reward.NumItem
+				} else if reward.ItemID == enums.CTStrTails { // Tails node
+					tailsIndex := player.IndexOfChara(enums.CTStrTails)
+					player.CharacterState[tailsIndex].Status = enums.CharacterStatusUnlocked
+				} else if reward.ItemID == enums.CTStrKnuckles { // Knuckles node
+					knucklesIndex := player.IndexOfChara(enums.CTStrKnuckles)
+					player.CharacterState[knucklesIndex].Status = enums.CharacterStatusUnlocked
+				} else {
+					helper.Warn("Unknown reward '%s', ignoring", reward.ItemID)
+				}
+				// TODO: allow for any character joining the cast, as well as possibly chao? (no story mode episodes currently do this, but maybe for new episodes in future updates?)
+			}
+			helper.DebugOut("Current rings: %v", player.PlayerState.NumRings)
+			helper.DebugOut("Current red rings: %v", player.PlayerState.NumRedRings)
+			player.PlayerState.Items = newItems
 
-		if player.MileageMapState.Episode > 50 { // if beat game, reset to 50-1
-			player.MileageMapState.Episode = 50
-			player.MileageMapState.Chapter = 1
-			helper.DebugOut("goToNextEpisode: Player (%s) beat the game!", player.ID)
+			if player.MileageMapState.Episode > 50 { // if beat game, reset to 50-1
+				player.MileageMapState.Episode = 50
+				player.MileageMapState.Chapter = 1
+				helper.DebugOut("goToNextEpisode: Player (%s) beat the game!", player.ID)
+			}
 		}
 	}
-
 	helper.DebugOut("Chapter: %v", player.MileageMapState.Chapter)
 	helper.DebugOut("Episode: %v", player.MileageMapState.Episode)
 	helper.DebugOut("StageTotalScore: %v", player.MileageMapState.StageTotalScore)
@@ -1106,9 +1118,7 @@ func PostGameResults(helper *helper.Helper) {
 		helper.DebugOut("Sent playCharacters[1] Ability Level ups: %v", playCharacters[1].AbilityLevelUp)
 		helper.DebugOut("Sent playCharacters[1] Ability Level up costs: %v", playCharacters[1].AbilityLevelUpExp)
 	}
-	if len(request.EventID) > 0 {
-		helper.DebugOut("Event ID: %s", request.EventID)
-		helper.DebugOut("Event Value: %v", request.EventValue)
+	if request.EventID > 0 {
 		err = helper.SendResponse(eresponse)
 	} else {
 		err = helper.SendResponse(response)

@@ -114,11 +114,18 @@ type SqlCompatiblePlayerState struct {
 	TimedTotalScore         int64  `json:"quickTotalScore,string" db:"quick_total_score"`
 	HighTotalScore          int64  `json:"bestTotalScore,string" db:"best_total_score"`
 	TimedHighTotalScore     int64  `json:"bestQuickTotalScore,string" db:"best_quick_total_score"`
+	EventParam              int64  `json:"eventParam,string" db:"event_param"`
 }
 
-func PlayerStateToSQLCompatiblePlayerState(ps PlayerState) SqlCompatiblePlayerState {
-	items, _ := json.Marshal(ps.Items)
-	equippeditems, _ := json.Marshal(ps.EquippedItemIDs)
+func PlayerStateToSQLCompatiblePlayerState(ps PlayerState, ep int64) SqlCompatiblePlayerState {
+	items, err := json.Marshal(ps.Items)
+	if err != nil {
+		panic(err)
+	}
+	equippeditems, err := json.Marshal(ps.EquippedItemIDs)
+	if err != nil {
+		panic(err)
+	}
 	return SqlCompatiblePlayerState{
 		0,
 		items,
@@ -166,6 +173,7 @@ func PlayerStateToSQLCompatiblePlayerState(ps PlayerState) SqlCompatiblePlayerSt
 		ps.TimedTotalScore,
 		ps.HighTotalScore,
 		ps.TimedHighTotalScore,
+		ep,
 	}
 }
 

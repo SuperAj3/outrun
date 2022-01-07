@@ -75,6 +75,8 @@ func NewAccountWithID(uid string) netobj.Player {
 	operatorMessages := []obj.OperatorMessage{}
 	loginBonusState := netobj.DefaultLoginBonusState(0)
 	language := int64(enums.LangEnglish)
+	eventState := netobj.DefaultEventState()
+	eventUserRaidbossState := netobj.DefaultUserRaidbossState()
 	suspendedUntil := int64(0)
 	suspendReason := int64(0)
 	lastLoginDevice := ""
@@ -102,6 +104,8 @@ func NewAccountWithID(uid string) netobj.Player {
 		messages,
 		operatorMessages,
 		loginBonusState,
+		eventState,
+		eventUserRaidbossState,
 		suspendedUntil,
 		suspendReason,
 		lastLoginDevice,
@@ -173,6 +177,10 @@ func SavePlayer(player netobj.Player) error {
 		return err
 	}
 	err = dbaccess.SetLastWheelOptions(consts.DBMySQLTableLastWheelOptions, player.ID, player.LastWheelOptions)
+	if err != nil {
+		return err
+	}
+	err = dbaccess.SetEventState(consts.DBMySQLTablePlayerStates, player.ID, player.EventState)
 	return err
 	// TODO: Add in the rest of the saving!
 }

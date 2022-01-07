@@ -68,7 +68,11 @@ func SetPlayerInfo(table, id string, value netobj.PlayerInfo) error {
 
 func SetPlayerState(table, id string, value netobj.PlayerState) error {
 	CheckIfDBSet()
-	sqldata := netobj.PlayerStateToSQLCompatiblePlayerState(value)
+	ep, err := GetEventParam(id)
+	if err != nil {
+		return err
+	}
+	sqldata := netobj.PlayerStateToSQLCompatiblePlayerState(value, ep)
 	result, err := db.NamedExec("REPLACE INTO `"+table+"` "+strings.Replace(consts.SQLPlayerStatesInsertTypeSchema, ":id", id, 1), sqldata)
 	if err == nil && config.CFile.DebugPrints {
 		rowsAffected, _ := result.RowsAffected()
@@ -152,6 +156,16 @@ func SetLastWheelOptions(table, id string, value netobj.WheelOptions) error {
 	return err
 }
 
+func SetEventState(table, id string, value netobj.EventState) error {
+	CheckIfDBSet()
+	result, err := db.Exec("UPDATE `"+table+"` SET `event_param` = ? WHERE `id` = '"+id+"'", value.Param)
+	if err == nil && config.CFile.DebugPrints {
+		rowsAffected, _ := result.RowsAffected()
+		log.Printf("[DEBUG] SetEventState operation complete; %v rows affected\n", rowsAffected)
+	}
+	return err
+}
+
 func Get(table, column, id string) (interface{}, error) {
 	CheckIfDBSet()
 	var value interface{}
@@ -226,7 +240,7 @@ func GetPlayerInfoFromMigrationPass(table, pass string) (netobj.PlayerInfo, stri
 
 func GetPlayerState(table, id string) (netobj.PlayerState, error) {
 	CheckIfDBSet()
-	values := netobj.PlayerStateToSQLCompatiblePlayerState(netobj.DefaultPlayerState())
+	values := netobj.PlayerStateToSQLCompatiblePlayerState(netobj.DefaultPlayerState(), 0)
 	err := db.QueryRow("SELECT * FROM `"+table+"` WHERE id = ?", id).Scan(
 		&values.ID,
 		&values.Items,
@@ -274,6 +288,7 @@ func GetPlayerState(table, id string) (netobj.PlayerState, error) {
 		&values.TimedTotalScore,
 		&values.HighTotalScore,
 		&values.TimedHighTotalScore,
+		&values.EventParam,
 	)
 	if err != nil {
 		return netobj.DefaultPlayerState(), err
@@ -429,7 +444,7 @@ func GetOperatorMessages(uid string) ([]obj.OperatorMessage, error) {
 func GetEventParam(uid string) (int64, error) {
 	CheckIfDBSet()
 	var param int64
-	err := db.QueryRow("SELECT param FROM `"+consts.DBMySQLTableEventStates+"` WHERE uid = ?", uid).Scan(&uid, &param)
+	err := db.QueryRow("SELECT event_param FROM `"+consts.DBMySQLTablePlayerStates+"` WHERE id = ?", uid).Scan(&param)
 	if err != nil {
 		return 0, err
 	}
