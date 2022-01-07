@@ -27,14 +27,14 @@ func PlayerToLeaderboardEntry(player netobj.Player, mode, revivalVerId int64) ob
 	mainChaoLevel := int64(0)
 	subChaoID := player.PlayerState.SubChaoID
 	subChaoLevel := int64(0)
-	if revivalVerId < 1 { // before 2.0.4
+	/*if revivalVerId < 1 { // before 2.1.0
 		if mainCharaID == enums.CTStrMarine {
 			mainCharaID = enums.CTStrTikal
 		}
 		if subCharaID == enums.CTStrMarine {
 			subCharaID = enums.CTStrTikal
 		}
-	}
+	}*/
 	if player.IndexOfChara(mainCharaID) != -1 {
 		mainCharaLevel = player.CharacterState[player.IndexOfChara(mainCharaID)].Level
 	}

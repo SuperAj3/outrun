@@ -19,7 +19,7 @@ type PlayerInfo struct {
 	SuspendReason      int64       `json:"suspendReason" db:"suspend_reason"`
 	LastLoginDevice    string      `json:"lastLoginDevice" db:"last_login_device"`
 	LastLoginPlatform  int64       `json:"lastLoginPlatform" db:"last_login_platform"`
-	LastLoginVersionId int64       `json:"lastLoginPlatform" db:"last_login_versionid"`
+	LastLoginVersionId int64       `json:"lastLoginVersionId" db:"last_login_versionid"`
 }
 
 type StoredPlayerInfo struct {
@@ -36,7 +36,7 @@ type StoredPlayerInfo struct {
 	SuspendReason      int64  `json:"suspendReason" db:"suspend_reason"`
 	LastLoginDevice    string `json:"lastLoginDevice" db:"last_login_device"`
 	LastLoginPlatform  int64  `json:"lastLoginPlatform" db:"last_login_platform"`
-	LastLoginVersionId int64  `json:"lastLoginPlatform" db:"last_login_versionid"`
+	LastLoginVersionId int64  `json:"lastLoginVersionId" db:"last_login_versionid"`
 }
 
 func PlayerInfoToStoredPlayerInfo(pli PlayerInfo) StoredPlayerInfo {
