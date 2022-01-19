@@ -14,11 +14,11 @@ type BaseResponse struct {
 func NewBaseResponse(base responseobjs.BaseInfo) BaseResponse {
 	return BaseResponse{
 		base,
-		"050", // TODO: Make this a const or something specifiable in the config file
-		"2.0.3",
+		"052", // TODO: Make this a const or something specifiable in the config file
+		"2.2.0",
 		"15",
 		"017", // TODO: Make this a const or something specifiable in the config file
-		"2.0.3",
+		"2.2.0",
 	}
 
 }

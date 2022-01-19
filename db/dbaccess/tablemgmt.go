@@ -89,6 +89,7 @@ func GetPlayerFromDB(id string) (netobj.Player, error) {
 		playerinfo.LastLoginDevice,
 		playerinfo.LastLoginPlatform,
 		playerinfo.LastLoginVersionId,
+		playerinfo.AcceptedOpeMessageIds,
 	)
 	return player, nil
 }

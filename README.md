@@ -1,6 +1,6 @@
 # Outrun for Revival
 
-**Not everything works in this branch yet, and some features may be buggy. Please use the master branch for the stable version, or the self-hostable branch for a self-hostable version.**
+**DO *NOT* SELF-HOST THIS BRANCH YET. *Currently, changes to this branch are not put into any database migration scripts, and as such us over at Sonic Runners Revival are not responsible if your database is broken when updating to the latest commit.* In addition, not everything works in this branch yet, and some features may be buggy. Please use the master branch for the stable version, or the self-hostable branch for a self-hostable version.**
 
 ### Summary
 

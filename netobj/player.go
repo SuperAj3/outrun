@@ -41,9 +41,10 @@ type Player struct {
 	LastLoginDevice        string
 	LastLoginPlatform      int64
 	LastLoginVersionId     int64
+	AcceptedOpeMessageIds  []int64 `json:"acceptedOpeMessageIds"`
 }
 
-func NewPlayer(id, username, password, migrationPassword, userPassword, key string, lang int64, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, eventState EventState, eventUserRaidbossState EventUserRaidbossState, suspendedUntil, suspendReason int64, lastLoginDevice string, lastLoginPlatform, lastLoginVersionId int64) Player {
+func NewPlayer(id, username, password, migrationPassword, userPassword, key string, lang int64, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, eventState EventState, eventUserRaidbossState EventUserRaidbossState, suspendedUntil, suspendReason int64, lastLoginDevice string, lastLoginPlatform, lastLoginVersionId int64, acceptedOpeMessageIds []int64) Player {
 	return Player{
 		id,
 		username,
@@ -74,6 +75,7 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		lastLoginDevice,
 		lastLoginPlatform,
 		lastLoginVersionId,
+		acceptedOpeMessageIds,
 	}
 }
 

@@ -111,6 +111,7 @@ func NewAccountWithID(uid string) netobj.Player {
 		lastLoginDevice,
 		lastLoginPlatform,
 		lastLoginVersionId,
+		[]int64{},
 	)
 }
 
@@ -151,6 +152,7 @@ func SavePlayer(player netobj.Player) error {
 		player.LastLoginDevice,
 		player.LastLoginPlatform,
 		player.LastLoginVersionId,
+		player.AcceptedOpeMessageIds,
 	}
 	err := dbaccess.SetPlayerInfo(consts.DBMySQLTableCorePlayerInfo, player.ID, playerInfo)
 	if err != nil {

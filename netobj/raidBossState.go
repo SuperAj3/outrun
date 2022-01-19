@@ -42,6 +42,34 @@ func NewRaidbossState(id, level, rarity int64, encounterName string) EventRaidbo
 func DefaultRaidbossState() EventRaidbossState {
 	// TODO: establish as constants
 	id := int64(0)
+	level := int64(2)
+	rarity := int64(0)
+	encounterName := "System"
+	return NewRaidbossState(
+		id,
+		level,
+		rarity,
+		encounterName,
+	)
+}
+
+func DefaultRaidbossState2() EventRaidbossState {
+	// TODO: establish as constants
+	id := int64(1)
+	level := int64(4)
+	rarity := int64(1)
+	encounterName := "System"
+	return NewRaidbossState(
+		id,
+		level,
+		rarity,
+		encounterName,
+	)
+}
+
+func DefaultRaidbossState3() EventRaidbossState {
+	// TODO: establish as constants
+	id := int64(2)
 	level := int64(8)
 	rarity := int64(2)
 	encounterName := "System"

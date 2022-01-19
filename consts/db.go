@@ -10,23 +10,24 @@ const (
 	DBSessionExpiryTime = 3600
 
 	// TODO: Add more tables as needed.
-	DBMySQLTableAnalytics         = "analytics"
-	DBMySQLTableGameResults       = "game_results"
-	DBMySQLTableCorePlayerInfo    = "player_info"
-	DBMySQLTableEventStates       = "player_event_states"
-	DBMySQLTablePlayerStates      = "player_states"
-	DBMySQLTableMileageMapStates  = "player_mileage"
-	DBMySQLTableOptionUserResults = "player_user_results"
-	DBMySQLTableLastWheelOptions  = "player_roulette_options"
-	DBMySQLTableRouletteInfos     = "player_item_roulette_data"
-	DBMySQLTableLoginBonusStates  = "player_login_bonus_states"
-	DBMySQLTablePersonalEvents    = "player_personal_events"
-	DBMySQLTableMessages          = "player_messages"
-	DBMySQLTableOperatorMessages  = "player_operator_messages"
-	DBMySQLTableOperatorInfos     = "player_operator_infos"
-	DBMySQLTableQuickGameResults  = "quick_game_results"
-	DBMySQLTableRankingLeagueData = "ranking_league_data"
-	DBMySQLTableSessionIDs        = "session_ids"
+	DBMySQLTableAnalytics          = "analytics"
+	DBMySQLTableGameResults        = "game_results"
+	DBMySQLTableCorePlayerInfo     = "player_info"
+	DBMySQLTableUserRaidbossStates = "player_raidboss_states"
+	DBMySQLTablePlayerStates       = "player_states"
+	DBMySQLTableMileageMapStates   = "player_mileage"
+	DBMySQLTableOptionUserResults  = "player_user_results"
+	DBMySQLTableLastWheelOptions   = "player_roulette_options"
+	DBMySQLTableRouletteInfos      = "player_item_roulette_data"
+	DBMySQLTableLoginBonusStates   = "player_login_bonus_states"
+	DBMySQLTablePersonalEvents     = "player_personal_events"
+	DBMySQLTableMessages           = "player_messages"
+	DBMySQLTableOperatorMessages   = "player_operator_messages"
+	DBMySQLTableOperatorInfos      = "player_operator_infos"
+	DBMySQLTableRaidBosses         = "raidbosses"
+	DBMySQLTableQuickGameResults   = "quick_game_results"
+	DBMySQLTableRankingLeagueData  = "ranking_league_data"
+	DBMySQLTableSessionIDs         = "session_ids"
 
 	SQLAnalyticsSchema = `
 	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableAnalytics + ` (
@@ -51,6 +52,7 @@ const (
 		last_login_device TEXT NOT NULL,
 		last_login_platform INTEGER NOT NULL,
 		last_login_versionid INTEGER NOT NULL,
+		accepted_ope_message_ids JSON,
 		PRIMARY KEY (id)
 	) ENGINE = InnoDB;`
 	SQLPlayerStatesSchema = `
@@ -155,6 +157,7 @@ const (
 	SQLOperatorMessagesSchema = `
 	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableOperatorMessages + ` (
 		id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+		for_all TINYINT UNSIGNED NOT NULL DEFAULT '0',
 		userid BIGINT UNSIGNED NOT NULL,
 		contents TEXT,
 		item JSON,
@@ -185,12 +188,18 @@ const (
 		param TEXT,
 		PRIMARY KEY (uid, id)
 	) ENGINE = InnoDB;`
-	/*SQLEventStatesSchema = `
-	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableEventStates + ` (
+	SQLUserRaidbossStatesSchema = `
+	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableUserRaidbossStates + ` (
 		uid BIGINT UNSIGNED NOT NULL,
-		param INTEGER NOT NULL,
+		raidboss_rings INTEGER NOT NULL,
+		raid_energy INTEGER NOT NULL,
+		raid_energy_max INTEGER NOT NULL DEFAULT '10',
+		num_beated_encounter INTEGER NOT NULL,
+		num_beated_enterprise INTEGER NOT NULL,
+		energy_renews_at BIGINT NOT NULL,
+		score_until_next_raidboss BIGINT NOT NULL,
 		PRIMARY KEY (uid)
-	) ENGINE = InnoDB;`*/
+	) ENGINE = InnoDB;`
 	SQLGameResultsSchema = `
 	CREATE TABLE IF NOT EXISTS ` + DBMySQLTableGameResults + ` (
 		gameid BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,

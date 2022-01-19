@@ -99,5 +99,6 @@ var BlankPlayer = func() netobj.Player {
 		lastLoginDevice,
 		lastLoginPlatform,
 		lastLoginVersionId,
+		[]int64{},
 	)
 }() // TODO: Solve duplication requirement with db/assistants.go
