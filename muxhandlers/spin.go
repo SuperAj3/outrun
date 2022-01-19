@@ -141,10 +141,17 @@ func CommitWheelSpin(helper *helper.Helper) {
 				if request.Version == "1.1.4" {
 					maxChaoLevel = int64(5)
 				}
-				if player.ChaoState[chaoIndex].Level > maxChaoLevel { // if max chao level
-					player.ChaoState[chaoIndex].Level = maxChaoLevel              // reset to maximum
-					player.ChaoState[chaoIndex].Status = enums.ChaoStatusMaxLevel // set status to MaxLevel
-				}
+				if player.ChaoState[chaoIndex].Level < maxChaoLevel {
+						player.ChaoState[chaoIndex].Level += prizeChaoLevel
+						if player.ChaoState[chaoIndex].Level > 10 { // if max chao level (https://www.deviantart.com/vocaloidbrsfreak97/journal/So-Sonic-Runners-just-recently-updated-574789098)
+							amountOfItemWon := player.ChaoState[chaoIndex].Level - maxChaoLevel              // get amount gone over
+							amountOfItemWon -= excess                                      // shave it from prize level
+							player.ChaoState[chaoIndex].Level = maxChaoLevel                        // reset to maximum
+							player.ChaoState[chaoIndex].Status = enums.ChaoStatusMaxLevel // set status to MaxLevel
+						}
+					} else {
+						player.PlayerState.ChaoEggs += 3 // maxed out; give 1 special eggs as compensation
+					}
 			} else {
 				helper.Warn("item '" + wonItem + "' not found")
 			}
