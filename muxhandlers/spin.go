@@ -136,13 +136,13 @@ func CommitWheelSpin(helper *helper.Helper) {
 					player.ChaoState[chaoIndex].Acquired = 1
 					player.ChaoState[chaoIndex].Level = 0
 				}
-				player.ChaoState[chaoIndex].Level += amountOfItemWon
+				//player.ChaoState[chaoIndex].Level += amountOfItemWon
 				maxChaoLevel := int64(10)
 				if request.Version == "1.1.4" {
 					maxChaoLevel = int64(5)
 				}
 				if player.ChaoState[chaoIndex].Level < maxChaoLevel {
-						player.ChaoState[chaoIndex].Level += prizeChaoLevel
+						player.ChaoState[chaoIndex].Level += amountOfItemWon
 						if player.ChaoState[chaoIndex].Level > 10 { // if max chao level (https://www.deviantart.com/vocaloidbrsfreak97/journal/So-Sonic-Runners-just-recently-updated-574789098)
 							excess := player.ChaoState[chaoIndex].Level - maxChaoLevel              // get amount gone over
 							amountOfItemWon -= excess                                      // shave it from prize level
