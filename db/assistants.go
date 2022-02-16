@@ -158,10 +158,14 @@ func SavePlayer(player netobj.Player) error {
 	if err != nil {
 		return err
 	}
-	err = dbaccess.SetPlayerState(consts.DBMySQLTablePlayerStates, player.ID, player.PlayerState)
+	err = dbaccess.SetPlayerAndEventState(consts.DBMySQLTablePlayerStates, player.ID, player.PlayerState, player.EventState)
 	if err != nil {
 		return err
 	}
+	/*err = dbaccess.SetEventState(consts.DBMySQLTablePlayerStates, player.ID, player.EventState)
+	if err != nil {
+		return err
+	}*/
 	err = dbaccess.SetMileageMapState(consts.DBMySQLTableMileageMapStates, player.ID, player.MileageMapState)
 	if err != nil {
 		return err
@@ -179,10 +183,6 @@ func SavePlayer(player netobj.Player) error {
 		return err
 	}
 	err = dbaccess.SetLastWheelOptions(consts.DBMySQLTableLastWheelOptions, player.ID, player.LastWheelOptions)
-	if err != nil {
-		return err
-	}
-	err = dbaccess.SetEventState(consts.DBMySQLTablePlayerStates, player.ID, player.EventState)
 	return err
 	// TODO: Add in the rest of the saving!
 }

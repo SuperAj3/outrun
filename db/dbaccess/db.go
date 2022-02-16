@@ -81,6 +81,17 @@ func SetPlayerState(table, id string, value netobj.PlayerState) error {
 	return err
 }
 
+func SetPlayerAndEventState(table, id string, value1 netobj.PlayerState, value2 netobj.EventState) error {
+	CheckIfDBSet()
+	sqldata := netobj.PlayerStateToSQLCompatiblePlayerState(value1, value2.Param)
+	result, err := db.NamedExec("REPLACE INTO `"+table+"` "+strings.Replace(consts.SQLPlayerStatesInsertTypeSchema, ":id", id, 1), sqldata)
+	if err == nil && config.CFile.DebugPrints {
+		rowsAffected, _ := result.RowsAffected()
+		log.Printf("[DEBUG] SetPlayerAndEventState operation complete; %v rows affected\n", rowsAffected)
+	}
+	return err
+}
+
 func SetMileageMapState(table, id string, value netobj.MileageMapState) error {
 	CheckIfDBSet()
 	result, err := db.NamedExec("REPLACE INTO `"+table+"`(id, map_distance, num_boss_attack, stage_distance, stage_max_score, episode, chapter, point, stage_total_score, chapter_start_time)\n"+

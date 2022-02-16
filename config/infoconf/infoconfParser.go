@@ -45,20 +45,20 @@ var DisplayTypes = map[string]string{
 var InfoTypes = map[string]string{
 	"text":          "0",  // text is specified in "message" field
 	"image":         "1",  // show image with specified imageID
-	"feed":          "2",  // FB Post button
+	"feed":          "2",  // share button
 	"shopCancel":    "3",  // ?
-	"feedUrl":       "4",  // same as 9, but with a FB Post button
-	"feedRoulette":  "5",  // same as 10, but with a FB Post button
-	"feedShop":      "6",  // same as 11, but with a FB Post button (?)
-	"feedEvent":     "7",  // same as 12, but with a FB Post button
-	"feedEventList": "8",  // same as 13, but with a FB Post button
+	"feedUrl":       "4",  // same as 9, but with a share button
+	"feedRoulette":  "5",  // same as 10, but with a share button
+	"feedShop":      "6",  // same as 11, but with a share button (?)
+	"feedEvent":     "7",  // same as 12, but with a share button
+	"feedEventList": "8",  // same as 13, but with a share button
 	"url":           "9",  // external link is provided in the "extra" field
 	"roulette":      "10", // button for roulette
 	"shop":          "11", // button for shop
 	"event":         "12", // for events with a top page
 	"eventList":     "13", // for events with a rewards list
-	"rouletteInfo":  "14", // the banner at the bottom of the menu screen?
-	"quickInfo":     "15", // a banner across the timed mode button?
+	"rouletteInfo":  "14", // the roulette banner
+	"quickInfo":     "15", // a banner across the timed mode button (and/or story mode button, depending on event type and data)
 	"countryText":   "16", // based on region code in "extra" field
 	"countryImage":  "17", // based on region code in "extra" field
 }
