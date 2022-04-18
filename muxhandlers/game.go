@@ -325,9 +325,50 @@ func ActRetry(helper *helper.Helper) {
 		helper.InternalErr("Error sending response", err)
 		return
 	}
-	_, err = analytics.Store(player.ID, factors.AnalyticTypeRevives)
+	if responseStatus == status.OK {
+		_, err = analytics.Store(player.ID, factors.AnalyticTypeRevives)
+		if err != nil {
+			helper.WarnErr("Error storing analytics (AnalyticTypeRevives)", err)
+		}
+	}
+}
+
+func ActRetryFree(helper *helper.Helper) {
+	sid, _ := helper.GetSessionID()
+	if !helper.CheckSession(true) {
+		return
+	}
+	player, err := helper.GetCallingPlayer()
 	if err != nil {
-		helper.WarnErr("Error storing analytics (AnalyticTypeRevives)", err)
+		helper.InternalErr("Error getting calling player", err)
+		return
+	}
+	recv := helper.GetGameRequest()
+	var request requests.ActRetryFreeRequest
+	err = json.Unmarshal(recv, &request)
+	if err != nil {
+		helper.Err("Error unmarshalling", err)
+		return
+	}
+	responseStatus := status.OK
+	if request.FreeReviveType == 1 {
+		responseStatus = status.AlreadyUsedDailyRevive
+	} else {
+		// TODO: only allow a certain amount of ad revives
+	}
+	baseInfo := helper.BaseInfo(emess.OK, responseStatus)
+	response := responses.NewBaseResponse(baseInfo)
+	response.Seq, _ = db.BoltGetSessionIDSeq(sid)
+	err = helper.SendResponse(response)
+	if err != nil {
+		helper.InternalErr("Error sending response", err)
+		return
+	}
+	if responseStatus == status.OK {
+		_, err = analytics.Store(player.ID, factors.AnalyticTypeRevives)
+		if err != nil {
+			helper.WarnErr("Error storing analytics (AnalyticTypeRevives)", err)
+		}
 	}
 }
 
@@ -725,6 +766,7 @@ func PostGameResults(helper *helper.Helper) {
 	helper.DebugOut("request.Score: %v", request.Score)
 
 	incentives := constobjs.GetMileageIncentives(player.MileageMapState.Episode, player.MileageMapState.Chapter) // Game wants incentives in _current_ episode-chapter
+	sentIncentives := []obj.MileageIncentive{}                                                                   // The game appears to behave in unexpected ways if you send the incentives for points which haven't been reached yet.
 	var oldRewardEpisode, newRewardEpisode int64
 	var oldRewardChapter, newRewardChapter int64
 	var oldRewardPoint, newRewardPoint int64
@@ -944,12 +986,15 @@ func PostGameResults(helper *helper.Helper) {
 		}
 
 		doStoryProgression := true
-		if request.EventID != 0 { // Is this an event stage?
-			if strconv.Itoa(int(request.EventID))[1:] == "1" || strconv.Itoa(int(request.EventID))[1:] == "2" {
+		helper.DebugOut("Event ID: %v", request.EventID)
+		if request.EventID > 0 { // Is this an event stage?
+			if strconv.Itoa(int(request.EventID))[:1] == "1" || strconv.Itoa(int(request.EventID))[:1] == "2" {
 				// This is a special stage; don't do story progression since it'll screw with the current point.
+				helper.DebugOut("Special Stage; disabling story progression!")
 				doStoryProgression = false
+			} else {
+				helper.DebugOut("Event Type %s (story progression enabled)", strconv.Itoa(int(request.EventID))[1:])
 			}
-			helper.DebugOut("Event ID: %v", request.EventID)
 			helper.DebugOut("Player got %v event object(s)", request.EventValue)
 			player.EventState.Param += request.EventValue
 			//TODO: Send rewards to gift box
@@ -977,6 +1022,8 @@ func PostGameResults(helper *helper.Helper) {
 			// TODO: Add chao eggs to player
 			newPoint := request.ReachPoint
 
+			sentIncentives = incentives
+
 			goToNextEpisode := true
 			if goToNextChapter {
 				helper.DebugOut("Chapter has been cleared")
@@ -997,6 +1044,7 @@ func PostGameResults(helper *helper.Helper) {
 						//player.MileageMapState.Episode = 11
 					}
 				}
+				sentIncentives = incentives
 				player.MileageMapState.Point = 0
 				player.MileageMapState.StageMaxScore = 0
 				player.MileageMapState.StageTotalScore = 0
@@ -1011,7 +1059,11 @@ func PostGameResults(helper *helper.Helper) {
 				}
 			} else {
 				helper.DebugOut("Chapter has NOT been cleared")
-				player.MileageMapState.Point = newPoint
+				if newPoint >= player.MileageMapState.Point {
+					player.MileageMapState.Point = newPoint
+				} else {
+					helper.Warn("Old point is greater than new point! Point save skipped (%v > %v)", player.MileageMapState.Point, newPoint)
+				}
 			}
 			newRewardEpisode = player.MileageMapState.Episode
 			newRewardChapter = player.MileageMapState.Chapter
@@ -1102,9 +1154,9 @@ func PostGameResults(helper *helper.Helper) {
 	}
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	response := responses.DefaultPostGameResults(baseInfo, player, playCharacters, incentives)
+	response := responses.DefaultPostGameResults(baseInfo, player, playCharacters, sentIncentives)
 	response.Seq, _ = db.BoltGetSessionIDSeq(sid)
-	eresponse := responses.DefaultPostGameResultsEvent(baseInfo, player, playCharacters, incentives, []obj.Item{}, netobj.NewEventState(request.EventValue, -1))
+	eresponse := responses.DefaultPostGameResultsEvent(baseInfo, player, playCharacters, sentIncentives, []obj.Item{}, player.EventState)
 	eresponse.Seq, _ = db.BoltGetSessionIDSeq(sid)
 	helper.DebugOut("Sent playCharacters[0] Exp: %v / %v", playCharacters[0].Exp, playCharacters[0].Cost)
 	helper.DebugOut("Sent playCharacters[0] Level: %v", playCharacters[0].Level)
@@ -1119,8 +1171,10 @@ func PostGameResults(helper *helper.Helper) {
 		helper.DebugOut("Sent playCharacters[1] Ability Level up costs: %v", playCharacters[1].AbilityLevelUpExp)
 	}
 	if request.EventID > 0 {
+		helper.DebugOut("Sent event response")
 		err = helper.SendResponse(eresponse)
 	} else {
+		helper.DebugOut("Sent non-event response")
 		err = helper.SendResponse(response)
 	}
 	if err != nil {

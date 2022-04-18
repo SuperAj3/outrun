@@ -167,8 +167,9 @@ func DefaultCampaignList(base responseobjs.BaseInfo) CampaignListResponse {
 
 type ActStartBaseResponse struct {
 	BaseResponse
-	PlayerState  netobj.PlayerState `json:"playerState"`
-	CampaignList []obj.Campaign     `json:"campaignList"`
+	PlayerState      netobj.PlayerState `json:"playerState"`
+	CampaignList     []obj.Campaign     `json:"campaignList"`
+	DailyRevivesLeft int64              `json:"dailyRevivesLeft"`
 }
 
 func ActStartBase(base responseobjs.BaseInfo, playerState netobj.PlayerState, campaignList []obj.Campaign) ActStartBaseResponse {
@@ -177,6 +178,7 @@ func ActStartBase(base responseobjs.BaseInfo, playerState netobj.PlayerState, ca
 		baseResponse,
 		playerState,
 		campaignList,
+		0,
 	}
 }
 

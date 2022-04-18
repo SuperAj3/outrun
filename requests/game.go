@@ -38,6 +38,11 @@ type ActStartRequest struct {
 	EventID            string   `json:"eventId,omitempty"`
 }
 
+type ActRetryFreeRequest struct {
+	Base
+	FreeReviveType int64 `json:"freeReviveType,string,omitempty"`
+}
+
 type MileageRewardRequest struct {
 	Base
 	Episode int64 `json:"episode,string"`

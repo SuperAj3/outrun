@@ -256,7 +256,7 @@ func main() {
 		router.HandleFunc(prefix+"/Game/actStart/", h(muxhandlers.ActStart, LogExecutionTime))
 		router.HandleFunc(prefix+"/Game/quickActStart/", h(muxhandlers.QuickActStart, LogExecutionTime))
 		router.HandleFunc(prefix+"/Game/actRetry/", h(muxhandlers.ActRetry, LogExecutionTime))
-		//router.HandleFunc(prefix+"/Game/actRetryFree/", h(muxhandlers.ActRetryFree, LogExecutionTime))
+		router.HandleFunc(prefix+"/Game/actRetryFree/", h(muxhandlers.ActRetryFree, LogExecutionTime))
 
 		// Game results operations
 		router.HandleFunc(prefix+"/Game/postGameResults/", h(muxhandlers.PostGameResults, LogExecutionTime))
@@ -274,9 +274,9 @@ func main() {
 
 		// Store operations
 		router.HandleFunc(prefix+"/Store/getRedstarExchangeList/", h(muxhandlers.GetRedStarExchangeList, LogExecutionTime))
-		//router.HandleFunc(prefix+"/Store/getRingExchangeList/", h(muxhandlers.GetRingExchangeList, LogExecutionTime)) // Unused endpoint?
+		//router.HandleFunc(prefix+"/Store/getRingExchangeList/", h(muxhandlers.GetRingExchangeList, LogExecutionTime)) // Debug endpoint?
 		router.HandleFunc(prefix+"/Store/redstarExchange/", h(muxhandlers.RedStarExchange, LogExecutionTime))
-		//router.HandleFunc(prefix+"/Store/ringExchange/", h(muxhandlers.RingExchange, LogExecutionTime)) // Unused endpoint?
+		//router.HandleFunc(prefix+"/Store/ringExchange/", h(muxhandlers.RingExchange, LogExecutionTime)) // Debug endpoint?
 		router.HandleFunc(prefix+"/Store/setBirthday/", h(muxhandlers.SetBirthday, LogExecutionTime))
 
 		// Mileage operations
@@ -287,6 +287,16 @@ func main() {
 		router.HandleFunc(prefix+"/Event/getEventList/", h(muxhandlers.GetEventList, LogExecutionTime))
 		router.HandleFunc(prefix+"/Event/getEventReward/", h(muxhandlers.GetEventReward, LogExecutionTime))
 		router.HandleFunc(prefix+"/Event/getEventState/", h(muxhandlers.GetEventState, LogExecutionTime))
+
+		// Raidboss operations
+		router.HandleFunc(prefix+"/Event/getEventUserRaidboss/", h(muxhandlers.GetEventUserRaidbossState, LogExecutionTime))
+		router.HandleFunc(prefix+"/Event/getEventUserRaidbossList/", h(muxhandlers.GetEventUserRaidbossList, LogExecutionTime))
+		//router.HandleFunc(prefix+"/Event/getEventRaidbossDesiredList/", h(muxhandlers.GetEventRaidbossDesiredList, LogExecutionTime))
+		//router.HandleFunc(prefix+"/Event/getEventRaidbossUserList/", h(muxhandlers.GetEventRaidbossUserList, LogExecutionTime))
+		router.HandleFunc(prefix+"/Event/eventActStart/", h(muxhandlers.EventActStart, LogExecutionTime))
+		router.HandleFunc(prefix+"/Event/eventPostGameResults/", h(muxhandlers.EventPostGameResults, LogExecutionTime))
+		router.HandleFunc(prefix+"/Event/eventUpdateGameResults/", h(muxhandlers.EventUpdateGameResults, LogExecutionTime))
+		//router.HandleFunc(prefix+"/Game/drawRaidboss/", h(muxhandlers.DrawRaidBoss, LogExecutionTime))
 
 		// Campaign operations
 		router.HandleFunc(prefix+"/Game/getCampaignList/", h(muxhandlers.GetCampaignList, LogExecutionTime))
@@ -305,6 +315,9 @@ func main() {
 
 		// Raid Boss Roulette operations
 		router.HandleFunc(prefix+"/RaidbossSpin/getItemStockNum/", h(muxhandlers.GetItemStockNum, LogExecutionTime))
+		router.HandleFunc(prefix+"/RaidbossSpin/getRaidbossWheelOptions/", h(muxhandlers.GetRaidbossWheelOptions, LogExecutionTime))
+		router.HandleFunc(prefix+"/RaidbossSpin/getPrizeRaidbossWheelSpin/", h(muxhandlers.GetPrizeRaidbossWheelSpin, LogExecutionTime))
+		//router.HandleFunc(prefix+"/RaidbossSpin/commitRaidbossWheelSpin/", h(muxhandlers.CommitRaidbossWheelSpin, LogExecutionTime))
 
 		// Item operations
 		router.HandleFunc(prefix+"/Game/getCostList/", h(muxhandlers.GetCostList, LogExecutionTime))
