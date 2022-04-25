@@ -13,6 +13,7 @@ type PlayerVarious struct {
 	OnePlayCmCount       int64 `json:"onePlayCmCount"`
 	OnePlayContinueCount int64 `json:"onePlayContinueCount"` // max. continues
 	IsPurchased          int64 `json:"isPurchased"`
+	HideLeague           int64 `json:"hideLeague"`
 }
 
 func DefaultPlayerVarious() PlayerVarious {
@@ -22,6 +23,7 @@ func DefaultPlayerVarious() PlayerVarious {
 	onePlayCmCount := int64(0)
 	onePlayContinueCount := int64(2) // The cheat detection seems to trip if 3 or more continues are used.
 	isPurchased := int64(0)
+	hideLeague := int64(1)
 	return PlayerVarious{
 		cmSkipCount,
 		energyRecoveryMax,
@@ -29,5 +31,6 @@ func DefaultPlayerVarious() PlayerVarious {
 		onePlayCmCount,
 		onePlayContinueCount,
 		isPurchased,
+		hideLeague,
 	}
 }

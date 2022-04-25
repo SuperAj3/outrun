@@ -64,6 +64,7 @@ var Defaults = map[string]interface{}{
 	"DEnableRunnersLeague":       false,
 	"DContinueCost":              int64(5),
 	"DEnablePostRunLevelupAnim":  true,
+	"DDoubleRankingPeriod":       false,
 }
 
 var CFile ConfigFile
@@ -86,6 +87,7 @@ type ConfigFile struct {
 	EnableRunnersLeague       bool   `json:"enableRunnersLeague,omitempty`
 	ContinueCost              int64  `json:"continueCost,omitempty`
 	EnablePostRunLevelupAnim  bool   `json:"enablePostRunLevelupAnim,omitempty`
+	DoubleRankingPeriod       bool   `json:"doubleRankingPeriod,omitempty"`
 }
 
 func Parse(filename string) error {
@@ -107,6 +109,7 @@ func Parse(filename string) error {
 		Defaults["DEnableRunnersLeague"].(bool),
 		Defaults["DContinueCost"].(int64),
 		Defaults["DEnablePostRunLevelupAnim"].(bool),
+		Defaults["DDoubleRankingPeriod"].(bool),
 	}
 	file, err := loadFile(filename)
 	if err != nil {

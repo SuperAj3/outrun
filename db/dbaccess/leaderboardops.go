@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Mtbcooler/outrun/config/gameconf"
 	"github.com/Mtbcooler/outrun/netobj"
 
 	"github.com/jinzhu/now"
@@ -517,87 +518,92 @@ func ResetAllRankingLeagueData() error {
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueF_M, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	startTime := time.Now().UTC().Unix()
+	endTime := now.EndOfWeek().UTC().Unix()
+	if gameconf.CFile.DoubleRankingPeriod {
+		endTime += 86400 * 7 // another week
+	}
+	err = SetRankingLeagueData(enums.RankingLeagueF_M, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueF, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueF, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueF_P, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueF_P, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueE_M, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueE_M, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueE, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueE, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueE_P, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueE_P, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueD_M, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueD_M, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueD, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueD, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueD_P, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueD_P, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueC_M, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueC_M, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueC, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueC, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueC_P, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueC_P, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueB_M, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueB_M, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueB, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueB, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueB_P, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueB_P, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueA_M, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueA_M, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueA, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueA, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueA_P, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueA_P, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueS_M, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueS_M, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueS, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueS, 0, startTime, endTime, 50, 50)
 	if err != nil {
 		return err
 	}
-	err = SetRankingLeagueData(enums.RankingLeagueS_P, 0, time.Now().UTC().Unix(), now.EndOfWeek().UTC().Unix(), 50, 50)
+	err = SetRankingLeagueData(enums.RankingLeagueS_P, 0, startTime, endTime, 50, 50)
 	return err
 }
 
