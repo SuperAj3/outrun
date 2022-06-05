@@ -12,6 +12,7 @@ import (
 	"github.com/Mtbcooler/outrun/enums"
 	"github.com/Mtbcooler/outrun/helper"
 	"github.com/Mtbcooler/outrun/netobj"
+	"github.com/Mtbcooler/outrun/obj"
 	"github.com/Mtbcooler/outrun/obj/constobjs"
 	"github.com/Mtbcooler/outrun/requests"
 	"github.com/Mtbcooler/outrun/responses"
@@ -142,7 +143,7 @@ func GetChaoState(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
-	chaoindex = player.IndexOfChao(enums.ChaoIDStrPrideChaoL)
+	chaoindex := player.IndexOfChao(enums.ChaoIDStrPrideChaoL)
 	if chaoindex == -1 {
 		player.ChaoState = append(player.ChaoState, netobj.NewNetChao(obj.newChao(enums.ChaoIDStrPrideChaoL, 1, 1), int64(enums.ChaoStatusNotOwned), int64(0), int64(enums.ChaoDealingNone), int64(0)))
 	}
