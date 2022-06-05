@@ -19,11 +19,11 @@ type BaseResponse struct {
 func NewBaseResponse(base responseobjs.BaseInfo) BaseResponse {
 	return BaseResponse{
 		base,
-		"040",
-		"2.1.0",
+		"052",
+		"2.2.0",
 		"15",
 		"017",
-		"2.1.0",
+		"2.2.0",
 		meta.Version,
 	}
 }
