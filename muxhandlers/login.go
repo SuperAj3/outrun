@@ -38,7 +38,7 @@ func Login(helper *helper.Helper) {
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	helper.Out("User logging in with Revival Version ID %v (%s)", request.RevivalVerID, request.Version)
-	if request.Version != "2.2.0" && request.Version != "2.0.3" && !config.CFile.LegacyCompatibilityMode {
+	if request.Version != "2.2.0" && request.Version != "2.0.3" && request.Version != "2.1.1" && !config.CFile.LegacyCompatibilityMode {
 		helper.Out("Client version too old or too new for this version of Outrun!")
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
@@ -50,7 +50,7 @@ func Login(helper *helper.Helper) {
 	}
 	if uid == "0" && password == "" {
 		helper.Out("Entering LoginAlpha")
-		if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
+		if request.Version == "2.0.3" || request.Version == "2.1.1" && !config.CFile.LegacyCompatibilityMode {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				0,
@@ -104,7 +104,7 @@ func Login(helper *helper.Helper) {
 			helper.InternalErr("Error getting player", err)
 			return
 		}
-		if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
+		if request.Version == "2.0.3" || request.Version == "2.1.1" && !config.CFile.LegacyCompatibilityMode {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				player.PlayerState.NumRedRings,
@@ -143,7 +143,7 @@ func Login(helper *helper.Helper) {
 		if request.Password == logic.GenerateLoginPasskey(player) {
 			baseInfo.StatusCode = status.OK
 			baseInfo.SetErrorMessage(emess.OK)
-			if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
+			if request.Version == "2.0.3" || request.Version == "2.1.1" && !config.CFile.LegacyCompatibilityMode {
 				baseInfo.StatusCode = status.ServerNextVersion
 				err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 					player.PlayerState.NumRedRings,
