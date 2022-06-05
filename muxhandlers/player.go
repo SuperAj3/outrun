@@ -107,7 +107,7 @@ func GetCharacterState(helper *helper.Helper) {
 		//helper.Out("Adding Marine to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine))
 	}
-	charindex = player.IndexOfChara(enums.CTStrXMasSonic)
+	/*charindex = player.IndexOfChara(enums.CTStrXMasSonic)
 	if charindex == -1 {
 		//helper.Out("Adding Xmas Sonic to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasSonic))
@@ -121,7 +121,7 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		//helper.Out("Adding Xmas Knuckles to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles))
-	}
+	}*/
 
 	if strconv.Itoa(enums.CharaTypeXMasSonic) != enums.CTStrXMasSonic {
 		helper.Warn("Enum is wrong! Defined type for Xmas Sonic: %s (int) != %s (str)", strconv.Itoa(enums.CharaTypeXMasSonic), enums.CTStrXMasSonic)
@@ -140,6 +140,39 @@ func GetChaoState(helper *helper.Helper) {
 	player, err := helper.GetCallingPlayer()
 	if err != nil {
 		helper.InternalErr("Error getting calling player", err)
+		return
+	}
+	chaoindex = player.IndexOfChao(enums.ChaoIDPrideChaoL)
+	if chaoindex == -1 {
+		player.ChaoState = append(player.ChaoState, netobj.NewNetChao(obj.newChao(enums.ChaoIDPrideChaoL, 1, 1), int64(enums.ChaoStatusNotOwned), int64(0), int64(enums.ChaoDealingNone), int64(0)))
+	}
+	chaoindex = player.IndexOfChao(enums.ChaoIDPrideChaoG)
+	if chaoindex == -1 {
+		player.ChaoState = append(player.ChaoState, netobj.NewNetChao(obj.newChao(enums.ChaoIDPrideChaoG, 1, 1), int64(enums.ChaoStatusNotOwned), int64(0), int64(enums.ChaoDealingNone), int64(0)))
+	}
+	chaoindex = player.IndexOfChao(enums.ChaoIDPrideChaoB)
+	if chaoindex == -1 {
+		player.ChaoState = append(player.ChaoState, netobj.NewNetChao(obj.newChao(enums.ChaoIDPrideChaoB, 1, 1), int64(enums.ChaoStatusNotOwned), int64(0), int64(enums.ChaoDealingNone), int64(0)))
+	}
+	chaoindex = player.IndexOfChao(enums.ChaoIDPrideChaoT)
+	if chaoindex == -1 {
+		player.ChaoState = append(player.ChaoState, netobj.NewNetChao(obj.newChao(enums.ChaoIDPrideChaoT, 1, 1), int64(enums.ChaoStatusNotOwned), int64(0), int64(enums.ChaoDealingNone), int64(0)))
+	}
+	chaoindex = player.IndexOfChao(enums.ChaoIDPrideChaoP)
+	if chaoindex == -1 {
+		player.ChaoState = append(player.ChaoState, netobj.NewNetChao(obj.newChao(enums.ChaoIDPrideChaoP, 1, 1), int64(enums.ChaoStatusNotOwned), int64(0), int64(enums.ChaoDealingNone), int64(0)))
+	}
+	chaoindex = player.IndexOfChao(enums.ChaoIDPrideChaoA)
+	if chaoindex == -1 {
+		player.ChaoState = append(player.ChaoState, netobj.NewNetChao(obj.newChao(enums.ChaoIDPrideChaoA, 1, 1), int64(enums.ChaoStatusNotOwned), int64(0), int64(enums.ChaoDealingNone), int64(0)))
+	}
+	chaoindex = player.IndexOfChao(enums.ChaoIDPrideChaoNB)
+	if chaoindex == -1 {
+		player.ChaoState = append(player.ChaoState, netobj.NewNetChao(obj.newChao(enums.ChaoIDPrideChaoNB, 1, 1), int64(enums.ChaoStatusNotOwned), int64(0), int64(enums.ChaoDealingNone), int64(0)))
+	}
+	err = db.SavePlayer(player)
+	if err != nil {
+		helper.InternalErr("Error saving player", err)
 		return
 	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)

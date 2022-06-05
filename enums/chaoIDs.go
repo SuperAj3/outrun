@@ -61,6 +61,13 @@ const (
 	ChaoIDChristmasNightopian  = 401045
 	ChaoIDOrbot                = 401046
 	ChaoIDCubot                = 401047
+	ChaoIDPrideChaoL           = 401048
+	ChaoIDPrideChaoG           = 401049
+	ChaoIDPrideChaoB           = 401050
+	ChaoIDPrideChaoT           = 401051
+	ChaoIDPrideChaoP           = 401052
+	ChaoIDPrideChaoA           = 401053
+	ChaoIDPrideChaoNB          = 401054
 	ChaoIDLightChaos           = 402000
 	ChaoIDHeroChaos            = 402001
 	ChaoIDDarkChaos            = 402002
@@ -159,6 +166,13 @@ const (
 	ChaoIDStrChristmasNightopian  = "401045"
 	ChaoIDStrOrbot                = "401046"
 	ChaoIDStrCubot                = "401047"
+	ChaoIDPrideChaoL              = "401048"
+	ChaoIDPrideChaoG              = "401049"
+	ChaoIDPrideChaoB              = "401050"
+	ChaoIDPrideChaoT              = "401051"
+	ChaoIDPrideChaoP              = "401052"
+	ChaoIDPrideChaoA              = "401053"
+	ChaoIDPrideChaoNB             = "401054"
 	ChaoIDStrLightChaos           = "402000"
 	ChaoIDStrHeroChaos            = "402001"
 	ChaoIDStrDarkChaos            = "402002"
