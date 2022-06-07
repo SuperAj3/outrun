@@ -192,7 +192,7 @@ func DefaultTicker(base responseobjs.BaseInfo, player netobj.Player) TickerRespo
 				obj.NewTicker(
 					1,
 					time.Now().UTC().Unix()+3600, // one hour later
-					"This server is powered by [ff0000]Outrun!",
+					"This server is powered by [ff0000]Outrun for Revival!",
 				),
 				obj.NewTicker(
 					2,
@@ -256,7 +256,7 @@ func LoginBonus(base responseobjs.BaseInfo, lbs obj.LoginBonusStatus, lbrl, flbr
 
 func DefaultLoginBonus(base responseobjs.BaseInfo, player netobj.Player, doLoginBonus bool) LoginBonusResponse {
 	lbs := obj.NewLoginBonusStatus(player.LoginBonusState.CurrentFirstLoginBonusDay-1, player.LoginBonusState.CurrentLoginBonusDay-1, player.LoginBonusState.LastLoginBonusTime)
-	lbrl := constobjs.DefaultLoginBonusRewardList
+	lbrl := constobjs.EventLoginBonusRewardList
 	flbrl := constobjs.DefaultFirstLoginBonusRewardList
 	st := player.LoginBonusState.LoginBonusStartTime
 	et := player.LoginBonusState.LoginBonusEndTime
