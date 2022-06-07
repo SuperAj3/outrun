@@ -88,7 +88,7 @@ var EventLoginBonusRewardList = func() []obj.LoginBonusReward { // Happy Pride M
 			[]obj.SelectReward{
 				obj.NewSelectReward(
 					[]obj.Item{
-						obj.NewItem(enums.ChaoIDStrPrideChaoL, 1),
+						obj.NewItem(enums.ChaoIDStrPrideChaoT, 1),
 						obj.NewItem(enums.ItemIDStrRing, 3500),
 						obj.NewItem(enums.ItemIDStrItemRouletteTicket, 1),
 					},
@@ -99,7 +99,7 @@ var EventLoginBonusRewardList = func() []obj.LoginBonusReward { // Happy Pride M
 			[]obj.SelectReward{
 				obj.NewSelectReward(
 					[]obj.Item{
-						obj.NewItem(enums.ChaoIDStrPrideChaoG, 1),
+						obj.NewItem(enums.ChaoIDStrPrideChaoA, 1),
 						obj.NewItem(enums.ItemIDStrRing, 4000),
 						obj.NewItem(enums.ItemIDStrItemRouletteTicket, 1),
 						obj.NewItem(enums.ItemIDStrPremiumRouletteTicket, 1),
@@ -111,7 +111,7 @@ var EventLoginBonusRewardList = func() []obj.LoginBonusReward { // Happy Pride M
 			[]obj.SelectReward{
 				obj.NewSelectReward(
 					[]obj.Item{
-						obj.NewItem(enums.ChaoIDStrPrideChaoB, 1),
+						obj.NewItem(enums.ChaoIDStrPrideChaoL, 1),
 						obj.NewItem(enums.ItemIDStrRing, 5000),
 						obj.NewItem(enums.ItemIDStrItemRouletteTicket, 1),
 					},
@@ -122,7 +122,7 @@ var EventLoginBonusRewardList = func() []obj.LoginBonusReward { // Happy Pride M
 			[]obj.SelectReward{
 				obj.NewSelectReward(
 					[]obj.Item{
-						obj.NewItem(enums.ChaoIDStrPrideChaoT, 1),
+						obj.NewItem(enums.ChaoIDStrPrideChaoP, 1),
 						obj.NewItem(enums.ItemIDStrRing, 6000),
 						obj.NewItem(enums.ItemIDStrItemRouletteTicket, 1),
 						obj.NewItem(enums.ItemIDStrPremiumRouletteTicket, 1),
@@ -134,7 +134,7 @@ var EventLoginBonusRewardList = func() []obj.LoginBonusReward { // Happy Pride M
 			[]obj.SelectReward{
 				obj.NewSelectReward(
 					[]obj.Item{
-						obj.NewItem(enums.ChaoIDStrPrideChaoP, 1),
+						obj.NewItem(enums.ChaoIDStrPrideChaoB, 1),
 						obj.NewItem(enums.ItemIDStrRedRing, 10),
 						obj.NewItem(enums.ItemIDStrRing, 6500),
 						obj.NewItem(enums.ItemIDStrItemRouletteTicket, 2),
@@ -146,7 +146,7 @@ var EventLoginBonusRewardList = func() []obj.LoginBonusReward { // Happy Pride M
 			[]obj.SelectReward{
 				obj.NewSelectReward(
 					[]obj.Item{
-						obj.NewItem(enums.ChaoIDStrPrideChaoA, 1),
+						obj.NewItem(enums.ChaoIDStrPrideChaoNB, 1),
 						obj.NewItem(enums.ItemIDStrRing, 10000),
 						obj.NewItem(enums.ItemIDStrItemRouletteTicket, 2),
 						obj.NewItem(enums.ItemIDStrPremiumRouletteTicket, 1),
@@ -158,7 +158,7 @@ var EventLoginBonusRewardList = func() []obj.LoginBonusReward { // Happy Pride M
 			[]obj.SelectReward{
 				obj.NewSelectReward(
 					[]obj.Item{
-						obj.NewItem(enums.ChaoIDStrPrideChaoNB, 1),
+						obj.NewItem(enums.ChaoIDStrPrideChaoG, 1),
 						obj.NewItem(enums.ItemIDStrRedRing, 20),
 						obj.NewItem(enums.ItemIDStrRing, 18000),
 						obj.NewItem(enums.ItemIDStrItemRouletteTicket, 2),
