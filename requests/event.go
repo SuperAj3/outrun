@@ -5,7 +5,7 @@ type GenericEventRequest struct {
 	EventID int64 `json:"eventId,string"`
 }
 
-type EventActStartRequest struct {
+/*type EventActStartRequest struct {
 	Base
 	Modifier     []string `json:"modifire"` // Seems to be list of item IDs.
 	RaidbossID   int64    `json:"raidbossId,string"`
@@ -36,4 +36,4 @@ type EventUpdateGameResultsRequest struct {
 	RaidbossID             int64 `json:"raidbossId,string"`
 	RaidbossDamage         int64 `json:"raidbossDamage,string"`
 	RaidbossBeatFlg        int64 `json:"raidbossBeatFlg,string"`
-}
+}*/

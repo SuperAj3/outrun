@@ -435,7 +435,7 @@ func EventState(base responseobjs.BaseInfo, eventState netobj.EventState) EventS
 	return out
 }
 
-type EventUserRaidbossStateResponse struct {
+/*type EventUserRaidbossStateResponse struct {
 	BaseResponse
 	netobj.EventUserRaidbossState `json:"eventUserRaidboss"`
 }
@@ -580,4 +580,4 @@ func DefaultEventUpdateGameResults(base responseobjs.BaseInfo, player netobj.Pla
 		wo,
 		es,
 	}
-}
+}*/
