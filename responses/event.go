@@ -1,9 +1,13 @@
 package responses
 
 import (
-    "github.com/Mtbcooler/outrun/netobj"
-    "github.com/Mtbcooler/outrun/obj"
-    "github.com/Mtbcooler/outrun/responses/responseobjs"
+	"strconv"
+
+	"github.com/Mtbcooler/outrun/enums"
+	"github.com/Mtbcooler/outrun/logic"
+	"github.com/Mtbcooler/outrun/netobj"
+	"github.com/Mtbcooler/outrun/obj"
+	"github.com/Mtbcooler/outrun/responses/responseobjs"
 )
 
 type EventListResponse struct {
