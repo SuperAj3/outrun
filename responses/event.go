@@ -1,7 +1,7 @@
 package responses
 
 import (
-
+    "github.com/Mtbcooler/outrun/netobj"
     "github.com/Mtbcooler/outrun/obj"
     "github.com/Mtbcooler/outrun/responses/responseobjs"
 )
