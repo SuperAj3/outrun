@@ -62,6 +62,7 @@ var BlankPlayer = func() netobj.Player {
 	messages := []obj.Message{}
 	operatorMessages := []obj.OperatorMessage{}
 	loginBonusState := netobj.DefaultLoginBonusState(0)
+	eventState := netobj.DefaultEventState()
 	return netobj.NewPlayer(
 		uid,
 		username,
@@ -84,5 +85,6 @@ var BlankPlayer = func() netobj.Player {
 		operatorMessages,
 		loginBonusState,
 		false,
+		eventState,
 	)
 }() // TODO: Solve duplication requirement with db/assistants.go
