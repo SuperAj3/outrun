@@ -863,11 +863,17 @@ func PostGameResults(helper *helper.Helper) {
 			obtainedRewards, rewardIDMarker := constobjs.GetPendingEventRewards(player.EventState.Param, player.EventState.Param + request.EventValue)
 			player.EventState.Param += request.EventValue
 			for _, reward := range obtainedRewards {
-				helper.DebugOut("Obtained the %v object reward! (reward ID %v)", reward.Param, reward.RewardID)
+				itemid, err := strconv.Atoi(reward.ID)
+				if err != nil {
+					// wtf
+					helper.DebugOut("Failed to obtain reward ID %v!", reward.RewardID)
+					continue
+				}
+				helper.DebugOut("Obtained the %v-object reward! (reward ID %v)", reward.Param, reward.RewardID)
 				player.AddOperatorMessage(
-					"For collecting " + reward.Param + " event objects.",
+					"An event reward.",
 					obj.NewMessageItem(
-						reward.ID,
+						int64(itemid),
 						reward.Amount,
 						0,
 						0,
