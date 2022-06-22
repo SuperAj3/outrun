@@ -361,11 +361,11 @@ var DefaultEventRewardList = func() []obj.EventReward {
     }
 }
 
-func GetPendingEventRewards(oldParam, newParam) ([]obj.EventReward, int64) {
+func GetPendingEventRewards(oldParam, newParam int64) ([]obj.EventReward, int64) {
     rewards := DefaultEventRewardList()
     pendingRewards := []obj.EventReward {}
-    oldParamRewardId := 8008135
-    highestRewardIdSoFar := -1
+    oldParamRewardId := int64(8008135)
+    highestRewardIdSoFar := int64(-1)
     for _, reward := range rewards {
         if highestRewardIdSoFar < reward.RewardID {
             highestRewardIdSoFar = reward.RewardID
@@ -380,7 +380,7 @@ func GetPendingEventRewards(oldParam, newParam) ([]obj.EventReward, int64) {
         // apparently all rewards were already obtained!
         return pendingRewards, highestRewardIdSoFar
     }
-    newParamRewardId := 8008135
+    newParamRewardId := int64(8008135)
     for _, reward := range rewards {
         if highestRewardIdSoFar < reward.RewardID {
             highestRewardIdSoFar = reward.RewardID
