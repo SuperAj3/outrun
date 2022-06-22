@@ -860,7 +860,7 @@ func PostGameResults(helper *helper.Helper) {
 				helper.DebugOut("Event Type %s (story progression enabled)", strconv.Itoa(int(request.EventID))[1:])
 			}
 			helper.DebugOut("Player got %v event object(s)", request.EventValue)
-			obtainedRewards := constobjs.GetPendingEventRewards(player.EventState.Param, player.EventState.Param + request.EventValue)
+			obtainedRewards, rewardIDMarker := constobjs.GetPendingEventRewards(player.EventState.Param, player.EventState.Param + request.EventValue)
 			player.EventState.Param += request.EventValue
 			for _, reward := range obtainedRewards {
 				helper.DebugOut("Obtained the %v object reward! (reward ID %v)", reward.Param, reward.RewardID)
@@ -875,6 +875,7 @@ func PostGameResults(helper *helper.Helper) {
 					2592000,
 				)
 			}
+			player.EventState.RewardID = rewardIDMarker
 		}
 		if doStoryProgression {
 			player.MileageMapState.StageTotalScore += request.Score
