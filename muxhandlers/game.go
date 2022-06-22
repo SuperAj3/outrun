@@ -860,7 +860,7 @@ func PostGameResults(helper *helper.Helper) {
 				helper.DebugOut("Event Type %s (story progression enabled)", strconv.Itoa(int(request.EventID))[1:])
 			}
 			helper.DebugOut("Player got %v event object(s)", request.EventValue)
-			obtainedRewards := GetPendingEventRewards(player.EventState.Param, player.EventState.Param + request.EventValue)
+			obtainedRewards := constobjs.GetPendingEventRewards(player.EventState.Param, player.EventState.Param + request.EventValue)
 			player.EventState.Param += request.EventValue
 			for _, reward := range obtainedRewards {
 				helper.DebugOut("Obtained the %v object reward! (reward ID %v)", reward.Param, reward.RewardID)
@@ -878,7 +878,10 @@ func PostGameResults(helper *helper.Helper) {
 		}
 		if doStoryProgression {
 			player.MileageMapState.StageTotalScore += request.Score
-			player.MileageMapState.StageTotalDistance += request.Distance
+			player.MileageMapState.StageDistance += request.Distance
+			if request.Score > player.MileageMapState.StageMaxScore {
+				player.MileageMapState.StageMaxScore = request.Score
+			}
 
 			goToNextChapter := request.ChapterClear == 1
 			chaoEggs := request.GetChaoEgg
@@ -903,8 +906,10 @@ func PostGameResults(helper *helper.Helper) {
 					player.PlayerState.Energy = player.PlayerVarious.EnergyRecoveryMax //restore energy
 				}
 				player.MileageMapState.Point = 0
+				player.MileageMapState.StageMaxScore = 0
 				player.MileageMapState.StageTotalScore = 0
-				player.MileageMapState.StageTotalDistance = 0
+				player.MileageMapState.StageDistance = 0
+				player.MileageMapState.ChapterStartTime = time.Now().UTC().Unix()
 				maxChapters, episodeHasMultipleChapters := consts.EpisodeWithChapters[player.MileageMapState.Episode]
 				if episodeHasMultipleChapters {
 					goToNextEpisode = false
