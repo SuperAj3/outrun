@@ -4,7 +4,7 @@ import (
     "github.com/Mtbcooler/outrun/obj"
 )
 
-func GetMileageIncentives(episode, chapter int64) []obj.MileageIncentive {
+func GetMileageIncentives(episode, chapter, point int64) []obj.MileageIncentive {
     rewards := GetAreaReward(chapter, episode)
     // convert rewards to mileageIncentives
     // TODO: probably not the best to do this at runtime...
@@ -16,7 +16,9 @@ func GetMileageIncentives(episode, chapter int64) []obj.MileageIncentive {
         // TODO: incentive.FriendID should likely be satisfied at some point
         incentive.NumItem = reward.NumItem
         incentive.PointID = reward.Point
-        incentives = append(incentives, incentive)
+        if point <= reward.Point {
+            incentives = append(incentives, incentive)
+        }
     }
     return incentives
 }

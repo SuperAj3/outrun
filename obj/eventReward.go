@@ -1,17 +1,23 @@
 package obj
 
 type EventReward struct {
+    Item
     RewardID int64  `json:"rewardId"` 
     Param    int64  `json:"param"`    
-    ItemID   string `json:"itemId"`   
-    NumItem  int64  `json:"numItem"`   
 }
 
 func NewEventReward(rewardId, param int64, itemId string, numItem int64) EventReward {
     return EventReward{
+        NewItem(itemId, numItem),
         rewardId,
         param,
-        itemId,
-        numItem,
+    }
+}
+
+func ItemToEventReward(i Item, rid int64, param int64) EventReward {
+    return EventReward{
+        i,
+        rid,
+        param,
     }
 }
