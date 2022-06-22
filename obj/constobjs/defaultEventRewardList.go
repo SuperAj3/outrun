@@ -378,7 +378,7 @@ func GetPendingEventRewards(oldParam, newParam) ([]obj.EventReward, int64) {
     }
     if oldParamRewardId == 8008135 {
         // apparently all rewards were already obtained!
-        return (pendingRewards, highestRewardIdSoFar)
+        return pendingRewards, highestRewardIdSoFar
     }
     newParamRewardId := 8008135
     for _, reward := range rewards {
@@ -399,5 +399,5 @@ func GetPendingEventRewards(oldParam, newParam) ([]obj.EventReward, int64) {
             pendingRewards = append(pendingRewards, reward)
         }
     }
-    return (pendingRewards, newParamRewardId)
+    return pendingRewards, newParamRewardId
 }
