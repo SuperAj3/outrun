@@ -1,6 +1,11 @@
 package constobjs
 
-import "github.com/Mtbcooler/outrun/obj"
+import (
+    "strconv"
+
+    "github.com/Mtbcooler/outrun/enums"
+    "github.com/Mtbcooler/outrun/obj"
+)
 
 var DefaultEventRewardList = func() []obj.EventReward {
     return []obj.EventReward{
