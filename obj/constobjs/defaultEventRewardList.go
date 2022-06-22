@@ -373,7 +373,7 @@ func GetPendingEventRewards(oldParam, newParam) ([]obj.EventReward, int64) {
         if oldParam <= reward.Param {
             // found it!
             oldParamRewardId = reward.RewardID - 1
-            break;
+            break
         }
     }
     if oldParamRewardId == 8008135 {
@@ -388,7 +388,7 @@ func GetPendingEventRewards(oldParam, newParam) ([]obj.EventReward, int64) {
         if newParam <= reward.Param {
             // found it!
             newParamRewardId = reward.RewardID - 1
-            break;
+            break
         }
     }
     if newParamRewardId == 8008135 {
