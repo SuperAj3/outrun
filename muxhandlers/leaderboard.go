@@ -41,8 +41,9 @@ func GetWeeklyLeaderboardEntries(helper *helper.Helper) {
 		return
 	}
 	mode := request.Mode
+	lbtype := request.Type
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	response := responses.DefaultWeeklyLeaderboardEntries(baseInfo, player, mode)
+	response := responses.DefaultWeeklyLeaderboardEntries(baseInfo, player, mode, lbtype)
 	err = helper.SendResponse(response)
 	if err != nil {
 		helper.InternalErr("Error sending response", err)
