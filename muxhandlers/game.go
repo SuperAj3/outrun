@@ -9,25 +9,25 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Mtbcooler/outrun/analytics"
-	"github.com/Mtbcooler/outrun/analytics/factors"
-	"github.com/Mtbcooler/outrun/config"
-	"github.com/Mtbcooler/outrun/config/campaignconf"
-	"github.com/Mtbcooler/outrun/config/gameconf"
-	"github.com/Mtbcooler/outrun/consts"
-	"github.com/Mtbcooler/outrun/db"
-	"github.com/Mtbcooler/outrun/emess"
-	"github.com/Mtbcooler/outrun/enums"
-	"github.com/Mtbcooler/outrun/helper"
-	"github.com/Mtbcooler/outrun/logic/campaign"
-	"github.com/Mtbcooler/outrun/logic/conversion"
-	"github.com/Mtbcooler/outrun/logic/gameplay"
-	"github.com/Mtbcooler/outrun/netobj"
-	"github.com/Mtbcooler/outrun/obj"
-	"github.com/Mtbcooler/outrun/obj/constobjs"
-	"github.com/Mtbcooler/outrun/requests"
-	"github.com/Mtbcooler/outrun/responses"
-	"github.com/Mtbcooler/outrun/status"
+	"github.com/RunnersRevival/outrun/analytics"
+	"github.com/RunnersRevival/outrun/analytics/factors"
+	"github.com/RunnersRevival/outrun/config"
+	"github.com/RunnersRevival/outrun/config/campaignconf"
+	"github.com/RunnersRevival/outrun/config/gameconf"
+	"github.com/RunnersRevival/outrun/consts"
+	"github.com/RunnersRevival/outrun/db"
+	"github.com/RunnersRevival/outrun/emess"
+	"github.com/RunnersRevival/outrun/enums"
+	"github.com/RunnersRevival/outrun/helper"
+	"github.com/RunnersRevival/outrun/logic/campaign"
+	"github.com/RunnersRevival/outrun/logic/conversion"
+	"github.com/RunnersRevival/outrun/logic/gameplay"
+	"github.com/RunnersRevival/outrun/netobj"
+	"github.com/RunnersRevival/outrun/obj"
+	"github.com/RunnersRevival/outrun/obj/constobjs"
+	"github.com/RunnersRevival/outrun/requests"
+	"github.com/RunnersRevival/outrun/responses"
+	"github.com/RunnersRevival/outrun/status"
 	"github.com/jinzhu/now"
 )
 
@@ -373,7 +373,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 				helper.Out("Player will reach maximum Ring count; only adding enough Rings to hit max!")
 				player.PlayerState.NumRings += ringsToSafelyAdd
 			}
-		} else { 
+		} else {
 			player.PlayerState.NumRings += request.Rings
 		}
 		player.PlayerState.NumRedRings += request.RedRings
@@ -677,7 +677,7 @@ func PostGameResults(helper *helper.Helper) {
 				helper.Out("Player will reach maximum Ring count; only adding enough Rings to hit max!")
 				player.PlayerState.NumRings += ringsToSafelyAdd
 			}
-		} else { 
+		} else {
 			player.PlayerState.NumRings += request.Rings
 		}
 		player.PlayerState.NumRedRings += request.RedRings
@@ -848,7 +848,6 @@ func PostGameResults(helper *helper.Helper) {
 			helper.DebugOut("New subC Level: %v", playCharacters[1].Level)
 		}
 
-
 		doStoryProgression := true
 		helper.DebugOut("Event ID: %v", request.EventID)
 		if request.EventID > 0 { // Is this an event stage?
@@ -860,7 +859,7 @@ func PostGameResults(helper *helper.Helper) {
 				helper.DebugOut("Event Type %s (story progression enabled)", strconv.Itoa(int(request.EventID))[1:])
 			}
 			helper.DebugOut("Player got %v event object(s)", request.EventValue)
-			obtainedRewards, rewardIDMarker := constobjs.GetPendingEventRewards(player.EventState.Param, player.EventState.Param + request.EventValue)
+			obtainedRewards, rewardIDMarker := constobjs.GetPendingEventRewards(player.EventState.Param, player.EventState.Param+request.EventValue)
 			player.EventState.Param += request.EventValue
 			for _, reward := range obtainedRewards {
 				itemid, err := strconv.Atoi(reward.ID)

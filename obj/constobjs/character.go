@@ -3,8 +3,8 @@ package constobjs
 import (
 	"strconv"
 
-	"github.com/Mtbcooler/outrun/enums"
-	"github.com/Mtbcooler/outrun/obj"
+	"github.com/RunnersRevival/outrun/enums"
+	"github.com/RunnersRevival/outrun/obj"
 )
 
 /*
@@ -28,7 +28,7 @@ var CharacterSonic = obj.Character{
 	strconv.Itoa(enums.CharaTypeSonic),
 	0,           // unlocked from the start, no cost
 	NumRedRings, // unused? characters can only be unlocked and leveled up thru rings
-	100000,       // used for limit breaking
+	100000,      // used for limit breaking
 	50,          // red rings used for limit breaking
 }
 
@@ -37,7 +37,7 @@ var CharacterTails = obj.Character{
 	350,
 	NumRedRings,
 	100000, // used for limit breaking
-	50,    // red rings used for limit breaking
+	50,     // red rings used for limit breaking
 }
 
 var CharacterKnuckles = obj.Character{
@@ -45,7 +45,7 @@ var CharacterKnuckles = obj.Character{
 	350,
 	NumRedRings,
 	100000, // used for limit breaking
-	50,    // red rings used for limit breaking
+	50,     // red rings used for limit breaking
 }
 
 var CharacterAmy = obj.Character{
@@ -53,7 +53,7 @@ var CharacterAmy = obj.Character{
 	400,
 	NumRedRings,
 	100000, // used for limit breaking
-	50,    // red rings used for limit breaking
+	50,     // red rings used for limit breaking
 }
 
 var CharacterShadow = obj.Character{
@@ -149,7 +149,7 @@ var CharacterAmitieAmy = obj.Character{
 	32000,
 	NumRedRings,
 	1200000, // used for limit breaking
-	500,    // red rings used for limit breaking
+	500,     // red rings used for limit breaking
 }
 
 var CharacterClassicSonic = obj.Character{
@@ -173,7 +173,7 @@ var CharacterGothicAmy = obj.Character{
 	50000,
 	NumRedRings,
 	1200000, // used for limit breaking
-	500,    // red rings used for limit breaking
+	500,     // red rings used for limit breaking
 }
 
 var CharacterHalloweenShadow = obj.Character{
@@ -181,7 +181,7 @@ var CharacterHalloweenShadow = obj.Character{
 	35000,
 	NumRedRings,
 	1200000, // used for limit breaking
-	500,    // red rings used for limit breaking
+	500,     // red rings used for limit breaking
 }
 
 var CharacterHalloweenRouge = obj.Character{
@@ -189,7 +189,7 @@ var CharacterHalloweenRouge = obj.Character{
 	35000,
 	NumRedRings,
 	1200000, // used for limit breaking
-	500,    // red rings used for limit breaking
+	500,     // red rings used for limit breaking
 }
 
 var CharacterHalloweenOmega = obj.Character{
@@ -197,7 +197,7 @@ var CharacterHalloweenOmega = obj.Character{
 	35000,
 	NumRedRings,
 	1200000, // used for limit breaking
-	500,    // red rings used for limit breaking
+	500,     // red rings used for limit breaking
 }
 
 var CharacterMephiles = obj.Character{
@@ -221,7 +221,7 @@ var CharacterXMasSonic = obj.Character{
 	30000,
 	NumRedRings,
 	1200000, // used for limit breaking
-	500,    // red rings used for limit breaking
+	500,     // red rings used for limit breaking
 }
 
 var CharacterXMasTails = obj.Character{
@@ -229,7 +229,7 @@ var CharacterXMasTails = obj.Character{
 	30000,
 	NumRedRings,
 	1200000, // used for limit breaking
-	500,    // red rings used for limit breaking
+	500,     // red rings used for limit breaking
 }
 
 var CharacterXMasKnuckles = obj.Character{
@@ -237,7 +237,7 @@ var CharacterXMasKnuckles = obj.Character{
 	30000,
 	NumRedRings,
 	1200000, // used for limit breaking
-	500,    // red rings used for limit breaking
+	500,     // red rings used for limit breaking
 }
 
 var CharacterWerehog = obj.Character{
@@ -261,5 +261,5 @@ var CharacterMarine = obj.Character{
 	1300,
 	NumRedRings,
 	99999999, // used for limit breaking
-	999999,    // red rings used for limit breaking
+	999999,   // red rings used for limit breaking
 }

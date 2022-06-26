@@ -1,14 +1,14 @@
 package responses
 
 import (
-//	"strconv"
+	//	"strconv"
 
-//	"github.com/Mtbcooler/outrun/enums"
-//	"github.com/Mtbcooler/outrun/logic"
-	"github.com/Mtbcooler/outrun/netobj"
-	"github.com/Mtbcooler/outrun/obj"
-	"github.com/Mtbcooler/outrun/obj/constobjs"
-	"github.com/Mtbcooler/outrun/responses/responseobjs"
+	//	"github.com/RunnersRevival/outrun/enums"
+	//	"github.com/RunnersRevival/outrun/logic"
+	"github.com/RunnersRevival/outrun/netobj"
+	"github.com/RunnersRevival/outrun/obj"
+	"github.com/RunnersRevival/outrun/obj/constobjs"
+	"github.com/RunnersRevival/outrun/responses/responseobjs"
 )
 
 type EventListResponse struct {

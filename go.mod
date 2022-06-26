@@ -1,4 +1,4 @@
-module github.com/Mtbcooler/outrun
+module github.com/RunnersRevival/outrun
 
 go 1.17
 

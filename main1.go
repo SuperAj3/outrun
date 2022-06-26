@@ -11,18 +11,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Mtbcooler/outrun/bgtasks"
-	"github.com/Mtbcooler/outrun/config"
-	"github.com/Mtbcooler/outrun/config/campaignconf"
-	"github.com/Mtbcooler/outrun/config/eventconf"
-	"github.com/Mtbcooler/outrun/config/gameconf"
-	"github.com/Mtbcooler/outrun/config/infoconf"
-	"github.com/Mtbcooler/outrun/cryption"
-	"github.com/Mtbcooler/outrun/inforeporters"
-	"github.com/Mtbcooler/outrun/meta"
-	"github.com/Mtbcooler/outrun/muxhandlers"
-	"github.com/Mtbcooler/outrun/muxhandlers/muxobj"
-	"github.com/Mtbcooler/outrun/orpc"
+	"github.com/RunnersRevival/outrun/bgtasks"
+	"github.com/RunnersRevival/outrun/config"
+	"github.com/RunnersRevival/outrun/config/campaignconf"
+	"github.com/RunnersRevival/outrun/config/eventconf"
+	"github.com/RunnersRevival/outrun/config/gameconf"
+	"github.com/RunnersRevival/outrun/config/infoconf"
+	"github.com/RunnersRevival/outrun/cryption"
+	"github.com/RunnersRevival/outrun/inforeporters"
+	"github.com/RunnersRevival/outrun/meta"
+	"github.com/RunnersRevival/outrun/muxhandlers"
+	"github.com/RunnersRevival/outrun/muxhandlers/muxobj"
+	"github.com/RunnersRevival/outrun/orpc"
 	"github.com/gorilla/mux"
 )
 
@@ -30,7 +30,7 @@ const UNKNOWN_REQUEST_DIRECTORY = "logging/unknown_requests/"
 
 var (
 	LogExecutionTime = true
-	ServerMode = 0
+	ServerMode       = 0
 )
 
 func OutputUnknownRequest(w http.ResponseWriter, r *http.Request) {
@@ -163,10 +163,9 @@ func main() {
 	router.StrictSlash(true)
 	LogExecutionTime = config.CFile.DoTimeLogging
 	prefix := config.CFile.EndpointPrefix
-	
+
 	router.HandleFunc("/", GenericRootResponse)
 	router.HandleFunc("/favicon.ico", FaviconResponse)
-	
 
 	if ServerMode == 0 {
 		// Login
@@ -240,7 +239,7 @@ func main() {
 		//router.HandleFunc(prefix+"/Event/eventPostGameResults/", h(muxhandlers.EventPostGameResults, LogExecutionTime))
 		//router.HandleFunc(prefix+"/Event/eventUpdateGameResults/", h(muxhandlers.EventUpdateGameResults, LogExecutionTime))
 		//router.HandleFunc(prefix+"/Game/drawRaidboss/", h(muxhandlers.DrawRaidBoss, LogExecutionTime))
-		
+
 		// Server information
 		if config.CFile.EnablePublicStats {
 			router.HandleFunc("/outrunInfo/stats", inforeporters.Stats)
@@ -257,7 +256,7 @@ func main() {
 		log.Println(" == STARTING IN MAINTENANCE MODE == ")
 		router.HandleFunc(prefix+"/Login/login/", h(muxhandlers.LoginMaintenance, LogExecutionTime))
 	}
-	
+
 	router.HandleFunc("/generate204", Generate204)
 
 	go bgtasks.TouchAnalyticsDB()

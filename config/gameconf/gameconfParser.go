@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/Mtbcooler/outrun/enums"
+	"github.com/RunnersRevival/outrun/enums"
 )
 
 var CharacterMap = map[string]string{ // TODO: move to consts?
@@ -41,8 +41,8 @@ var CharacterMap = map[string]string{ // TODO: move to consts?
 	"xmasTails":       enums.CTStrXMasTails,
 	"xmasKnuckles":    enums.CTStrXMasKnuckles,
 	// TODO: add Marine to the list
-	"empty":           "-1",
-	"none":            "-1",
+	"empty": "-1",
+	"none":  "-1",
 }
 
 var ChaoMap = enums.ChaoNameMap

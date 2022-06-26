@@ -1,6 +1,6 @@
 package requests
 
-import "github.com/Mtbcooler/outrun/netobj"
+import "github.com/RunnersRevival/outrun/netobj"
 
 type QuickPostGameResultsRequest struct {
 	Base
@@ -37,7 +37,7 @@ type QuickActStartRequest struct {
 type ActStartRequest struct {
 	QuickActStartRequest
 	DistanceFriendList []netobj.MileageFriend `json:"distanceFriendList"` // TODO: Discover correct type... This might be list of strings
-	EventID            string   `json:"eventId,omitempty"`
+	EventID            string                 `json:"eventId,omitempty"`
 }
 
 type MileageRewardRequest struct {
