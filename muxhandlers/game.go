@@ -633,6 +633,7 @@ func PostGameResults(helper *helper.Helper) {
 	helper.DebugOut("request.Score: %v", request.Score)
 
 	incentives := constobjs.GetMileageIncentives(player.MileageMapState.Episode, player.MileageMapState.Chapter, request.ReachPoint) // Game wants incentives in _current_ episode-chapter
+	// TODO: this above causes problems! calculate based on current _point_!
 	var oldRewardEpisode, newRewardEpisode int64
 	var oldRewardChapter, newRewardChapter int64
 	var oldRewardPoint, newRewardPoint int64
@@ -983,6 +984,8 @@ func PostGameResults(helper *helper.Helper) {
 			}
 			helper.DebugOut("Current rings: %v", player.PlayerState.NumRings)
 			player.PlayerState.Items = newItems
+		} else {
+			incentives = []obj.MileageIncentive{}
 		}
 
 		helper.DebugOut("Chapter: %v", player.MileageMapState.Chapter)
