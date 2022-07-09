@@ -316,7 +316,7 @@ func LoginBonusSelect(helper *helper.Helper) {
 		return
 	}
 
-	loginBonusRewardList := constobjs.EventLoginBonusRewardList
+	loginBonusRewardList := constobjs.DefaultLoginBonusRewardList
 
 	rewardList := []obj.Item{}
 	firstRewardList := []obj.Item{}
