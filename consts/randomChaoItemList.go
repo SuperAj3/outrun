@@ -36,7 +36,7 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	//enums.CTStrTikal:           1.5, // Event (Sonic Adventure)
 	enums.CTStrVector: 1.0,
 	//enums.CTStrWerehog:         1.5, // Revival Event
-	enums.CTStrClassicSonic: 1.5, // Event (Birthday)
+	//enums.CTStrClassicSonic: 1.5, // Event (Birthday)
 	//enums.CTStrMetalSonic:      0.0, // Revival Event
 
 	// The below characters shouldn't be activated until event characters are fixed!
@@ -85,8 +85,8 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrSuketoudara:          1.5, // Event (Puyo Puyo Quest)
 	//enums.ChaoIDStrRappy:                1.0, // Event (Phantasy Star Online 2)
 	//enums.ChaoIDStrBlowfishTransporter:  1.5, // Event (Tropical Coast)
-	enums.ChaoIDStrGenesis:              1.5, // Event (Birthday)
-	enums.ChaoIDStrCartridge:            1.5, // Event (Birthday)
+	//enums.ChaoIDStrGenesis:              1.5, // Event (Birthday)
+	//enums.ChaoIDStrCartridge:            1.5, // Event (Birthday)
 	enums.ChaoIDStrRCFighter:            1.0,
 	enums.ChaoIDStrRCHovercraft:         1.0,
 	enums.ChaoIDStrRCHelicopter:         1.0,
@@ -127,7 +127,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrCarbuncle:            1.5, // Event (Puyo Puyo Quest)
 	//enums.ChaoIDStrKuna:                 1.0, // Event (Phantasy Star Online 2)
 	//enums.ChaoIDStrChaos:                1.0, // Event (Sonic Adventure)
-	enums.ChaoIDStrDeathEgg:           1.0, // Event (Birthday)
+	//enums.ChaoIDStrDeathEgg:           1.0, // Event (Birthday)
 	enums.ChaoIDStrRedCrystalMonsterS: 1.0,
 	enums.ChaoIDStrRedCrystalMonsterL: 1.0,
 	enums.ChaoIDStrGoldenGoose:        1.0,
@@ -147,11 +147,11 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrChristmasNiGHTS:      1.5, // Event (Christmas NiGHTS)
 	//enums.ChaoIDStrDFekt:                0.0, // DO NOT ENABLE YET - WE HAVE NOT CREATED ASSETS FOR THIS BUDDY YET
 	//enums.ChaoIDStrDarkChaoWalker:       0.0, // Daily Battle?
-	//enums.ChaoIDStrPrideChaoL:  1.5,
-	//enums.ChaoIDStrPrideChaoG:  1.5,
-	//enums.ChaoIDStrPrideChaoB:  1.5,
-	//enums.ChaoIDStrPrideChaoT:  1.5,
-	//enums.ChaoIDStrPrideChaoP:  1.5,
-	//enums.ChaoIDStrPrideChaoA:  1.5,
-	//enums.ChaoIDStrPrideChaoNB: 1.5,
+	//enums.ChaoIDStrPrideChaoL:           1.5,
+	//enums.ChaoIDStrPrideChaoG:           1.5,
+	//enums.ChaoIDStrPrideChaoB:           1.5,
+	//enums.ChaoIDStrPrideChaoT:           1.5,
+	//enums.ChaoIDStrPrideChaoP:           1.5,
+	//enums.ChaoIDStrPrideChaoA:           1.5,
+	//enums.ChaoIDStrPrideChaoNB:          1.5,
 }
