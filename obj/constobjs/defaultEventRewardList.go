@@ -31,7 +31,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			4,
 			2000,
 			strconv.Itoa(int(enums.ItemIDRedRing)),
-			75,
+			45,
 		),
 		obj.NewEventReward(
 			5,
@@ -73,7 +73,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			11,
 			9000,
 			strconv.Itoa(int(enums.ItemIDRedRing)),
-			65,
+			40,
 		),
 		obj.NewEventReward(
 			12,
@@ -133,7 +133,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			21,
 			33000,
 			strconv.Itoa(int(enums.ItemIDRedRing)),
-			60,
+			40,
 		),
 		obj.NewEventReward(
 			22,
@@ -193,7 +193,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			31,
 			115000,
 			strconv.Itoa(int(enums.ItemIDRedRing)),
-			55,
+			40,
 		),
 		obj.NewEventReward(
 			32,
@@ -259,7 +259,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			42,
 			200000,
 			strconv.Itoa(int(enums.ItemIDRedRing)),
-			50,
+			40,
 		),
 		obj.NewEventReward(
 			43,
