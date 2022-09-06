@@ -155,7 +155,7 @@ func main() {
 	}
 
 	if config.CFile.LegacyCompatibilityMode {
-		log.Println("[WARN] Legacy Compatibility Mode is enabled. 2.0.3 users will be able to connect and log in. This functionality is TEMPORARY and will be removed on 2.1.0's official release.")
+		log.Println("[WARN] Legacy Compatibility Mode is enabled. 2.0.3 users will be able to connect and log in. The Revival Team will not provide support for any issues that arise from Legacy Compatibility Mode.")
 	}
 
 	h := muxobj.Handle

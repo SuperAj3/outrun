@@ -23,7 +23,7 @@ func NewBaseResponse(base responseobjs.BaseInfo) BaseResponse {
 		"2.2.2",
 		"15",
 		"017",
-		"2.2.0",
+		"2.2.2",
 		meta.Version,
 	}
 }

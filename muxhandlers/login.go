@@ -53,12 +53,20 @@ func Login(helper *helper.Helper) {
 		if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
 			// message that only shows on 2.0.3
 			baseInfo.StatusCode = status.ServerNextVersion
-			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+			/*err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				0,
 				0,
 				"",
 				"Sonic Runners Revival has been updated! This version of Revival is no longer supported. Since you seem to be a new player, you shouldn't need to do much to update to the new version.\n\nWe semi-regularly update Sonic Runners Revival with new features and content that wouldn't be possible without app updates. Newer updates contain security features that aren't present in 2.0.3, so to protect our players, older versions of the game are no longer playable on Sonic Runners Revival.\n\nDownload the new version here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T",
 				"Sonic Runners Revival has been updated! This version of Revival is no longer supported. Since you seem to be a new player, you shouldn't need to do much to update to the new version.\n\nWe semi-regularly update Sonic Runners Revival with new features and content that wouldn't be possible without app updates. Newer updates contain security features that aren't present in 2.0.3, so to protect our players, older versions of the game are no longer playable on Sonic Runners Revival.\n\nDownload the new version here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T",
+				"https://sonicrunners.com/",
+			))*/
+			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+				0,
+				0,
+				"",
+				"This version of Sonic Runners Revival is no longer supported. Most likely the APK/IPA you've downloaded is the original release of Revival from 2019.\nEver since the release of 2.1.0 on December 10th, 2021, we've been regularly updating Sonic Runners Revival with support for modern devices, as well as bug fixes and all-new content.\n\nYou can find the latest version of Revival here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T",
+				"This version of Sonic Runners Revival is no longer supported. Most likely the APK/IPA you've downloaded is the original release of Revival from 2019.\nEver since the release of 2.1.0 on December 10th, 2021, we've been regularly updating Sonic Runners Revival with support for modern devices, as well as bug fixes and all-new content.\n\nYou can find the latest version of Revival here: https://www.sonicrunners.com/#/download\nOur Twitter: https://twitter.com/runnersrevival\nOur Discord: https://discord.gg/T5ytR6T",
 				"https://sonicrunners.com/",
 			))
 			if err != nil {

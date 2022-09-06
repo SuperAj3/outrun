@@ -56,7 +56,7 @@ type ConfigFile struct {
 	SilenceGameConfigErrors     bool   `json:"silenceGameConfigErrors,omitempty"`
 	CampaignConfigFilename      string `json:"campaignConfigFilename,omitempty"`
 	SilenceCampaignConfigErrors bool   `json:"silenceCampaignConfigErrors,omitempty"`
-	LegacyCompatibilityMode     bool   `json:"legacyCompatibilityMode,omitempty"` // disables the 2.1.0 version check
+	LegacyCompatibilityMode     bool   `json:"legacyCompatibilityMode,omitempty"` // disables the version check
 }
 
 func Parse(filename string) error {

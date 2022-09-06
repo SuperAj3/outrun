@@ -283,7 +283,7 @@ func ActRetry(helper *helper.Helper) {
 		return
 	}
 
-	redRingContinuePrice := 3
+	redRingContinuePrice := 3 // TODO: move this to consts
 	// TODO: Add campaign support
 	responseStatus := status.OK
 	if player.PlayerState.NumRedRings >= int64(redRingContinuePrice) { //does the player actually have enough red rings?
