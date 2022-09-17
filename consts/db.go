@@ -104,6 +104,7 @@ const (
 		best_total_score BIGINT NOT NULL DEFAULT '0',
 		best_quick_total_score BIGINT NOT NULL DEFAULT '0',
 		event_param BIGINT NOT NULL DEFAULT '0',
+		event_rewardid INTEGER NOT NULL DEFAULT '0',
 		PRIMARY KEY (id)
 	) ENGINE = InnoDB;`
 	SQLMileageMapStatesSchema = `
@@ -305,7 +306,8 @@ const (
 		quick_total_score,
 		best_total_score,
 		best_quick_total_score,
-		event_param
+		event_param,
+		event_rewardid
 	)
 	VALUES (
 		:id,
@@ -354,6 +356,7 @@ const (
 		:quick_total_score,
 		:best_total_score,
 		:best_quick_total_score,
-		:event_param
+		:event_param,
+		:event_rewardid
 	)`
 )

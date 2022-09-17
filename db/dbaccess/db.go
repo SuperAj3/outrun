@@ -67,12 +67,13 @@ func SetPlayerInfo(table, id string, value netobj.PlayerInfo) error {
 }
 
 func SetPlayerState(table, id string, value netobj.PlayerState) error {
+	// DEPRECATED - This function has been replaced by SetPlayerAndEventState.
 	CheckIfDBSet()
 	ep, err := GetEventParam(id)
 	if err != nil {
 		return err
 	}
-	sqldata := netobj.PlayerStateToSQLCompatiblePlayerState(value, ep)
+	sqldata := netobj.PlayerStateToSQLCompatiblePlayerState(value, ep, 0)
 	result, err := db.NamedExec("REPLACE INTO `"+table+"` "+strings.Replace(consts.SQLPlayerStatesInsertTypeSchema, ":id", id, 1), sqldata)
 	if err == nil && config.CFile.DebugPrints {
 		rowsAffected, _ := result.RowsAffected()
@@ -83,7 +84,7 @@ func SetPlayerState(table, id string, value netobj.PlayerState) error {
 
 func SetPlayerAndEventState(table, id string, value1 netobj.PlayerState, value2 netobj.EventState) error {
 	CheckIfDBSet()
-	sqldata := netobj.PlayerStateToSQLCompatiblePlayerState(value1, value2.Param)
+	sqldata := netobj.PlayerStateToSQLCompatiblePlayerState(value1, value2.Param, value2.RewardID)
 	result, err := db.NamedExec("REPLACE INTO `"+table+"` "+strings.Replace(consts.SQLPlayerStatesInsertTypeSchema, ":id", id, 1), sqldata)
 	if err == nil && config.CFile.DebugPrints {
 		rowsAffected, _ := result.RowsAffected()
@@ -168,6 +169,7 @@ func SetLastWheelOptions(table, id string, value netobj.WheelOptions) error {
 }
 
 func SetEventState(table, id string, value netobj.EventState) error {
+	// DEPRECATED - This function has been replaced by SetPlayerAndEventState.
 	CheckIfDBSet()
 	result, err := db.Exec("UPDATE `"+table+"` SET `event_param` = ? WHERE `id` = '"+id+"'", value.Param)
 	if err == nil && config.CFile.DebugPrints {
@@ -253,7 +255,7 @@ func GetPlayerInfoFromMigrationPass(table, pass string) (netobj.PlayerInfo, stri
 
 func GetPlayerState(table, id string) (netobj.PlayerState, error) {
 	CheckIfDBSet()
-	values := netobj.PlayerStateToSQLCompatiblePlayerState(netobj.DefaultPlayerState(), 0)
+	values := netobj.PlayerStateToSQLCompatiblePlayerState(netobj.DefaultPlayerState(), 0, 0)
 	err := db.QueryRow("SELECT * FROM `"+table+"` WHERE id = ?", id).Scan(
 		&values.ID,
 		&values.Items,
