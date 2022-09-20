@@ -273,7 +273,7 @@ var CharacterMarine = obj.Character{
 }
 
 var CharacterMarine = obj.Character{
-	strconv.Itoa(enums.CharaTypeMarine),
+	strconv.Itoa(enums.CharaTypeTangle),
 	1300,
 	NumRedRings,
 	1200000, // used for limit breaking
