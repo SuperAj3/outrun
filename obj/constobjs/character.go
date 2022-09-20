@@ -260,6 +260,22 @@ var CharacterMarine = obj.Character{
 	strconv.Itoa(enums.CharaTypeMarine),
 	1300,
 	NumRedRings,
-	99999999, // used for limit breaking
-	999999,   // red rings used for limit breaking
+	1200000, // used for limit breaking
+	500,     // red rings used for limit breaking
+}
+
+var CharacterMarine = obj.Character{
+	strconv.Itoa(enums.CharaTypeWhisper),
+	1300,
+	NumRedRings,
+	1200000, // used for limit breaking
+	500,     // red rings used for limit breaking
+}
+
+var CharacterMarine = obj.Character{
+	strconv.Itoa(enums.CharaTypeMarine),
+	1300,
+	NumRedRings,
+	1200000, // used for limit breaking
+	500,     // red rings used for limit breaking
 }

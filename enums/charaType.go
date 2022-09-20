@@ -26,7 +26,12 @@ const (
 	CharaTypeMephiles
 	CharaTypePSISilver
 	CharaTypeMarine
-	CharaTypeAmitieAmy = iota + 301000 - 23 // event characters start with 301
+	CharaTypeHold1 // Client design flaw
+	CharaTypeHold2 // Client design flaw
+	CharaTypeHold3 // Client design flaw
+	CharaTypeWhisper
+	CharaTypeTangle
+	CharaTypeAmitieAmy = iota + 301000 - 28 // event characters start with 301
 	CharaTypeGothicAmy
 	CharaTypeHalloweenShadow
 	CharaTypeHalloweenRouge
@@ -59,6 +64,11 @@ const (
 	CTStrMephiles        = "300019"
 	CTStrPSISilver       = "300020"
 	CTStrMarine          = "300021"
+	CTStrHold1           = "300022"
+	CTStrHold2           = "300023"
+	CTStrHold3           = "300024"
+	CTStrWhisper         = "300025"
+	CTStrTangle          = "300026"
 	CTStrAmitieAmy       = "301000"
 	CTStrGothicAmy       = "301001"
 	CTStrHalloweenShadow = "301002"

@@ -103,10 +103,20 @@ func GetCharacterState(helper *helper.Helper) {
 		//helper.Out("Adding Gothic Amy to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultSpecialLockedCharacter(constobjs.CharacterGothicAmy))
 	}*/
-	charindex := player.IndexOfChara(enums.CTStrMarine)
+	charindex = player.IndexOfChara(enums.CTStrMarine)
 	if charindex == -1 {
 		//helper.Out("Adding Marine to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine))
+	}
+	charindex := player.IndexOfChara(enums.CTStrWhisper)
+	if charindex == -1 {
+		//helper.Out("Adding Whisper to CharacterState")
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterWhisper))
+	}
+	charindex := player.IndexOfChara(enums.CTStrTangle)
+	if charindex == -1 {
+		//helper.Out("Adding Tangle to CharacterState")
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterTangle))
 	}
 	/*charindex = player.IndexOfChara(enums.CTStrXMasSonic)
 	if charindex == -1 {
