@@ -104,7 +104,7 @@ func GetEventReward(helper *helper.Helper) {
 		return
 	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	response := responses.DefaultAnimalEventRewardList(baseInfo)
+	response := responses.DefaultEventRewardList(baseInfo)
 	err = helper.SendResponse(response)
 	if err != nil {
 		helper.InternalErr("Error sending response", err)
