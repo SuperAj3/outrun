@@ -19,22 +19,24 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	enums.CTStrSonic:    0.7, // Initial character
 	enums.CTStrTails:    0.7, // Obtained in story mode
 	enums.CTStrKnuckles: 0.7, // Obtained in story mode
-	enums.CTStrAmy:      1.0,
+	enums.CTStrAmy:      0.7,
 	enums.CTStrBig:      0.7,
 	//enums.CTStrBlaze:           1.0, // Revival Event (Sonic Rush)
-	enums.CTStrCharmy: 1.0,
+	enums.CTStrCharmy: 0.7,
 	enums.CTStrCream:  0.7,
-	enums.CTStrEspio:  1.0,
+	enums.CTStrEspio:  0.7,
 	//enums.CTStrMephiles:        0.0, // Revival Event
-	enums.CTStrOmega: 0.5,
+	enums.CTStrOmega: 0.7,
 	//enums.CTStrPSISilver:       0.0, // Revival Event
-	enums.CTStrRouge:  0.5,
-	enums.CTStrShadow: 0.5,
+	enums.CTStrRouge:  0.7,
+	enums.CTStrShadow: 0.7,
 	enums.CTStrSilver: 0.7,
 	//enums.CTStrMarine:          0.8, // Revival Event
+	enums.CTStrTangle: 1.2,
+	enums.CTStrWhisper: 1.2,
 	enums.CTStrSticks:          0.5, // Revival Event
 	//enums.CTStrTikal:           1.5, // Event (Sonic Adventure)
-	enums.CTStrVector: 1.0,
+	enums.CTStrVector: 0.7,
 	//enums.CTStrWerehog:         1.5, // Revival Event
 	//enums.CTStrClassicSonic: 1.5, // Event (Birthday)
 	//enums.CTStrMetalSonic:      0.0, // Revival Event
@@ -72,15 +74,15 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrMagLv1:               1.0, // Event (Phantasy Star Online 2)
 	enums.ChaoIDStrEggChao:           1.0,
 	enums.ChaoIDStrPumpkinChao:       1.0,
-	enums.ChaoIDStrSkullChao:         1.0,
+	enums.ChaoIDStrSkullChao:         1.1,
 	enums.ChaoIDStrYacker:            1.0,
 	enums.ChaoIDStrRCGoldenPiggyBank: 1.0,
 	enums.ChaoIDStrWizardChao:        1.0,
 	enums.ChaoIDStrRCTurtle:          1.1,
-	enums.ChaoIDStrRCUFO:             1.0,
+	enums.ChaoIDStrRCUFO:             1.1,
 	enums.ChaoIDStrRCBomber:          1.0,
 	//enums.ChaoIDStrEasterBunny:          1.0, // Event (Easter)
-	//enums.ChaoIDStrMagicLamp:            3.0, // Event (Desert Ruins)
+	enums.ChaoIDStrMagicLamp:            2.0, // Event (Desert Ruins and Animal Rescue 2.0)
 	//enums.ChaoIDStrStarShapedMissile:    0.0, // Event (Zazz Raid Boss)
 	//enums.ChaoIDStrSuketoudara:          1.5, // Event (Puyo Puyo Quest)
 	//enums.ChaoIDStrRappy:                1.0, // Event (Phantasy Star Online 2)
