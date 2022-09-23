@@ -174,11 +174,11 @@ func Parse(filename string) error {
 			log.Printf("[WARN] Invalid information info type %s at index %v, ignoring\n", ci.Data.InfoType, i)
 			continue
 		}
-		if strings.Contains(ci.Data.Message, '_') {
+		if strings.Contains(ci.Data.Message, "_") {
 			log.Println("[WARN] Message contains invalid character '_'! Removing invalid character(s)...")
 			ci.Data.Message = strings.ReplaceAll(ci.Data.Message, "_", "")
 		}
-		if strings.Contains(ci.Data.ImageID, '_') {
+		if strings.Contains(ci.Data.ImageID, "_") {
 			log.Printf("[WARN] Image ID '%s' contains invalid character '_'! Removing invalid character(s)...\n", ci.Data.ImageID)
 			ci.Data.ImageID = strings.ReplaceAll(ci.Data.ImageID, "_", "")
 		}
