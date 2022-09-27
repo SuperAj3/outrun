@@ -16,27 +16,26 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	// characterID: load
 	// Hopefully this should sum up to 100 just for
 	// simplicity, but it shouldn't be a requirement.
-	enums.CTStrSonic:    0.7, // Initial character
-	enums.CTStrTails:    0.7, // Obtained in story mode
-	enums.CTStrKnuckles: 0.7, // Obtained in story mode
-	enums.CTStrAmy:      0.7,
-	enums.CTStrBig:      0.7,
+	enums.CTStrSonic:    0.3, // Initial character
+	enums.CTStrTails:    0.3, // Obtained in story mode
+	enums.CTStrKnuckles: 0.3, // Obtained in story mode
+	enums.CTStrAmy:      0.3,
+	enums.CTStrBig:      0.3,
 	//enums.CTStrBlaze:           1.0, // Revival Event (Sonic Rush)
-	enums.CTStrCharmy: 0.7,
-	enums.CTStrCream:  0.7,
-	enums.CTStrEspio:  0.7,
+	enums.CTStrCharmy: 0.3,
+	enums.CTStrCream:  0.3,
+	enums.CTStrEspio:  0.3,
 	//enums.CTStrMephiles:        0.0, // Revival Event
-	enums.CTStrOmega: 0.7,
+	enums.CTStrOmega: 0.3,
 	//enums.CTStrPSISilver:       0.0, // Revival Event
-	enums.CTStrRouge:  0.7,
-	enums.CTStrShadow: 0.7,
-	enums.CTStrSilver: 0.7,
+	enums.CTStrRouge:  0.3,
+	enums.CTStrShadow: 0.3,
 	//enums.CTStrMarine:          0.8, // Revival Event
 	enums.CTStrTangle: 1.2,
 	enums.CTStrWhisper: 1.2,
-	enums.CTStrSticks:          0.5, // Revival Event
+	//enums.CTStrSticks:          0.3, // Revival Event
 	//enums.CTStrTikal:           1.5, // Event (Sonic Adventure)
-	enums.CTStrVector: 0.7,
+	enums.CTStrVector: 0.3,
 	//enums.CTStrWerehog:         1.5, // Revival Event
 	//enums.CTStrClassicSonic: 1.5, // Event (Birthday)
 	//enums.CTStrMetalSonic:      0.0, // Revival Event
