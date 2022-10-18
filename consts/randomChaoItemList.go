@@ -85,7 +85,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrStarShapedMissile:    0.0, // Event (Zazz Raid Boss)
 	//enums.ChaoIDStrSuketoudara:          1.5, // Event (Puyo Puyo Quest)
 	//enums.ChaoIDStrRappy:                1.0, // Event (Phantasy Star Online 2)
-	enums.ChaoIDStrBlowfishTransporter:  1.5, // Event (Tropical Coast)
+	//enums.ChaoIDStrBlowfishTransporter:  1.5, // Event (Tropical Coast)
 	//enums.ChaoIDStrGenesis:              1.5, // Event (Birthday)
 	//enums.ChaoIDStrCartridge:            1.5, // Event (Birthday)
 	enums.ChaoIDStrRCFighter:            1.0,
@@ -96,7 +96,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrRCAirship:            1.0,
 	//enums.ChaoIDStrDesertChao:           3.0, // Event (Desert Ruins)
 	//enums.ChaoIDStrRCSatellite:          0.0, // Event (Zazz Raid Boss)
-	enums.ChaoIDStrMarineChao:           1.5, // Event (Tropical Coast)
+	//enums.ChaoIDStrMarineChao:           1.5, // Event (Tropical Coast)
 	//enums.ChaoIDStrNightopian:           0.0, // Event (NiGHTS)
 	//enums.ChaoIDStrOrca:                 1.5, // Event (Sonic Adventure)
 	//enums.ChaoIDStrSonicOmochao:         0.0, // Event (Team Sonic Omochao)
@@ -132,7 +132,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrRedCrystalMonsterS: 1.0,
 	enums.ChaoIDStrRedCrystalMonsterL: 1.0,
 	enums.ChaoIDStrGoldenGoose:        1.0,
-	enums.ChaoIDStrMotherWisp:           1.2, // Event (Tropical Coast)
+	//enums.ChaoIDStrMotherWisp:           1.2, // Event (Tropical Coast)
 	enums.ChaoIDStrRCPirateSpaceship: 0.7,
 	enums.ChaoIDStrGoldenAngel:       1.0,
 	//enums.ChaoIDStrNiGHTS:               0.0, // Event (NiGHTS)
