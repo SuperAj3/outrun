@@ -180,14 +180,14 @@ func Login(helper *helper.Helper) {
 				break
 				}
 			}
-			if allowedToLogin = false {
+			if allowedToLogin == false {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
 				0,
 				0,
 				"",
-				"The Sonic Runners Revival game server is currently undergoing emergency maintenance due to unforseen issues with the roulette. We will return as soon as possible.",
-				"The Sonic Runners Revival game server is currently undergoing emergency maintenance due to unforseen issues with the roulette. We will return as soon as possible.",
+				"The Sonic Runners Revival game server is currently undergoing maintenance. We will return as soon as possible.",
+				"The Sonic Runners Revival game server is currently undergoing maintenance. We will return as soon as possible.",
 				"https://sonicrunners.com/",
 			))
 			if err != nil {
