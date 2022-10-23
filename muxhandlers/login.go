@@ -172,27 +172,6 @@ func Login(helper *helper.Helper) {
 				}
 				return
 			}
-			allowedToLogin := false
-			whitelistedIDs := []string{"5684022511", "7892875001", "1740310365", "5013570373"}
-			for _, idInList := range whitelistedIDs {
-			if uid == idInList { // this hack is terrible and should only be used in emergencies
-				allowedToLogin = true
-				break
-				}
-			}
-			if allowedToLogin == false {
-			baseInfo.StatusCode = status.ServerNextVersion
-			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
-				0,
-				0,
-				"",
-				"The Sonic Runners Revival game server is currently undergoing maintenance. We will return as soon as possible.",
-				"The Sonic Runners Revival game server is currently undergoing maintenance. We will return as soon as possible.",
-				"https://sonicrunners.com/",
-			))
-			if err != nil {
-				helper.InternalErr("Error sending response", err)
-			}
 			return
 		}
 			sid, err := db.AssignSessionID(uid)
