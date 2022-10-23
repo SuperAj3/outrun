@@ -172,8 +172,6 @@ func Login(helper *helper.Helper) {
 				}
 				return
 			}
-			return
-		}
 			sid, err := db.AssignSessionID(uid)
 			if err != nil {
 				helper.InternalErr("Error assigning session ID", err)
