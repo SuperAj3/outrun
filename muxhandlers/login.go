@@ -37,7 +37,6 @@ func Login(helper *helper.Helper) {
 	password := request.LineAuth.Password
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	helper.Out("SADASDSADASDSADSA")
 	helper.Out("User logging in with Revival Version ID %v (%s)", request.RevivalVerID, request.Version)
 	if request.Version != "2.2.3" && request.Version != "2.0.3" && !config.CFile.LegacyCompatibilityMode {
 		if uid == "7892875002" || uid == "5684022511" {
