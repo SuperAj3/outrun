@@ -90,17 +90,23 @@ func GetCharacterState(helper *helper.Helper) {
 	charindex := player.IndexOfChara(enums.CTStrHalloweenShadow)
 	helper.Out("Player ", player.Username, "'s charIndex for Halloween Shadow is", charindex)
 	if charindex == -1 {
+		helper.Out("Player ", player.Username, "'s charIndex was -1")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenShadow))
+		helper.Out("Player ", player.Username, "'s charIndex is now", player.IndexOfChara(enums.CTStrHalloweenShadow))
 	}
 	charindex = player.IndexOfChara(enums.CTStrHalloweenRouge)
 	helper.Out("Player ", player.Username, "'s charIndex for Halloween Rouge is", charindex)
 	if charindex == -1 {
+		helper.Out("Player ", player.Username, "'s charIndex was -1")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenRouge))
+		helper.Out("Player ", player.Username, "'s charIndex is now", player.IndexOfChara(enums.CTStrHalloweenRouge))
 	}
 	charindex = player.IndexOfChara(enums.CTStrHalloweenOmega)
 	helper.Out("Player ", player.Username, "'s charIndex for Halloween Omega is", charindex)
 	if charindex == -1 {
+		helper.Out("Player ", player.Username, "'s charIndex was -1")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenOmega))
+		helper.Out("Player ", player.Username, "'s charIndex is now", player.IndexOfChara(enums.CTStrHalloweenOmega))
 	}
 	/*
 	charindex := player.IndexOfChara(enums.CTStrGothicAmy)
