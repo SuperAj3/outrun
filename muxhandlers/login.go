@@ -39,16 +39,14 @@ func Login(helper *helper.Helper) {
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	helper.Out("User logging in with Revival Version ID %v (%s)", request.RevivalVerID, request.Version)
 	if request.Version != "2.2.3" && request.Version != "2.0.3" && !config.CFile.LegacyCompatibilityMode {
-		if uid == "7892875002" || uid == "5684022511" {
-			helper.Out("Client version too old or too new for this version of Outrun!")
-			baseInfo.StatusCode = status.VersionDifference
-			response := responses.NewBaseResponse(baseInfo)
-			err := helper.SendResponse(response)
-			if err != nil {
-				helper.InternalErr("Error sending response", err)
-			}
-			return
-		} else { return }
+		helper.Out("Client version too old or too new for this version of Outrun!")
+		baseInfo.StatusCode = status.VersionDifference
+		response := responses.NewBaseResponse(baseInfo)
+		err := helper.SendResponse(response)
+		if err != nil {
+			helper.InternalErr("Error sending response", err)
+		}
+		return
 	}
 	if uid == "0" && password == "" {
 		helper.Out("Entering LoginAlpha")
