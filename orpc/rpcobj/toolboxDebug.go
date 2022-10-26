@@ -490,6 +490,37 @@ func (t *Toolbox) Debug_SendOperatorMessage(args SendOperatorMessageArgs, reply 
 	return nil
 }
 
+func (t *Toolbox) Debug_SendOperatorMessageToSome(args SendOperatorMessageToSomeArgs, reply *ToolboxReply) error {
+	uidList := strings.Split(args.UIDs, ",")
+
+	for _, uid := range uidList {
+        player, err := db.GetPlayer(uid)
+        if err != nil {
+            reply.Status = StatusOtherError
+            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+            return err
+        }
+
+		if player.Messages == nil {
+			player.Messages = []obj.Message{}
+		}
+		if player.OperatorMessages == nil {
+			player.OperatorMessages = []obj.OperatorMessage{}
+		}
+		player.AddOperatorMessage(args.MessageContents, args.Item, args.ExpiresAfter)
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+			return err
+		}
+	}
+
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
 func (t *Toolbox) Debug_FixCharacterPrices(uids string, reply *ToolboxReply) error {
 	// TODO: This function possibly needs to be adjusted if event characters are ever added.
 	cmap := map[string]obj.Character{

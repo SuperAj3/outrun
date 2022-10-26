@@ -65,3 +65,10 @@ type SendOperatorMessageArgs struct {
 	Item            obj.MessageItem
 	ExpiresAfter    int64
 }
+
+type SendOperatorMessageToSomeArgs struct {
+	UIDs            string
+	MessageContents string
+	Item            obj.MessageItem
+	ExpiresAfter    int64
+}
