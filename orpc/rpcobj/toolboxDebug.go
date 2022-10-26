@@ -3,8 +3,10 @@ package rpcobj
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -670,4 +672,85 @@ func (t *Toolbox) Debug_ResetEventProgressForAll(nothing bool, reply *ToolboxRep
 	reply.Status = StatusOK
 	reply.Info = "OK"
 	return nil
+}
+
+// Credit: FairPlay137 for starting this code
+func (t *Toolbox) Debug_RemoveDuplicateCharaEntries(uids string, reply *ToolboxReply) error {
+    allUIDs := strings.Split(uids, ",")
+    playerIDsWithDupe := make([]string, 0)
+
+    for _, uid := range allUIDs {
+        player, err := db.GetPlayer(uid)
+        if err != nil {
+            reply.Status = StatusOtherError
+            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+            return err
+        }
+
+        charaState := player.CharacterState
+        seenIDs := make([]string, 0)
+        dupedIndexArr := make([]int, 0)
+
+        for index, charaState := range charaState {
+        	if (doesElementExist(seenIDs, charaState.Character.ID)) {
+        		// we found a dupe, add it to the array
+        		dupedIndexArr = append(dupedIndexArr, index)
+        		if (!doesElementExist(playerIDsWithDupe, player.ID)) {
+        			playerIDsWithDupe = append(playerIDsWithDupe, player.ID)
+        		}
+			} else {
+        		seenIDs = append(seenIDs, charaState.Character.ID)
+        	}
+        }
+
+           	// reverse dupe index array so we don't shift the array during removal
+            for i, j := 0, len(dupedIndexArr) - 1; i < j; i, j = i + 1, j - 1 {
+        		dupedIndexArr[i], dupedIndexArr[j] = dupedIndexArr[j], dupedIndexArr[i]
+    		}
+
+    		// make sure we're not rewriting character states that aren't broken, just to be safe
+    		if (len(dupedIndexArr) != 0) {
+	            for index2 := 0; index2 < len(dupedIndexArr); index2++ {
+		            if dupedIndexArr[index2] < 0 || dupedIndexArr[index2] >= len(charaState) {
+		        		fmt.Println("The given index is out of bounds.")
+		    		} else {
+		    			// write the modified charaState to the player object
+		    			player.CharacterState = append(charaState[:dupedIndexArr[index2]], charaState[dupedIndexArr[index2] + 1:]...)
+		    			charaState = player.CharacterState
+		        	}
+		    	}
+		    }
+
+        err = db.SavePlayer(player)
+        if err != nil {
+            reply.Status = StatusOtherError
+            reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+            return err
+        }
+    }
+
+    // convert our string array of IDs to byte array
+    playerIDsDupeJoined := strings.Join(playerIDsWithDupe, ",")
+    playerIDsDupeByte := []byte(playerIDsDupeJoined)
+
+    os.MkdirAll("logging/ids_with_dupes/", 0644)
+	path := "logging/ids_with_dupes/" + "ids.txt"
+	err := ioutil.WriteFile(path, playerIDsDupeByte, 0644)
+
+	if err != nil {
+		fmt.Sprintf("Unable to log IDs", err)
+	}
+
+    reply.Status = StatusOK
+    reply.Info = "OK"
+    return nil
+}
+
+func doesElementExist(s []string, str string) bool {
+  for _, v := range s {
+    if v == str {
+      return true
+    }
+  }
+  return false
 }
