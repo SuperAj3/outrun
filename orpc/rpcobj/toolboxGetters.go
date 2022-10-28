@@ -91,3 +91,16 @@ func (t *Toolbox) GetQuickHighScore(uid string, reply *ToolboxReply) error {
 	reply.Info = strconv.Itoa(int(player.PlayerState.TimedHighScore))
 	return nil
 }
+
+func (t *Toolbox) GetEventCollectibleCount(uid string, reply *ToolboxReply) error {
+	player, err := db.GetPlayer(uid)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to get player: " + err.Error()
+		return err
+	}
+	reply.Status = StatusOK
+	reply.Info = strconv.Itoa(int(player.EventState.Param))
+	return nil
+}
+
