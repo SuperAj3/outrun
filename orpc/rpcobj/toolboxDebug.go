@@ -743,7 +743,7 @@ func (t *Toolbox) Debug_RemoveDuplicateCharaEntries(uids string, reply *ToolboxR
     		if (len(dupedIndexArr) != 0) {
 	            for index2 := 0; index2 < len(dupedIndexArr); index2++ {
 		            if dupedIndexArr[index2] < 0 || dupedIndexArr[index2] >= len(charaState) {
-		        		fmt.Println("The given index is out of bounds.")
+		        		log.Println("[RPC-DEBUG] The given index is out of bounds.")
 		    		} else {
 		    			// write the modified charaState to the player object
 		    			player.CharacterState = append(charaState[:dupedIndexArr[index2]], charaState[dupedIndexArr[index2] + 1:]...)
@@ -769,7 +769,7 @@ func (t *Toolbox) Debug_RemoveDuplicateCharaEntries(uids string, reply *ToolboxR
 	err := ioutil.WriteFile(path, playerIDsDupeByte, 0644)
 
 	if err != nil {
-		fmt.Sprintf("Unable to log IDs", err)
+		log.Printf("[RPC-DEBUG] Unable to log IDs", err)
 	}
 
     reply.Status = StatusOK
