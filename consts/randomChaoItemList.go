@@ -102,8 +102,8 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrSonicOmochao:         0.0, // Event (Team Sonic Omochao)
 	//enums.ChaoIDStrTailsOmochao:         0.0, // Event (Team Sonic Omochao)
 	//enums.ChaoIDStrKnucklesOmochao:      0.0, // Event (Team Sonic Omochao)
-	enums.ChaoIDStrBoo:                  1.5, // Event (Halloween)
-	enums.ChaoIDStrHalloweenChao:        1.5, // Event (Halloween)
+	//enums.ChaoIDStrBoo:                  1.5, // Event (Halloween)
+	//enums.ChaoIDStrHalloweenChao:        1.5, // Event (Halloween)
 	//enums.ChaoIDStrHeavyBomb:            1.2, // Event (Fantasy Zone)
 	enums.ChaoIDStrBlockBomb:  1.0,
 	enums.ChaoIDStrHunkofMeat: 1.3,
@@ -140,7 +140,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrRCTornado2:           1.0, // Event (Sonic Adventure)
 	//enums.ChaoIDStrChaoWalker:           0.0, // Daily Battle
 	//enums.ChaoIDStrDarkQueen:            0.0, // Runners' League
-	enums.ChaoIDStrKingBoomBoo:          1.5, // Event (Halloween)
+	//enums.ChaoIDStrKingBoomBoo:          1.5, // Event (Halloween)
 	//enums.ChaoIDStrOPapa:                1.5, // Event (Fantasy Zone)
 	//enums.ChaoIDStrOpaOpa:               1.5, // Event (Fantasy Zone)
 	enums.ChaoIDStrRCBlockFace: 1.0,
