@@ -46,6 +46,7 @@ const UNKNOWN_REQUEST_DIRECTORY = "logging/unknown_requests/"
 var (
 	LogExecutionTime = true
 	MaintenanceMode  = false
+	MigrationMode    = false
 )
 
 func OutputUnknownRequest(w http.ResponseWriter, r *http.Request) {
@@ -125,8 +126,9 @@ func checkArgs() bool {
 			return false
 		}
 		if args[0] == "--migrate" {
-			fmt.Println("This argument has not been implemented yet")
-			return true
+			fmt.Println("Launching Outrun for Revival in Migration mode...\nOutrun will attempt to migrate the existing BoltDB database to MySQL.\nThe server will not start handling requests until after the migration finishes.")
+			MigrationMode = true
+			return false
 		}
 		fmt.Println("Unknown command line argument(s)")
 		fmt.Println("Type \"outrun --help\" for a list of valid arguments")
@@ -204,6 +206,10 @@ func main() {
 				log.Printf("[INFO] Result code %v: %s", excode, exmsg)
 			}
 		}
+	}
+
+	if MigrationMode {
+		// TODO: the actual migration code
 	}
 
 	if config.CFile.EnableRPC {
@@ -344,8 +350,6 @@ func main() {
 		//router.HandleFunc(prefix+"/Sgn/setNoahId/", h(muxhandlers.SetNoahID, LogExecutionTime))
 		//router.HandleFunc(prefix+"/Sgn/setSerialCode/", h(muxhandlers.SetSerialCode, LogExecutionTime))
 
-		//router.HandleFunc(prefix+"/Boom/setDeviceId/", h(muxhandlers.SetBoomDeviceID, LogExecutionTime))
-
 		// Server information
 		if config.CFile.EnablePublicStats {
 			router.HandleFunc("/outrunInfo/stats", inforeporters.Stats)
@@ -361,7 +365,7 @@ func main() {
 	go bgtasks.TouchAnalyticsDB()
 
 	port := config.CFile.Port
-	log.Printf("Starting server on port %s\n", port)
+	log.Printf("Started server on port %s\n", port)
 	panic(http.ListenAndServe(":"+port, removePrependingSlashes(router)))
 }
 
