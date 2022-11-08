@@ -1,7 +1,7 @@
 package localizations
 
 import (
-	"github.com/Mtbcooler/outrun/enums"
+	"github.com/RunnersRevival/outrun/enums"
 )
 
 var LocalizedStrings = map[string]map[string]string{

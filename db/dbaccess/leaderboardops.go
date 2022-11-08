@@ -6,16 +6,16 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Mtbcooler/outrun/config/gameconf"
-	"github.com/Mtbcooler/outrun/netobj"
+	"github.com/RunnersRevival/outrun/config/gameconf"
+	"github.com/RunnersRevival/outrun/netobj"
 
 	"github.com/jinzhu/now"
 
-	"github.com/Mtbcooler/outrun/config"
-	"github.com/Mtbcooler/outrun/enums"
+	"github.com/RunnersRevival/outrun/config"
+	"github.com/RunnersRevival/outrun/enums"
 
-	"github.com/Mtbcooler/outrun/consts"
-	"github.com/Mtbcooler/outrun/obj"
+	"github.com/RunnersRevival/outrun/consts"
+	"github.com/RunnersRevival/outrun/obj"
 )
 
 // GetHighScores returns the list of high scores, your own entry if applicable, and an error if one is thrown

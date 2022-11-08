@@ -3,10 +3,10 @@ package logic
 import (
 	"log"
 
-	"github.com/Mtbcooler/outrun/consts"
-	"github.com/Mtbcooler/outrun/db"
-	"github.com/Mtbcooler/outrun/db/boltdbaccess"
-	"github.com/Mtbcooler/outrun/netobj"
+	"github.com/RunnersRevival/outrun/consts"
+	"github.com/RunnersRevival/outrun/db"
+	"github.com/RunnersRevival/outrun/db/boltdbaccess"
+	"github.com/RunnersRevival/outrun/netobj"
 )
 
 // TODO: Make these use the MySQL database instead!

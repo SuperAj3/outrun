@@ -7,16 +7,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Mtbcooler/outrun/obj"
+	"github.com/RunnersRevival/outrun/obj"
 
-	"github.com/Mtbcooler/outrun/consts"
+	"github.com/RunnersRevival/outrun/consts"
 
-	"github.com/Mtbcooler/outrun/netobj"
+	"github.com/RunnersRevival/outrun/netobj"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 
-	"github.com/Mtbcooler/outrun/config"
+	"github.com/RunnersRevival/outrun/config"
 )
 
 var db *sqlx.DB

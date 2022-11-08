@@ -1,9 +1,9 @@
 package rpcobj
 
 import (
-	"github.com/Mtbcooler/outrun/logic"
+	"github.com/RunnersRevival/outrun/logic"
 
-	"github.com/Mtbcooler/outrun/db/dbaccess"
+	"github.com/RunnersRevival/outrun/db/dbaccess"
 )
 
 func (t *Toolbox) CalculateAndResetRankingData(nothing bool, reply *ToolboxReply) error {

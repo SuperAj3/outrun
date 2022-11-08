@@ -4,18 +4,18 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/Mtbcooler/outrun/consts"
-	"github.com/Mtbcooler/outrun/db"
+	"github.com/RunnersRevival/outrun/consts"
+	"github.com/RunnersRevival/outrun/db"
 
-	"github.com/Mtbcooler/outrun/db/dbaccess"
+	"github.com/RunnersRevival/outrun/db/dbaccess"
 
-	"github.com/Mtbcooler/outrun/emess"
-	"github.com/Mtbcooler/outrun/helper"
-	"github.com/Mtbcooler/outrun/obj"
-	"github.com/Mtbcooler/outrun/obj/constobjs"
-	"github.com/Mtbcooler/outrun/requests"
-	"github.com/Mtbcooler/outrun/responses"
-	"github.com/Mtbcooler/outrun/status"
+	"github.com/RunnersRevival/outrun/emess"
+	"github.com/RunnersRevival/outrun/helper"
+	"github.com/RunnersRevival/outrun/obj"
+	"github.com/RunnersRevival/outrun/obj/constobjs"
+	"github.com/RunnersRevival/outrun/requests"
+	"github.com/RunnersRevival/outrun/responses"
+	"github.com/RunnersRevival/outrun/status"
 )
 
 // Leaderboards and league endpoints

@@ -1,18 +1,18 @@
 package constobjs
 
 import (
-	"github.com/Mtbcooler/outrun/enums"
-	"github.com/Mtbcooler/outrun/obj"
+	"github.com/RunnersRevival/outrun/enums"
+	"github.com/RunnersRevival/outrun/obj"
 )
 
 // TODO: Remove! No longer used
 var DefaultLeagueDataMode1 = obj.NewLeagueData(
-	0, // league id
-	0, // group id
+	0,  // league id
+	0,  // group id
 	40, // number promoted
-	0, // number relegated
-	0, // number in group
-	0, // number in league
+	0,  // number relegated
+	0,  // number in group
+	0,  // number in league
 	[]obj.OperatorScore{
 		obj.NewOperatorScore(2, 50, []obj.Item{}),
 		obj.NewOperatorScore(2, 40, []obj.Item{obj.NewItem("900000", 5)}),

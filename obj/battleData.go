@@ -3,7 +3,7 @@ package obj
 import (
 	"time"
 
-	"github.com/Mtbcooler/outrun/enums"
+	"github.com/RunnersRevival/outrun/enums"
 )
 
 type BattleData struct {

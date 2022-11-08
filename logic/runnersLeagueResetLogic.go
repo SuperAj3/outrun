@@ -3,8 +3,8 @@ package logic
 import (
 	"time"
 
-	"github.com/Mtbcooler/outrun/db/dbaccess"
-	"github.com/Mtbcooler/outrun/enums"
+	"github.com/RunnersRevival/outrun/db/dbaccess"
+	"github.com/RunnersRevival/outrun/enums"
 )
 
 func CalculateAndResetRunnersLeague() (int, string) {
