@@ -129,7 +129,7 @@ func GetCharacterState(helper *helper.Helper) {
 		//helper.Out("Adding Tangle to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterTangle))
 	}
-	/*charindex = player.IndexOfChara(enums.CTStrXMasSonic)
+	charindex = player.IndexOfChara(enums.CTStrXMasSonic)
 	if charindex == -1 {
 		//helper.Out("Adding Xmas Sonic to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasSonic))
@@ -143,7 +143,7 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		//helper.Out("Adding Xmas Knuckles to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXMasKnuckles))
-	}*/
+	}
 
 	if strconv.Itoa(enums.CharaTypeXMasSonic) != enums.CTStrXMasSonic {
 		helper.Warn("Enum is wrong! Defined type for Xmas Sonic: %s (int) != %s (str)", strconv.Itoa(enums.CharaTypeXMasSonic), enums.CTStrXMasSonic)
