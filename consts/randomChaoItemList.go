@@ -46,9 +46,9 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	//enums.CTStrHalloweenShadow: 1.2,   // Event (Halloween)
 	//enums.CTStrHalloweenRouge:  1.2,   // Event (Halloween)
 	//enums.CTStrHalloweenOmega:  1.2,   // Event (Halloween)
-	enums.CTStrXMasSonic:       2.3, // Event (Christmas)
-	enums.CTStrXMasTails:       2.3, // Event (Christmas)
-	enums.CTStrXMasKnuckles:    2.3, // Event (Christmas)
+	//enums.CTStrXMasSonic:       2.3, // Event (Christmas)
+	//enums.CTStrXMasTails:       2.3, // Event (Christmas)
+	//enums.CTStrXMasKnuckles:    2.3, // Event (Christmas)
 }
 
 var RandomChaoWheelChaoPrizes = map[string]float64{
@@ -107,10 +107,10 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrHeavyBomb:            1.2, // Event (Fantasy Zone)
 	enums.ChaoIDStrBlockBomb:  1.0,
 	enums.ChaoIDStrHunkofMeat: 1.3,
-	enums.ChaoIDStrYeti:                 1.5, // Event (Christmas)
-	enums.ChaoIDStrSnowChao:             2.0, // Event (Christmas)
-	enums.ChaoIDStrIdeya:                1.5, // Event (Christmas NiGHTS)
-	enums.ChaoIDStrChristmasNightopian:  1.5, // Event (Christmas NiGHTS)
+	//enums.ChaoIDStrYeti:                 1.5, // Event (Christmas)
+	//enums.ChaoIDStrSnowChao:             2.0, // Event (Christmas)
+	//enums.ChaoIDStrIdeya:                1.5, // Event (Christmas NiGHTS)
+	//enums.ChaoIDStrChristmasNightopian:  1.5, // Event (Christmas NiGHTS)
 	enums.ChaoIDStrOrbot:      1.0,
 	enums.ChaoIDStrCubot:      1.0,
 	enums.ChaoIDStrLightChaos: 1.5,
@@ -144,8 +144,8 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrOPapa:                1.5, // Event (Fantasy Zone)
 	//enums.ChaoIDStrOpaOpa:               1.5, // Event (Fantasy Zone)
 	enums.ChaoIDStrRCBlockFace: 1.0,
-	enums.ChaoIDStrChristmasYeti:        1.5, // Event (Christmas)
-	enums.ChaoIDStrChristmasNiGHTS:      1.5, // Event (Christmas NiGHTS)
+	//enums.ChaoIDStrChristmasYeti:        1.5, // Event (Christmas)
+	//enums.ChaoIDStrChristmasNiGHTS:      1.5, // Event (Christmas NiGHTS)
 	//enums.ChaoIDStrDFekt:                0.0, // Revival Event (assets TBD)
 	//enums.ChaoIDStrDarkChaoWalker:       0.0, // Daily Battle?
 	//enums.ChaoIDStrPrideChaoL:           1.5,
