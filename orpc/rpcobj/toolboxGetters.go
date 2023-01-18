@@ -104,14 +104,3 @@ func (t *Toolbox) GetEventCollectibleCount(uid string, reply *ToolboxReply) erro
 	return nil
 }
 
-func (t *Toolbox) GetResetCount(uid string, reply *ToolboxReply) error {
-	player, err := db.GetPlayer(uid)
-	if err != nil {
-		reply.Status = StatusOtherError
-		reply.Info = "unable to get player: " + err.Error()
-		return err
-	}
-	reply.Status = StatusOK
-	reply.Info = strconv.Itoa(int(player.ResetCount))
-	return nil
-}

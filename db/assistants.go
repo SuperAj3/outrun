@@ -25,7 +25,7 @@ const (
 	SessionIDSchema = "OUTRUN_%s"
 )
 
-func NewAccountWithID(uid string, resetcount int64) netobj.Player {
+func NewAccountWithID(uid string) netobj.Player {
 	randChar := func(charset string, length int64) string {
 		runes := []rune(charset)
 		final := make([]rune, 10)
@@ -96,7 +96,6 @@ func NewAccountWithID(uid string, resetcount int64) netobj.Player {
 		loginBonusState,
 		false,
 		eventState,
-		resetcount,
 	)
 }
 
