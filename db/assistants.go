@@ -109,7 +109,7 @@ func NewAccount() netobj.Player {
 			newID += strconv.Itoa(rand.Intn(10))
 		}
 	}
-	return NewAccountWithID(newID, 0)
+	return NewAccountWithID(newID)
 }
 
 func SavePlayer(player netobj.Player) error {
