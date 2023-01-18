@@ -47,7 +47,13 @@ func (t *Toolbox) Debug_GetAllPlayerIDs(nothing bool, reply *ToolboxReply) error
 }
 
 func (t *Toolbox) Debug_ResetPlayer(uid string, reply *ToolboxReply) error {
-	_ = db.NewAccountWithID(uid)
+	player, err := db.GetPlayer(uid)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to get player: " + err.Error()
+		return err
+	}
+	_ = db.NewAccountWithID(uid, player.ResetCount+1)
 	reply.Status = StatusOK
 	reply.Info = "OK"
 	return nil

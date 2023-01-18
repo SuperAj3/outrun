@@ -10,7 +10,7 @@ type Toolbox struct {
 }
 
 func (t *Toolbox) RegisterPlayerWithID(uid string, reply *ToolboxReply) error {
-	player := db.NewAccountWithID(uid)
+	player := db.NewAccountWithID(uid, 0)
 	err := db.SavePlayer(player)
 	if err != nil {
 		reply.Status = StatusOtherError

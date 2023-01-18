@@ -35,9 +35,10 @@ type Player struct {
 	LoginBonusState   LoginBonusState             `json:"loginBonusState"`
 	InRun             bool                        `json:"inRun"`
 	EventState        EventState                  `json:"eventState"`
+	ResetCount        int64                       `json:"resetCount"` // Automatically incremented when Debug_ResetPlayer is executed on the player, for bookkeeping purposes
 }
 
-func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, inRun bool, eventState EventState) Player {
+func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, inRun bool, eventState EventState, resetCount int64) Player {
 	return Player{
 		id,
 		username,
@@ -62,6 +63,7 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		loginBonusState,
 		inRun,
 		eventState,
+		resetCount,
 	}
 }
 
