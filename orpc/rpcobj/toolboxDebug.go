@@ -438,6 +438,132 @@ func (t *Toolbox) Debug_FixWerehogRedRings(uids string, reply *ToolboxReply) err
 	return nil
 }
 
+func (t *Toolbox) Debug_FixGothicAmyPrices(uids string, reply *ToolboxReply) error {
+	gc := constobjs.CharacterGothicAmy
+	gcid := gc.ID
+	gcrr := int64(0)
+	gcc := gc.Cost
+	allUIDs := strings.Split(uids, ",")
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		i := player.IndexOfChara(gcid)
+		if i != -1 {
+			player.CharacterState[i].LockCondition = int64(0)
+			player.CharacterState[i].Character.PriceRedRings = gcrr // TODO: check if needed
+			player.CharacterState[i].PriceRedRings = gcrr
+			player.CharacterState[i].Price = int64(0)
+			player.CharacterState[i].Cost = gcc
+			reply.Status = StatusOK
+			println("Changed Cost values for %s")
+			//return fmt.Errorf("index not found!")
+			err = db.SavePlayer(player)
+			if err != nil {
+				reply.Status = StatusOtherError
+				reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+				return err
+			}
+		} else {
+			println("Skipped %s")
+		}
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
+func (t *Toolbox) Debug_UpdateCharacterLockCondition(character ChangeCharacter, reply *ToolboxReply) error {
+	allUIDs := strings.Split(character.UIDs, ",")
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		i := player.IndexOfChara(character.ID)
+		if i != -1 {
+			player.CharacterState[i].LockCondition = character.LockCondition
+			// player.CharacterState[i].Character.PriceRedRings = gcrr // TODO: check if needed
+			player.CharacterState[i].PriceRedRings = character.PriceRedRings
+			player.CharacterState[i].Price = character.Price
+			// player.CharacterState[i].Cost = gcc
+			reply.Status = StatusOK
+			println("Changed Lock Condition %s")
+			//return fmt.Errorf("index not found!")
+			err = db.SavePlayer(player)
+			if err != nil {
+				reply.Status = StatusOtherError
+				reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+				return err
+			}
+		} else {
+			println("Skipped %s")
+		}
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
+func (t *Toolbox) Debug_FixVariantPricing(uids string, reply *ToolboxReply) error {
+	cmap := map[string]obj.Character{
+		"301000": constobjs.CharacterAmitieAmy,
+		"301001": constobjs.CharacterGothicAmy,
+		"301002": constobjs.CharacterHalloweenShadow,
+		"301003": constobjs.CharacterHalloweenRouge,
+		"301004": constobjs.CharacterHalloweenOmega,
+		"301005": constobjs.CharacterXMasSonic,
+		"301006": constobjs.CharacterXMasTails,
+		"301007": constobjs.CharacterXMasKnuckles,
+	}
+	allUIDs := strings.Split(uids, ",")
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		for i, netchar := range player.CharacterState {
+			cid := netchar.ID
+			char, ok := cmap[cid]
+			if ok {
+				defaultCost := char.Cost
+				defaultNumRedRings := char.NumRedRings
+				defaultPrice := char.Price
+				defaultPriceRedRings := char.PriceRedRings
+				player.CharacterState[i].Character.Cost = defaultCost // TODO: check if needed
+				player.CharacterState[i].Cost = defaultCost
+				player.CharacterState[i].Character.NumRedRings = defaultNumRedRings // TODO: check if needed
+				player.CharacterState[i].NumRedRings = defaultNumRedRings
+				player.CharacterState[i].Character.Price = defaultPrice // TODO: check if needed
+				player.CharacterState[i].Price = defaultPrice
+				player.CharacterState[i].Character.PriceRedRings = defaultPriceRedRings // TODO: check if needed
+				player.CharacterState[i].PriceRedRings = defaultPriceRedRings
+				reply.Status = StatusOtherError
+				reply.Info = "character with ID '" + cid + "' was not found in CharacterState for player ID '" + uid + "'"
+				//return fmt.Errorf(reply.Info)
+			} else {
+				println("Not found")
+			}
+			err = db.SavePlayer(player)
+			if err != nil {
+				reply.Status = StatusOtherError
+				reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+				return err
+			}
+		}
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
 // This code ain't pretty, and takes a long time to execute depending on how many players are in the database!
 func (t *Toolbox) Debug_SendOperatorMessageToAll(args SendOperatorMessageToAllArgs, reply *ToolboxReply) error {
 	playerIDs := []string{}
