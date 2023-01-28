@@ -17,6 +17,7 @@ import (
 	"github.com/RunnersRevival/outrun/db/dbaccess"
 	"github.com/RunnersRevival/outrun/logic"
 	"github.com/RunnersRevival/outrun/netobj"
+	"github.com/RunnersRevival/outrun/enums"
 	"github.com/RunnersRevival/outrun/netobj/constnetobjs"
 	"github.com/RunnersRevival/outrun/obj"
 	"github.com/RunnersRevival/outrun/obj/constobjs"
@@ -454,6 +455,38 @@ func (t *Toolbox) Debug_RemoveCharacter(character ChangeCharacter, reply *Toolbo
 			player.CharacterState = append(charaState[:index], charaState[index + 1:]...)
 		}
 		println("Removed Character ", character.ID, " to ", uid)
+        err = db.SavePlayer(player)
+        if err != nil {
+            reply.Status = StatusOtherError
+            reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+            return err
+        }
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
+func (t *Toolbox) Debug_RemoveCharacterIfLocked(character ChangeCharacter, reply *ToolboxReply) error {
+    allUIDs := strings.Split(character.UIDs, ",")
+
+    for _, uid := range allUIDs {
+        player, err := db.GetPlayer(uid)
+        if err != nil {
+            reply.Status = StatusOtherError
+            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+            return err
+        }
+        charaState := player.CharacterState
+        index := player.IndexOfChara(character.ID)
+		if index != -1 {
+			if player.CharacterState[index].Status == enums.CharacterStatusLocked {
+				player.CharacterState = append(charaState[:index], charaState[index + 1:]...)
+				println("Removed Character ", character.ID, " to ", uid)
+			} else {
+				println("Player ", uid, " has unlocked character ID ", character.ID, ", ignoring. ")
+			}
+		}
         err = db.SavePlayer(player)
         if err != nil {
             reply.Status = StatusOtherError
