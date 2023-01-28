@@ -651,10 +651,8 @@ func (t *Toolbox) Debug_FixVariantPricing(uids string, reply *ToolboxReply) erro
 				player.CharacterState[i].Character.PriceRedRings = defaultPriceRedRings // TODO: check if needed
 				player.CharacterState[i].PriceRedRings = defaultPriceRedRings
 				reply.Status = StatusOtherError
-				reply.Info = "character with ID '" + cid + "' was not found in CharacterState for player ID '" + uid + "'"
+				println("character with ID '" + cid + "' was updated successfully for player ID '" + uid + "'")
 				//return fmt.Errorf(reply.Info)
-			} else {
-				println("Not found")
 			}
 			err = db.SavePlayer(player)
 			if err != nil {
