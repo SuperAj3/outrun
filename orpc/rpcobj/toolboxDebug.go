@@ -453,6 +453,7 @@ func (t *Toolbox) Debug_RemoveCharacter(character ChangeCharacter, reply *Toolbo
 		if index != -1 {
 			player.CharacterState = append(charaState[:index], charaState[index + 1:]...)
 		}
+		println("Removed Character ", character.ID, " to ", uid)
         err = db.SavePlayer(player)
         if err != nil {
             reply.Status = StatusOtherError
@@ -493,6 +494,7 @@ func (t *Toolbox) Debug_AddCharacter(character ChangeCharacter, reply *ToolboxRe
 			case 3:
 				player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(newCharacter))
 			}
+			println("Added Character ", character.ID, " to ", uid)
 			err = db.SavePlayer(player)
 			if err != nil {
 				reply.Status = StatusOtherError
