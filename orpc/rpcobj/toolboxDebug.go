@@ -459,7 +459,7 @@ func (t *Toolbox) Debug_FixGothicAmyPrices(uids string, reply *ToolboxReply) err
 			player.CharacterState[i].Price = int64(0)
 			player.CharacterState[i].Cost = gcc
 			reply.Status = StatusOK
-			println("Changed Cost values for %s")
+			println("Changed Cost values for ", uid)
 			//return fmt.Errorf("index not found!")
 			err = db.SavePlayer(player)
 			if err != nil {
@@ -468,7 +468,7 @@ func (t *Toolbox) Debug_FixGothicAmyPrices(uids string, reply *ToolboxReply) err
 				return err
 			}
 		} else {
-			println("Skipped %s")
+			println("Skipped")
 		}
 	}
 	reply.Status = StatusOK
@@ -493,7 +493,7 @@ func (t *Toolbox) Debug_UpdateCharacterLockCondition(character ChangeCharacter, 
 			player.CharacterState[i].Price = character.Price
 			// player.CharacterState[i].Cost = gcc
 			reply.Status = StatusOK
-			println("Changed Lock Condition %s")
+			println("Changed Lock Condition for ", uid)
 			//return fmt.Errorf("index not found!")
 			err = db.SavePlayer(player)
 			if err != nil {
@@ -502,7 +502,7 @@ func (t *Toolbox) Debug_UpdateCharacterLockCondition(character ChangeCharacter, 
 				return err
 			}
 		} else {
-			println("Skipped %s")
+			println("Skipped")
 		}
 	}
 	reply.Status = StatusOK
