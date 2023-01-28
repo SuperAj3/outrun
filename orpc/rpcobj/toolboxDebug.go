@@ -438,6 +438,76 @@ func (t *Toolbox) Debug_FixWerehogRedRings(uids string, reply *ToolboxReply) err
 	return nil
 }
 
+func (t *Toolbox) Debug_RemoveCharacter(character ChangeCharacter, reply *ToolboxReply) error {
+    allUIDs := strings.Split(character.UIDs, ",")
+
+    for _, uid := range allUIDs {
+        player, err := db.GetPlayer(uid)
+        if err != nil {
+            reply.Status = StatusOtherError
+            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+            return err
+        }
+        charaState := player.CharacterState
+        index := player.IndexOfChara(character.ID)
+		if index != -1 {
+			player.CharacterState = append(charaState[:index], charaState[index + 1:]...)
+		}
+        err = db.SavePlayer(player)
+        if err != nil {
+            reply.Status = StatusOtherError
+            reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+            return err
+        }
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
+func (t *Toolbox) Debug_AddCharacter(character ChangeCharacter, reply *ToolboxReply) error {
+    allUIDs := strings.Split(character.UIDs, ",")
+	var newCharacter = obj.Character{
+		character.ID,
+		character.Cost,
+		character.NumRedRings,
+		character.Price, // used for limit breaking
+		character.PriceRedRings,    // red rings used for limit breaking
+	}
+    for _, uid := range allUIDs {
+        player, err := db.GetPlayer(uid)
+        if err != nil {
+            reply.Status = StatusOtherError
+            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+            return err
+        }
+        index := player.IndexOfChara(character.ID)
+		if index == -1 {
+			switch character.LockCondition{
+			case 0:
+				player.CharacterState = append(player.CharacterState, netobj.DefaultCharacter(newCharacter))
+			case 1:
+				player.CharacterState = append(player.CharacterState, netobj.DefaultStageLockedCharacter(newCharacter))
+			case 2:
+				player.CharacterState = append(player.CharacterState, netobj.DefaultLockedCharacter(newCharacter))
+			case 3:
+				player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(newCharacter))
+			}
+			err = db.SavePlayer(player)
+			if err != nil {
+				reply.Status = StatusOtherError
+				reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+				return err
+			}
+		} else {
+			println("Character is already found in player's CharacterState!")
+		}
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
 func (t *Toolbox) Debug_FixGothicAmyPrices(uids string, reply *ToolboxReply) error {
 	gc := constobjs.CharacterGothicAmy
 	gcid := gc.ID
