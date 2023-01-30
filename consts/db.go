@@ -7,5 +7,5 @@ const (
 	DBBucketPlayers    = "players"
 	DBBucketAnalytics  = "analytics"
 
-	DBSessionExpiryTime = 3600
+	DBSessionExpiryTime = 5600
 )

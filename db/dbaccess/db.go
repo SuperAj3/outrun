@@ -49,7 +49,7 @@ func Get(bucket, key string) ([]byte, error) {
 
 func Delete(bucket, key string) error {
 	CheckIfDBSet()
-	return db.View(func(tx *bolt.Tx) error {
+	return db.Update(func(tx *bolt.Tx) error {
 		return tx.Bucket([]byte(bucket)).Delete([]byte(key))
 	})
 }

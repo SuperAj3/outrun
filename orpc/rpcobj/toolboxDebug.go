@@ -849,7 +849,7 @@ func (t *Toolbox) Debug_PurgeInactivePlayers(testmode bool, reply *ToolboxReply)
 			return err
 		}
 		if player.LastLogin < time.Now().AddDate(0, -11, 0).UTC().Unix() {
-			log.Printf("[RPC-DEBUG] Player %s hasn't logged in for six or more months! (Last Login: %v)\n", uid)
+			log.Printf("[RPC-DEBUG] Player %s hasn't logged in for six or more months! (Last Login: %v)\n", uid, player.LastLogin)
 			numberOfPurgedPlayers++
 			if !testmode {
 				err := db.DeletePlayer(uid)
