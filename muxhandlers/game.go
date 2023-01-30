@@ -8,7 +8,6 @@ import (
 	"os"
 	"strconv"
 	"time"
-
 	"github.com/RunnersRevival/outrun/analytics"
 	"github.com/RunnersRevival/outrun/analytics/factors"
 	"github.com/RunnersRevival/outrun/config"
@@ -360,6 +359,11 @@ func QuickPostGameResults(helper *helper.Helper) {
 			subC,
 		}
 	}
+	mainCIndex := player.IndexOfChara(mainC.ID) // TODO: check if -1
+	subCIndex := -1
+	if hasSubCharacter {
+		subCIndex = player.IndexOfChara(subC.ID) // TODO: check if -1
+	}
 	if request.Closed == 0 { // If the game wasn't exited out of
 		var finalRingCount int64 = player.PlayerState.NumRings + request.Rings
 		const maxRingValue = 2147483647 // int32 maximum value
@@ -448,7 +452,13 @@ func QuickPostGameResults(helper *helper.Helper) {
 		// increase character(s)'s experience
 		expIncrease := request.Rings + request.FailureRings // all rings collected
 		mainAbilityIndex := 1
+		//tempAbilityIndex := 0
+		//tempAbilityIndex = mainAbilityIndex
 		mainAbilitySum := sum(mainC.AbilityLevel)
+		AbilityLevelUpIDMain := make([]int64, 0) // Does not need to be fixed
+		AbilityLevelUpIDSub := make([]int64, 0) // Does not need to be fixed
+		AbilityLevelUpXPValueMain := make([]int64, 0) // Does not need to be fixed, but needs same size as AbilityLevelUp
+		AbilityLevelUpXPValueSub := make([]int64, 0) // Does not need to be fixed, but needs same size as AbilityLevelUp
 		if mainAbilitySum < 100 {
 			for mainAbilityIndex == 1 || mainC.AbilityLevel[mainAbilityIndex] >= 10 { // unused ability is at index 1
 				mainAbilityIndex = rand.Intn(len(mainC.AbilityLevel))
@@ -456,6 +466,9 @@ func QuickPostGameResults(helper *helper.Helper) {
 		} else {
 			helper.DebugOut("Main character seems to be maxed out on abilities!")
 		}
+		// for i := range AbilityLevelUpIDMain {
+		// 	AbilityLevelUpIDMain[i] = 120000 // Item ID sprite
+		// }
 		subAbilityIndex := 1
 		subAbilitySum := mainAbilitySum
 		if hasSubCharacter {
@@ -488,9 +501,12 @@ func QuickPostGameResults(helper *helper.Helper) {
 				if playCharacters[0].Level < 100 {
 					playCharacters[0].Level++                                               // increase level
 					playCharacters[0].AbilityLevel[mainAbilityIndex]++                      // increase ability level
+					AbilityLevelUpXPValueMain = append(AbilityLevelUpXPValueMain, int64(playCharacters[0].Cost))
+					AbilityLevelUpIDMain = append(AbilityLevelUpIDMain, 120000 + int64(mainAbilityIndex))
 					playCharacters[0].Exp -= playCharacters[0].Cost                         // remove cost from exp
 					playCharacters[0].Cost += consts.UpgradeIncreases[playCharacters[0].ID] // increase cost
 					mainAbilitySum = sum(playCharacters[0].AbilityLevel)
+					mainAbilityIndex = 1
 					if mainAbilitySum < 100 {
 						for mainAbilityIndex == 1 || playCharacters[0].AbilityLevel[mainAbilityIndex] >= 10 { // reroll ability index
 							mainAbilityIndex = rand.Intn(len(playCharacters[0].AbilityLevel))
@@ -501,6 +517,8 @@ func QuickPostGameResults(helper *helper.Helper) {
 					playCharacters[0].Exp -= playCharacters[0].Cost
 				}
 			}
+			playCharacters[0].AbilityLevelUp = AbilityLevelUpIDMain         // array of abilities to level up
+			playCharacters[0].AbilityLevelUpExp = AbilityLevelUpXPValueMain //  array of XP Values in the level up screeen, should always be character.Cost
 		}
 		if hasSubCharacter {
 			if playCharacters[1].Level < 100 {
@@ -510,9 +528,12 @@ func QuickPostGameResults(helper *helper.Helper) {
 					if playCharacters[1].Level < 100 {
 						playCharacters[1].Level++                                               // increase level
 						playCharacters[1].AbilityLevel[subAbilityIndex]++                       // increase ability level
+						AbilityLevelUpXPValueSub = append(AbilityLevelUpXPValueSub, int64(playCharacters[1].Cost))
+						AbilityLevelUpIDSub = append(AbilityLevelUpIDSub, 120000 + int64(subAbilityIndex))
 						playCharacters[1].Exp -= playCharacters[1].Cost                         // remove cost from exp
 						playCharacters[1].Cost += consts.UpgradeIncreases[playCharacters[1].ID] // increase cost
 						subAbilitySum = sum(playCharacters[1].AbilityLevel)
+						subAbilityIndex = 1
 						if subAbilitySum < 100 {
 							for subAbilityIndex == 1 || playCharacters[1].AbilityLevel[subAbilityIndex] >= 10 { // reroll ability index
 								subAbilityIndex = rand.Intn(len(playCharacters[1].AbilityLevel))
@@ -523,6 +544,8 @@ func QuickPostGameResults(helper *helper.Helper) {
 						playCharacters[1].Exp -= playCharacters[1].Cost
 					}
 				}
+				playCharacters[1].AbilityLevelUp = AbilityLevelUpIDSub         // array of abilities to level up
+				playCharacters[1].AbilityLevelUpExp = AbilityLevelUpXPValueSub //  array of XP Values in the level up screeen, should always be character.Cost
 			}
 		}
 
@@ -534,16 +557,11 @@ func QuickPostGameResults(helper *helper.Helper) {
 		}
 		helper.DebugOut("New mainC Exp: %v / %v", playCharacters[0].Exp, playCharacters[0].Cost)
 		helper.DebugOut("New mainC Level: %v", playCharacters[0].Level)
+		helper.DebugOut("New mainC Level: %v", playCharacters[0].AbilityLevelUp)
 		if hasSubCharacter {
 			helper.DebugOut("New subC Exp: %v / %v", playCharacters[1].Exp, playCharacters[1].Cost)
 			helper.DebugOut("New subC Level: %v", playCharacters[1].Level)
 		}
-	}
-
-	mainCIndex := player.IndexOfChara(mainC.ID) // TODO: check if -1
-	subCIndex := -1
-	if hasSubCharacter {
-		subCIndex = player.IndexOfChara(subC.ID) // TODO: check if -1
 	}
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
@@ -759,6 +777,10 @@ func PostGameResults(helper *helper.Helper) {
 		expIncrease := request.Rings + request.FailureRings // all rings collected
 		mainAbilityIndex := 1
 		mainAbilitySum := sum(mainC.AbilityLevel)
+		AbilityLevelUpIDMain := make([]int64, 0) // Does not need to be fixed
+		AbilityLevelUpIDSub := make([]int64, 0) // Does not need to be fixed
+		AbilityLevelUpXPValueMain := make([]int64, 0) // Does not need to be fixed, but needs same size as AbilityLevelUp
+		AbilityLevelUpXPValueSub := make([]int64, 0) // Does not need to be fixed, but needs same size as AbilityLevelUp
 		if mainAbilitySum < 100 {
 			for mainAbilityIndex == 1 || mainC.AbilityLevel[mainAbilityIndex] >= 10 { // unused ability is at index 1
 				mainAbilityIndex = rand.Intn(len(mainC.AbilityLevel))
@@ -798,9 +820,12 @@ func PostGameResults(helper *helper.Helper) {
 				if playCharacters[0].Level < 100 {
 					playCharacters[0].Level++                                               // increase level
 					playCharacters[0].AbilityLevel[mainAbilityIndex]++                      // increase ability level
+					AbilityLevelUpXPValueMain = append(AbilityLevelUpXPValueMain, int64(playCharacters[0].Cost))
+					AbilityLevelUpIDMain = append(AbilityLevelUpIDMain, 120000 + int64(mainAbilityIndex))
 					playCharacters[0].Exp -= playCharacters[0].Cost                         // remove cost from exp
 					playCharacters[0].Cost += consts.UpgradeIncreases[playCharacters[0].ID] // increase cost
 					mainAbilitySum = sum(playCharacters[0].AbilityLevel)
+					mainAbilityIndex = 1
 					if mainAbilitySum < 100 {
 						for mainAbilityIndex == 1 || playCharacters[0].AbilityLevel[mainAbilityIndex] >= 10 { // reroll ability index
 							mainAbilityIndex = rand.Intn(len(playCharacters[0].AbilityLevel))
@@ -811,6 +836,8 @@ func PostGameResults(helper *helper.Helper) {
 					playCharacters[0].Exp -= playCharacters[0].Cost
 				}
 			}
+			playCharacters[0].AbilityLevelUp = AbilityLevelUpIDMain         // array of abilities to level up
+			playCharacters[0].AbilityLevelUpExp = AbilityLevelUpXPValueMain //  array of XP Values in the level up screeen, should always be character.Cost
 		}
 		if hasSubCharacter {
 			if playCharacters[1].Level < 100 {
@@ -820,9 +847,12 @@ func PostGameResults(helper *helper.Helper) {
 					if playCharacters[1].Level < 100 {
 						playCharacters[1].Level++                                               // increase level
 						playCharacters[1].AbilityLevel[subAbilityIndex]++                       // increase ability level
+						AbilityLevelUpXPValueSub = append(AbilityLevelUpXPValueSub, int64(playCharacters[1].Cost))
+						AbilityLevelUpIDSub = append(AbilityLevelUpIDSub, 120000 + int64(subAbilityIndex))
 						playCharacters[1].Exp -= playCharacters[1].Cost                         // remove cost from exp
 						playCharacters[1].Cost += consts.UpgradeIncreases[playCharacters[1].ID] // increase cost
 						subAbilitySum = sum(playCharacters[1].AbilityLevel)
+						subAbilityIndex = 1
 						if subAbilitySum < 100 {
 							for subAbilityIndex == 1 || playCharacters[1].AbilityLevel[subAbilityIndex] >= 10 { // reroll ability index
 								subAbilityIndex = rand.Intn(len(playCharacters[1].AbilityLevel))
@@ -833,6 +863,8 @@ func PostGameResults(helper *helper.Helper) {
 						playCharacters[1].Exp -= playCharacters[1].Cost
 					}
 				}
+				playCharacters[1].AbilityLevelUp = AbilityLevelUpIDSub         // array of abilities to level up
+				playCharacters[1].AbilityLevelUpExp = AbilityLevelUpXPValueSub //  array of XP Values in the level up screeen, should always be character.Cost
 			}
 		}
 

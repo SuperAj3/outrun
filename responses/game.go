@@ -187,7 +187,6 @@ type QuickPostGameResultsResponse struct {
 	PlayerState             netobj.PlayerState    `json:"playerState"`
 	ChaoState               []netobj.Chao         `json:"chaoState"`
 	DailyChallengeIncentive []obj.Incentive       `json:"dailyChallengeIncentive"` // should be obj.Item, but game doesn't care
-	CharacterState          []netobj.Character    `json:"characterState"`
 	MessageList             []obj.Message         `json:"messageList"`
 	OperatorMessageList     []obj.OperatorMessage `json:"operatorMessageList"`
 	TotalMessage            int64                 `json:"totalMessage"`
@@ -200,7 +199,6 @@ func QuickPostGameResults(base responseobjs.BaseInfo, player netobj.Player, dci 
 	playerState := player.PlayerState
 	chaoState := player.ChaoState
 	dailyChallengeIncentive := dci
-	characterState := player.CharacterState
 	messageList := []obj.Message{}
 	operatorMessageList := []obj.OperatorMessage{}
 	totalMessage := int64(len(messageList))
@@ -211,7 +209,6 @@ func QuickPostGameResults(base responseobjs.BaseInfo, player netobj.Player, dci 
 		playerState,
 		chaoState,
 		dailyChallengeIncentive,
-		characterState,
 		messageList,
 		operatorMessageList,
 		totalMessage,
@@ -264,7 +261,6 @@ func PostGameResults(base responseobjs.BaseInfo, player netobj.Player, dci []obj
 	playerState := player.PlayerState
 	chaoState := player.ChaoState
 	dailyChallengeIncentive := dci
-	characterState := player.CharacterState
 	messageList := []obj.Message{}
 	operatorMessageList := []obj.OperatorMessage{}
 	totalMessage := int64(len(messageList))
@@ -275,7 +271,6 @@ func PostGameResults(base responseobjs.BaseInfo, player netobj.Player, dci []obj
 		playerState,
 		chaoState,
 		dailyChallengeIncentive,
-		characterState,
 		messageList,
 		operatorMessageList,
 		totalMessage,
@@ -317,7 +312,6 @@ func PostGameResultsEvent(base responseobjs.BaseInfo, player netobj.Player, dci 
 	playerState := player.PlayerState
 	chaoState := player.ChaoState
 	dailyChallengeIncentive := dci
-	characterState := player.CharacterState
 	messageList := []obj.Message{}
 	operatorMessageList := []obj.OperatorMessage{}
 	totalMessage := int64(len(messageList))
@@ -328,7 +322,6 @@ func PostGameResultsEvent(base responseobjs.BaseInfo, player netobj.Player, dci 
 		playerState,
 		chaoState,
 		dailyChallengeIncentive,
-		characterState,
 		messageList,
 		operatorMessageList,
 		totalMessage,
