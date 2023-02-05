@@ -10,6 +10,7 @@ import (
 )
 
 var db *bolt.DB
+var battleDb *bolt.DB
 var DatabaseIsBusy = false
 
 func Set(bucket, key string, value []byte) error {
@@ -78,4 +79,74 @@ func CheckIfDBSet() {
 		}
 		db = bdb
 	}
+}
+
+// Battle stuff
+
+func CheckIfBattleSet() {
+	if battleDb == nil {
+		bdb, err := bolt.Open(consts.BattleDBFileName, 0600, &bolt.Options{Timeout: 3 * time.Second})
+		if err != nil {
+			panic(err)
+		}
+		battleDb = bdb
+	}
+}
+
+func BattleDBSet(bucket, key string, value []byte) error {
+	CheckIfBattleSet()
+	value = Compress(value) // compress the input first
+	err := battleDb.Update(func(tx *bolt.Tx) error {
+		bucket, err := tx.CreateBucketIfNotExists([]byte(bucket))
+		if err != nil {
+			return err
+		}
+		err = bucket.Put([]byte(key), value)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return err
+}
+
+func BattleDBGet(bucket, key string) ([]byte, error) {
+	CheckIfBattleSet()
+	var value []byte
+	err := battleDb.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(bucket))
+		value = b.Get([]byte(key))
+		if value == nil {
+			return errors.New("no value named '" + key + "' in bucket '" + bucket + "'")
+		}
+		return nil
+	})
+	result, derr := Decompress(value) // decompress the result
+	if derr != nil {
+		return result, derr
+	}
+	return result, err
+}
+
+func BattleDBDelete(bucket, key string) error {
+	CheckIfBattleSet()
+	return battleDb.Update(func(tx *bolt.Tx) error {
+		return tx.Bucket([]byte(bucket)).Delete([]byte(key))
+	})
+}
+
+func BattleDBForEachKey(bucket string, each func(k, v []byte) error) error {
+	CheckIfBattleSet()
+	err := battleDb.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(bucket))
+		err2 := b.ForEach(each)
+		return err2
+	})
+	return err
+}
+
+func BattleDBForEachLogic(each func(tx *bolt.Tx) error) error {
+	CheckIfBattleSet()
+	err := battleDb.View(each)
+	return err
 }

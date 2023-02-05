@@ -27,6 +27,7 @@ import (
 	"github.com/RunnersRevival/outrun/requests"
 	"github.com/RunnersRevival/outrun/responses"
 	"github.com/RunnersRevival/outrun/status"
+	"github.com/RunnersRevival/outrun/logic/battle"
 	"github.com/jinzhu/now"
 )
 
@@ -388,6 +389,25 @@ func QuickPostGameResults(helper *helper.Helper) {
 		playerTimedHighScore := player.PlayerState.TimedHighScore
 		if request.Score > playerTimedHighScore {
 			player.PlayerState.TimedHighScore = request.Score
+		}
+		if player.BattleState.ScoreRecordedToday {
+			helper.DebugOut("Daily battle high score already set!")
+			dailyBattleHighScore := player.BattleState.DailyBattleHighScore
+			if request.Score > dailyBattleHighScore {
+				player.BattleState.DailyBattleHighScore = request.Score
+				helper.DebugOut("New daily battle high score!")
+			}
+		} else {
+			player.BattleState.PrevDailyBattleHighScore = player.BattleState.DailyBattleHighScore
+			player.BattleState.DailyBattleHighScore = request.Score
+			helper.DebugOut("Daily battle high score has been set!")
+			player.BattleState.ScoreRecordedToday = true
+			player.BattleState = battle.DrawBattleRival(player)
+		}
+		if player.BattleState.MatchedUpWithRival {
+			helper.DebugOut("Matched up with rival!")
+		} else {
+			helper.DebugOut("No rival was found!")
 		}
 		helper.DebugOut("request.DailyChallengeValue: %v", request.DailyChallengeValue)
 		helper.DebugOut("request.DailyChallengeComplete: %v", request.DailyChallengeComplete)
