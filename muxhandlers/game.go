@@ -569,8 +569,8 @@ func QuickPostGameResults(helper *helper.Helper) {
 			}
 		}
 		player.PlayerState.MainCharaLevel = playCharacters[0].Level
-		hasMainChao := player.PlayerState.MainChaoID != "-1"
-		hasSubChao := player.PlayerState.SubChaoID != "-1"
+		hasMainChao := player.PlayerState.MainChaoID != "none"
+		hasSubChao := player.PlayerState.SubChaoID != "none"
 		var subCh netobj.Chao
 		if hasMainChao{
 			mainCh, err := player.GetMainChao()
