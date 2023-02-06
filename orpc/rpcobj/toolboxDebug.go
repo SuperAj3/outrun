@@ -894,6 +894,27 @@ func (t *Toolbox) Debug_CountPlayers(nothing bool, reply *ToolboxReply) error {
 	return nil
 }
 
+// Returns how many players are in the Battle database
+func (t *Toolbox) Debug_CountBattlePlayers(nothing bool, reply *ToolboxReply) error {
+	waiting := 0
+	matched := 0
+	waitingPlayerIDs := []string{}
+	dbaccess.BattleDBForEachKey(consts.BattleDBBucketWaiting, func(k, v []byte) error {
+		waitingPlayerIDs = append(waitingPlayerIDs, string(k))
+		waiting++
+		return nil
+	})
+	matchedPlayerIDs := []string{}
+	dbaccess.BattleDBForEachKey(consts.BattleDBBucketMatched, func(k, v []byte) error {
+		matchedPlayerIDs = append(matchedPlayerIDs, string(k))
+		matched++
+		return nil
+	})
+	reply.Status = StatusOK
+	reply.Info = "OK - there are " + strconv.Itoa(waiting) + " players waiting for a battle and there are " + strconv.Itoa(matched) + " players that are already in a match."
+	return nil
+}
+
 func (t *Toolbox) Debug_PlayersByMigrationPassword(mpassword string, reply *ToolboxReply) error {
 	foundPlayers, err := logic.FindPlayersByMigrationPassword(mpassword, false)
 	if err != nil {
