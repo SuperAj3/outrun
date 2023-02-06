@@ -575,7 +575,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 		if hasMainChao{
 			mainCh, err := player.GetMainChao()
 			if err != nil {
-				helper.InternalErr("Error getting main character", err)
+				helper.InternalErr("Error getting main chao", err)
 				return
 			}
 			playChao := []netobj.Chao{ // assume only main character active right now
@@ -585,7 +585,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 			if hasSubChao {
 				subCh, err = player.GetSubChao()
 				if err != nil {
-					helper.InternalErr("Error getting sub character", err)
+					helper.InternalErr("Error getting sub chao", err)
 					return
 				}
 				playChao = []netobj.Chao{ // add sub character to playCharacters
@@ -916,8 +916,8 @@ func PostGameResults(helper *helper.Helper) {
 			}
 		}
 		player.PlayerState.MainCharaLevel = playCharacters[0].Level
-		hasMainChao := player.PlayerState.MainChaoID != "-1"
-		hasSubChao := player.PlayerState.SubChaoID != "-1"
+		hasMainChao := player.PlayerState.MainChaoID != "none"
+		hasSubChao := player.PlayerState.SubChaoID != "none"
 		var subCh netobj.Chao
 		if hasMainChao{
 			mainCh, err := player.GetMainChao()
