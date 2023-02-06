@@ -21,6 +21,7 @@ Notable:
   - Basic ranking
   - Login Bonuses
   - Daily Challenge
+  - Daily Battles
 
 Functional:
   - Android and iOS support

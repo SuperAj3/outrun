@@ -22,9 +22,10 @@ type BattleState struct {
 	BattleHistory            []obj.BattlePair     `json:"battleDataHistory"`
 	PendingReward            bool                 `json:"pendingReward"`
 	PendingRewardData        obj.RewardBattlePair `json:"pendingRewardData"`
+	WantsStricterMatchmaking bool                 `json:"wantsStricterMatchmaking"`
 }
 
-func NewBattleState(scoreRecordedToday bool, dailyBattleHighScore, prevDailyBattleHighScore, battleStartTime, battleEndTime int64, matchedUpWithRival bool, rivalID string, wins, losses, draws, failures, winStreak, lossStreak int64, battleHistory []obj.BattlePair, pendingReward bool, pendingRewardData obj.RewardBattlePair) BattleState {
+func NewBattleState(scoreRecordedToday bool, dailyBattleHighScore, prevDailyBattleHighScore, battleStartTime, battleEndTime int64, matchedUpWithRival bool, rivalID string, wins, losses, draws, failures, winStreak, lossStreak int64, battleHistory []obj.BattlePair, pendingReward bool, pendingRewardData obj.RewardBattlePair, wantsStricterMatchmaking bool) BattleState {
 	return BattleState{
 		scoreRecordedToday,
 		dailyBattleHighScore,
@@ -42,6 +43,7 @@ func NewBattleState(scoreRecordedToday bool, dailyBattleHighScore, prevDailyBatt
 		battleHistory,
 		pendingReward,
 		pendingRewardData,
+		wantsStricterMatchmaking,
 	}
 }
 
@@ -62,6 +64,7 @@ func DefaultBattleState() BattleState {
 	battleHistory := []obj.BattlePair{}
 	pendingReward := false
 	pendingRewardData := obj.NewRewardBattlePair(-1, -1, obj.DebugRivalBattleData(), obj.DebugRivalBattleData()) //dummy data
+	wantsStricterMatchmaking := false
 	return NewBattleState(
 		scoreRecordedToday,
 		dailyBattleHighScore,
@@ -79,5 +82,6 @@ func DefaultBattleState() BattleState {
 		battleHistory,
 		pendingReward,
 		pendingRewardData,
+		wantsStricterMatchmaking,
 	)
 }

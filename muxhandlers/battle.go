@@ -134,6 +134,7 @@ func UpdateDailyBattleStatus(helper *helper.Helper) {
 		player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
 		player.BattleState.ScoreRecordedToday = false
 		player.BattleState.MatchedUpWithRival = false
+		player.BattleState.WantsStricterMatchmaking = false
 	}
 	battleStatus := obj.BattleStatus{
 		player.BattleState.Wins,
@@ -228,9 +229,11 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 		case 1:
 			helper.Warn("Skip RSR deduction for now")
 			//player.PlayerState.NumRedRings -= 5
+			player.BattleState.WantsStricterMatchmaking = false
 		case 2:
 			helper.Warn("Skip RSR deduction for now")
 			//player.PlayerState.NumRedRings -= 10
+			player.BattleState.WantsStricterMatchmaking = true
 		}
 	}
 
@@ -448,6 +451,7 @@ func PostDailyBattleResult(helper *helper.Helper) {
 			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
 			player.BattleState.ScoreRecordedToday = false
 			player.BattleState.MatchedUpWithRival = false
+			player.BattleState.WantsStricterMatchmaking = false
 		}
 	}
 

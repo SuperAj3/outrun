@@ -9,8 +9,8 @@ type PlayerVarious struct {
 	EnergyRecoveryMax    int64 `json:"energyRecoveryMax"`
 	EnergyRecoveryTime   int64 `json:"energyRecveryTime"` // time until...?
 	OnePlayCmCount       int64 `json:"onePlayCmCount"`
-	OnePlayContinueCount int64 `json:"onePlayContinueCount"`
-	IsPurchased          int64 `json:"isPurchased"`
+	OnePlayContinueCount int64 `json:"onePlayContinueCount"` // number of continues per run
+	IsPurchased          int64 `json:"isPurchased"`          // removes ads? doesn't seem to do anything in 2.x
 }
 
 func DefaultPlayerVarious() PlayerVarious {
