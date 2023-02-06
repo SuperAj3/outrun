@@ -73,6 +73,7 @@ func NewAccountWithID(uid string, resetcount int64) netobj.Player {
 	operatorMessages := []obj.OperatorMessage{}
 	loginBonusState := netobj.DefaultLoginBonusState(0)
 	eventState := netobj.DefaultEventState()
+	battleState := netobj.DefaultBattleState()
 	return netobj.NewPlayer(
 		uid,
 		username,
@@ -97,6 +98,7 @@ func NewAccountWithID(uid string, resetcount int64) netobj.Player {
 		false,
 		eventState,
 		resetcount,
+		battleState,
 	)
 }
 
@@ -210,4 +212,51 @@ func PurgeAllExpiredSessionIDs() {
 	for _, key := range keysToPurge {
 		PurgeSessionID(string(key))
 	}
+}
+
+func BattleGetPlayer(uid string) (netobj.Player, error) {
+	var player netobj.Player
+	playerData, err := dbaccess.Get(consts.BattleDBBucketWaiting, uid)
+	if err != nil {
+		return constnetobjs.BlankPlayer, err
+	}
+	err = json.Unmarshal(playerData, &player)
+	if err != nil {
+		return constnetobjs.BlankPlayer, err
+	}
+	return player, nil
+}
+
+func BattleSaveWaitingPlayer(player netobj.Player) error {
+	j, err := json.Marshal(player)
+	if err != nil {
+		return err
+	}
+	err = dbaccess.BattleDBSet(consts.BattleDBBucketWaiting, player.ID, j)
+	return err
+}
+
+func BattleSaveMatchedPlayer(player netobj.Player) error {
+	j, err := json.Marshal(player)
+	if err != nil {
+		return err
+	}
+	err = dbaccess.BattleDBSet(consts.BattleDBBucketMatched, player.ID, j)
+	return err
+}
+
+func BattleDeleteWaitingPlayer(uid string) error {
+	err := dbaccess.BattleDBDelete(consts.BattleDBBucketWaiting, uid)
+	return err
+}
+
+func BattleDeleteMatchedPlayer(uid string) error {
+	err := dbaccess.BattleDBDelete(consts.BattleDBBucketMatched, uid)
+	return err
+}
+
+func BattleDeletePlayer(uid string) error {
+	err := dbaccess.BattleDBDelete(consts.BattleDBBucketWaiting, uid)
+	err = dbaccess.BattleDBDelete(consts.BattleDBBucketMatched, uid)
+	return err
 }

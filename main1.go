@@ -34,7 +34,7 @@ var (
 )
 
 func OutputUnknownRequest(w http.ResponseWriter, r *http.Request) {
-	recv := cryption.GetReceivedMessage(r)
+	recv, _ := cryption.GetReceivedMessage(r)
 	// make a new logging path
 	timeStr := strconv.Itoa(int(time.Now().Unix()))
 	os.MkdirAll(UNKNOWN_REQUEST_DIRECTORY, 0644)
@@ -239,7 +239,16 @@ func main() {
 		//router.HandleFunc(prefix+"/Event/eventPostGameResults/", h(muxhandlers.EventPostGameResults, LogExecutionTime))
 		//router.HandleFunc(prefix+"/Event/eventUpdateGameResults/", h(muxhandlers.EventUpdateGameResults, LogExecutionTime))
 		//router.HandleFunc(prefix+"/Game/drawRaidboss/", h(muxhandlers.DrawRaidBoss, LogExecutionTime))
-
+		
+		// Battle
+		//router.HandleFunc(prefix+"/Battle/updateDailyBattleStatus", h(muxhandlers.UpdateDailyBattleStatus, LogExecutionTime))
+		router.HandleFunc(prefix+"/Battle/getDailyBattleData/", h(muxhandlers.GetDailyBattleData, LogExecutionTime))
+		router.HandleFunc(prefix+"/Battle/updateDailyBattleStatus/", h(muxhandlers.UpdateDailyBattleStatus, LogExecutionTime))
+		router.HandleFunc(prefix+"/Battle/resetDailyBattleMatching/", h(muxhandlers.ResetDailyBattleMatching, LogExecutionTime))
+		router.HandleFunc(prefix+"/Battle/getDailyBattleDataHistory/", h(muxhandlers.GetDailyBattleHistory, LogExecutionTime))
+		router.HandleFunc(prefix+"/Battle/getDailyBattleStatus/", h(muxhandlers.GetDailyBattleStatus, LogExecutionTime))
+		router.HandleFunc(prefix+"/Battle/postDailyBattleResult/", h(muxhandlers.PostDailyBattleResult, LogExecutionTime))
+		router.HandleFunc(prefix+"/Battle/getPrizeDailyBattle/", h(muxhandlers.GetPrizeDailyBattle, LogExecutionTime))
 		// Server information
 		if config.CFile.EnablePublicStats {
 			router.HandleFunc("/outrunInfo/stats", inforeporters.Stats)
