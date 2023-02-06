@@ -1,6 +1,7 @@
 package rpcobj
 
 import (
+	"strings"
 	"github.com/RunnersRevival/outrun/consts"
 	"github.com/RunnersRevival/outrun/db"
 	"github.com/RunnersRevival/outrun/enums"
@@ -135,6 +136,28 @@ func (t *Toolbox) ResetBattleState(uid string, reply *ToolboxReply) error {
 		reply.Status = StatusOtherError
 		reply.Info = "unable to save player: " + err.Error()
 		return err
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
+func (t *Toolbox) ResetAllBattleStates(uids string, reply *ToolboxReply) error {
+	allUIDs := strings.Split(uids, ",")
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = "unable to get player: " + err.Error()
+			return err
+		}
+		player.BattleState = netobj.DefaultBattleState()
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = "unable to save player: " + err.Error()
+			return err
+		}
 	}
 	reply.Status = StatusOK
 	reply.Info = "OK"
