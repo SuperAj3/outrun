@@ -39,16 +39,16 @@ func DrawBattleRival(player netobj.Player, limit int) netobj.BattleState {
 					potentialRival.BattleState.ScoreRecordedToday &&
 					!potentialRival.BattleState.MatchedUpWithRival &&
 					currentTime < potentialRival.BattleState.BattleEndsAt &&
-					potentialRival.PlayerState.Rank >= (player.PlayerState.Rank + int64(40)) && potentialRival.PlayerState.Rank <= (player.PlayerState.Rank - int64(40)){
+					potentialRival.PlayerState.Rank >= (player.PlayerState.Rank + int64(50)) && potentialRival.PlayerState.Rank <= (player.PlayerState.Rank - int64(50)){
 						rivalID = playerIDs[index]
 						break
-					} else if player.ID != playerIDs[index] && // Player is none of the above, default to fully randomized rival
-					potentialRival.BattleState.ScoreRecordedToday &&
-					!potentialRival.BattleState.MatchedUpWithRival &&
-					currentTime < potentialRival.BattleState.BattleEndsAt {
-						rivalID = playerIDs[index]
-						break
-					}
+					}// else if player.ID != playerIDs[index] && // Player is none of the above, default to fully randomized rival
+					// potentialRival.BattleState.ScoreRecordedToday &&
+					// !potentialRival.BattleState.MatchedUpWithRival &&
+					// currentTime < potentialRival.BattleState.BattleEndsAt {
+					// 	rivalID = playerIDs[index]
+					// 	break
+					// }
 			}
 			playerIDs[index] = playerIDs[len(playerIDs)-1]
 			playerIDs = playerIDs[:len(playerIDs)-1]
