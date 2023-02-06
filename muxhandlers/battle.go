@@ -384,6 +384,16 @@ func PostDailyBattleResult(helper *helper.Helper) {
 							rivalPlayer.BattleState.Wins++
 							rivalPlayer.BattleState.WinStreak++
 							rivalPlayer.BattleState.LossStreak = 0
+							player.AddOperatorMessage(
+								"Daily Battle loss reward.",
+								obj.NewMessageItem(
+									enums.ItemIDRedRing,
+									15,
+									0,
+									0,
+								),
+								2592000,
+							)
 						} else {
 							player.BattleState.Draws++
 							player.BattleState.WinStreak = 0
@@ -484,16 +494,6 @@ func PostDailyBattleResult(helper *helper.Helper) {
 					helper.InternalErr("error getting rival player", err)
 					return
 				}
-				player.AddOperatorMessage(
-					"Daily Battle loss reward.",
-					obj.NewMessageItem(
-						enums.ItemIDRedRing,
-						15,
-						0,
-						0,
-					),
-					2592000,
-				)
 				response = responses.PostDailyBattleResult(baseInfo,
 					player.BattleState.BattleStartsAt,
 					player.BattleState.BattleEndsAt,
