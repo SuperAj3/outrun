@@ -15,6 +15,7 @@ import (
 	"github.com/RunnersRevival/outrun/requests"
 	"github.com/RunnersRevival/outrun/responses"
 	"github.com/RunnersRevival/outrun/status"
+	"github.com/RunnersRevival/outrun/enums"
 	"github.com/jinzhu/now"
 )
 
@@ -483,6 +484,16 @@ func PostDailyBattleResult(helper *helper.Helper) {
 					helper.InternalErr("error getting rival player", err)
 					return
 				}
+				player.AddOperatorMessage(
+					"Daily Battle loss reward.",
+					obj.NewMessageItem(
+						enums.ItemIDRedRing,
+						15,
+						0,
+						0,
+					),
+					2592000,
+				)
 				response = responses.PostDailyBattleResult(baseInfo,
 					player.BattleState.BattleStartsAt,
 					player.BattleState.BattleEndsAt,
@@ -492,6 +503,16 @@ func PostDailyBattleResult(helper *helper.Helper) {
 				)
 			} else {
 				helper.DebugOut("No rival")
+				player.AddOperatorMessage(
+					"No rival has been found, but we got something for you.",
+					obj.NewMessageItem(
+						enums.ItemIDRedRing,
+						15,
+						0,
+						0,
+					),
+					2592000,
+				)
 				response = responses.PostDailyBattleResultNoRival(baseInfo,
 					player.BattleState.BattleStartsAt,
 					player.BattleState.BattleEndsAt,
