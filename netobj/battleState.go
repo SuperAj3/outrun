@@ -15,7 +15,7 @@ type BattleState struct {
 	RivalID                  string               `json:"rivalId"`
 	Wins                     int64                `json:"numWin"`
 	Losses                   int64                `json:"numLose"`
-	Draws                    int64                `json:"numDraw"`
+	Draws                    int64                `json:"numDraw"` // very rarely gets incremented, but game expects it so it's here
 	Failures                 int64                `json:"numLoseByDefault"`
 	WinStreak                int64                `json:"goOnWin"`
 	LossStreak               int64                `json:"goOnLosses"`

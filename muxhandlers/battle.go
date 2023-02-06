@@ -2,19 +2,19 @@ package muxhandlers
 
 import (
 	"encoding/json"
-	"time"
 	"strconv"
+	"time"
 
 	"github.com/RunnersRevival/outrun/db"
-	"github.com/RunnersRevival/outrun/logic/conversion"
 	"github.com/RunnersRevival/outrun/emess"
 	"github.com/RunnersRevival/outrun/helper"
+	"github.com/RunnersRevival/outrun/logic/battle"
+	"github.com/RunnersRevival/outrun/logic/conversion"
 	"github.com/RunnersRevival/outrun/obj"
+	"github.com/RunnersRevival/outrun/obj/constobjs"
 	"github.com/RunnersRevival/outrun/requests"
 	"github.com/RunnersRevival/outrun/responses"
 	"github.com/RunnersRevival/outrun/status"
-	"github.com/RunnersRevival/outrun/logic/battle"
-	"github.com/RunnersRevival/outrun/obj/constobjs"
 	"github.com/jinzhu/now"
 )
 
@@ -95,15 +95,18 @@ func UpdateDailyBattleStatus(helper *helper.Helper) {
 					rewardBattleRivalData,
 				)*/
 				if player.BattleState.DailyBattleHighScore > rivalPlayer.BattleState.DailyBattleHighScore {
+					// player won; reset lose streak and increment winning streak
 					player.BattleState.Wins++
 					player.BattleState.WinStreak++
 					player.BattleState.LossStreak = 0
 				} else {
 					if player.BattleState.DailyBattleHighScore < rivalPlayer.BattleState.DailyBattleHighScore {
+						// player lost; reset win streak and increment losing streak
 						player.BattleState.Losses++
 						player.BattleState.LossStreak++
 						player.BattleState.WinStreak = 0
 					} else {
+						// this shouldn't really be possible but we're accounting for this highly unlikely scenario anyway
 						player.BattleState.Draws++
 						player.BattleState.WinStreak = 0
 						player.BattleState.LossStreak = 0
@@ -384,6 +387,7 @@ func PostDailyBattleResult(helper *helper.Helper) {
 							rivalPlayer.BattleState.LossStreak = 0
 						}
 					}
+					// TODO: Determine if this routine is working correctly for all scenarios. At some point during the original 2019-2020 test it was determined that the daily battle rewards had a few issues, and it is unknown if these were ever properly addressed.
 					rewardIndex := 0
 					if player.BattleState.WinStreak > 0 {
 						for player.BattleState.WinStreak > constobjs.DefaultDailyBattlePrizeList[rewardIndex].Number && rewardIndex < len(constobjs.DefaultDailyBattlePrizeList) {
@@ -432,7 +436,7 @@ func PostDailyBattleResult(helper *helper.Helper) {
 					doReward = true
 				} else {
 					// There appears to be no reward for failures
-					// TODO: Is that right?
+					// TODO: Guesswork! Confirm if this is correct.
 					player.BattleState.Failures++
 					player.BattleState.LossStreak++
 					player.BattleState.WinStreak = 0

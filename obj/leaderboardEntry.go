@@ -10,9 +10,9 @@ type LeaderboardEntry struct {
 	Name              string `json:"name"`
 	URL               string `json:"url"`
 	Grade             int64  `json:"grade"`
-	ExposeOnline      int64  `json:"exposeOnline"` // TODO: remove this, apparently it's not used
+	ExposeOnline      int64  `json:"exposeOnline"` // internal use on the OG server - game does not reference this field
 	RankingScore      int64  `json:"rankingScore"`
-	RankChanged       int64  `json:"rankChanged"` // TODO: potentially remove this, doesn't seem to be used
+	RankChanged       int64  `json:"rankChanged"` // internal use on the OG server - game does not reference this field
 	IsSentEnergy      int64  `json:"energyFlg"`
 	ExpireTime        int64  `json:"expireTime"` // TODO: doesn't seem to be used
 	NumRank           int64  `json:"numRank"`    // left adjusted with '0's to match length 3; unknown of use, called internally 'mapRank'
