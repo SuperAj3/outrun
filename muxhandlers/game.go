@@ -915,6 +915,33 @@ func PostGameResults(helper *helper.Helper) {
 				playCharacters[1].AbilityLevelUpExp = AbilityLevelUpXPValueSub //  array of XP Values in the level up screeen, should always be character.Cost
 			}
 		}
+		player.PlayerState.MainCharaLevel = playCharacters[0].Level
+		hasMainChao := player.PlayerState.MainChaoID != "-1"
+		hasSubChao := player.PlayerState.SubChaoID != "-1"
+		var subCh netobj.Chao
+		if hasMainChao{
+			mainCh, err := player.GetMainChao()
+			if err != nil {
+				helper.InternalErr("Error getting main character", err)
+				return
+			}
+			playChao := []netobj.Chao{ // assume only main character active right now
+				mainCh,
+			}
+			player.PlayerState.MainChaoLevel = playChao[0].Level
+			if hasSubChao {
+				subCh, err = player.GetSubChao()
+				if err != nil {
+					helper.InternalErr("Error getting sub character", err)
+					return
+				}
+				playChao = []netobj.Chao{ // add sub character to playCharacters
+					mainCh,
+					subCh,
+				}
+				player.PlayerState.SubChaoLevel = playChao[1].Level
+			}
+		}
 
 		helper.DebugOut("Old mainC Exp: %v / %v", mainC.Exp, mainC.Cost)
 		helper.DebugOut("Old mainC Level: %v", mainC.Level)
