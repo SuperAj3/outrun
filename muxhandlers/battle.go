@@ -226,9 +226,11 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 	if player.BattleState.RivalID != oldRivalID && player.BattleState.MatchedUpWithRival {
 		switch request.Type {
 		case 1:
-			player.PlayerState.NumRedRings -= 5
+			helper.Warn("Skip RSR deduction for now")
+			//player.PlayerState.NumRedRings -= 5
 		case 2:
-			player.PlayerState.NumRedRings -= 10
+			helper.Warn("Skip RSR deduction for now")
+			//player.PlayerState.NumRedRings -= 10
 		}
 	}
 
