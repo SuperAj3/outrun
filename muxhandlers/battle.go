@@ -220,6 +220,16 @@ func UpdateDailyBattleStatus(helper *helper.Helper) {
 					player.BattleState.Failures++
 					player.BattleState.LossStreak++
 					player.BattleState.WinStreak = 0
+					player.AddOperatorMessage(
+						"No rival has been found, but we got something for you.",
+						obj.NewMessageItem(
+							enums.ItemIDRedRing,
+							15,
+							0,
+							0,
+						),
+						2592000,
+					)
 				}
 			}
 			player.BattleState.BattleStartsAt = now.BeginningOfDay().UTC().Unix()
@@ -607,16 +617,6 @@ func PostDailyBattleResult(helper *helper.Helper) {
 				)
 			} else {
 				helper.DebugOut("No rival")
-				player.AddOperatorMessage(
-					"No rival has been found, but we got something for you.",
-					obj.NewMessageItem(
-						enums.ItemIDRedRing,
-						15,
-						0,
-						0,
-					),
-					2592000,
-				)
 				response = responses.PostDailyBattleResultNoRival(baseInfo,
 					player.BattleState.BattleStartsAt,
 					player.BattleState.BattleEndsAt,
