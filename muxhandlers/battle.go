@@ -7,6 +7,7 @@ import (
 
 	"github.com/RunnersRevival/outrun/db"
 	"github.com/RunnersRevival/outrun/emess"
+	"github.com/RunnersRevival/outrun/enums"
 	"github.com/RunnersRevival/outrun/helper"
 	"github.com/RunnersRevival/outrun/logic/battle"
 	"github.com/RunnersRevival/outrun/logic/conversion"
@@ -15,7 +16,6 @@ import (
 	"github.com/RunnersRevival/outrun/requests"
 	"github.com/RunnersRevival/outrun/responses"
 	"github.com/RunnersRevival/outrun/status"
-	"github.com/RunnersRevival/outrun/enums"
 	"github.com/jinzhu/now"
 )
 
@@ -77,65 +77,146 @@ func UpdateDailyBattleStatus(helper *helper.Helper) {
 	var rewardBattlePlayerData obj.BattleData
 	var rewardBattleRivalData obj.BattleData
 	doReward := false
-	if time.Now().UTC().Unix() > player.BattleState.BattleEndsAt {
-		if player.BattleState.ScoreRecordedToday {
-			if player.BattleState.MatchedUpWithRival {
-				rivalPlayer, err := db.GetPlayer(player.BattleState.RivalID)
-				if err != nil {
-					helper.InternalErr("error getting rival player", err)
-					return
-				}
-				rewardBattleStartTime = player.BattleState.BattleStartsAt
-				rewardBattleEndTime = player.BattleState.BattleEndsAt
-				rewardBattlePlayerData = conversion.DebugPlayerToBattleData(player)
-				rewardBattleRivalData = conversion.DebugPlayerToBattleData(rivalPlayer)
-				/*battlePair := obj.NewBattlePair(
-					rewardBattleStartTime,
-					rewardBattleEndTime,
-					rewardBattlePlayerData,
-					rewardBattleRivalData,
-				)*/
-				if player.BattleState.DailyBattleHighScore > rivalPlayer.BattleState.DailyBattleHighScore {
-					// player won; reset lose streak and increment winning streak
-					player.BattleState.Wins++
-					player.BattleState.WinStreak++
-					player.BattleState.LossStreak = 0
-				} else {
-					if player.BattleState.DailyBattleHighScore < rivalPlayer.BattleState.DailyBattleHighScore {
-						// player lost; reset win streak and increment losing streak
-						player.BattleState.Losses++
-						player.BattleState.LossStreak++
-						player.BattleState.WinStreak = 0
-					} else {
-						// this shouldn't really be possible but we're accounting for this highly unlikely scenario anyway
-						player.BattleState.Draws++
-						player.BattleState.WinStreak = 0
-						player.BattleState.LossStreak = 0
-					}
-				}
-				/*if !player.BattleState.RecordedLastBattle || !rivalPlayer.BattleState.RecordedLastBattle {
-					player.BattleState.BattleHistory = append(player.BattleState.BattleHistory, battlePair)
-					player.BattleState.RecordedLastBattle = true
-					rivalPlayer.BattleState.BattleHistory = append(rivalPlayer.BattleState.BattleHistory, battlePair)
-					rivalPlayer.BattleState.RecordedLastBattle = true
-				}*/
-				err = db.SavePlayer(rivalPlayer)
-				if err != nil {
-					helper.InternalErr("Error saving player", err)
-					return
-				}
-				doReward = true
-			} else {
-				player.BattleState.Failures++
-				player.BattleState.LossStreak++
-				player.BattleState.WinStreak = 0
-			}
+	if player.BattleState.PendingReward {
+		rewardBattleStartTime = player.BattleState.PendingRewardData.StartTime
+		rewardBattleEndTime = player.BattleState.PendingRewardData.EndTime
+		rewardBattlePlayerData = player.BattleState.PendingRewardData.BattleData
+		rewardBattleRivalData = player.BattleState.PendingRewardData.RivalBattleData
+		player.BattleState.PendingReward = false
+		doReward = true
+		if time.Now().UTC().Unix() > player.BattleState.BattleEndsAt {
+			player.BattleState.BattleStartsAt = now.BeginningOfDay().UTC().Unix()
+			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
+			player.BattleState.ScoreRecordedToday = false
+			player.BattleState.MatchedUpWithRival = false
 		}
-		player.BattleState.BattleStartsAt = now.BeginningOfDay().UTC().Unix()
-		player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
-		player.BattleState.ScoreRecordedToday = false
-		player.BattleState.MatchedUpWithRival = false
-		player.BattleState.WantsStricterMatchmaking = false
+	} else {
+		if time.Now().UTC().Unix() > player.BattleState.BattleEndsAt {
+			if player.BattleState.ScoreRecordedToday {
+				if player.BattleState.MatchedUpWithRival {
+					rivalPlayer, err := db.GetPlayer(player.BattleState.RivalID)
+					if err != nil {
+						helper.InternalErr("error getting rival player", err)
+						return
+					}
+					rewardBattleStartTime = player.BattleState.BattleStartsAt
+					rewardBattleEndTime = player.BattleState.BattleEndsAt
+					rewardBattlePlayerData = conversion.DebugPlayerToBattleData(player)
+					rewardBattleRivalData = conversion.DebugPlayerToBattleData(rivalPlayer)
+					battlePair := obj.NewBattlePair(
+						rewardBattleStartTime,
+						rewardBattleEndTime,
+						rewardBattlePlayerData,
+						rewardBattleRivalData,
+					)
+					rivalBattlePair := obj.NewBattlePair(
+						rewardBattleStartTime,
+						rewardBattleEndTime,
+						rewardBattleRivalData,
+						rewardBattlePlayerData,
+					)
+					rivalPlayer.BattleState.PendingReward = true
+					rivalPlayer.BattleState.PendingRewardData = obj.NewRewardBattlePair(
+						rewardBattleStartTime,
+						rewardBattleEndTime,
+						rewardBattleRivalData,
+						rewardBattlePlayerData,
+					)
+					if player.BattleState.DailyBattleHighScore > rivalPlayer.BattleState.DailyBattleHighScore {
+						player.BattleState.Wins++
+						player.BattleState.WinStreak++
+						player.BattleState.LossStreak = 0
+						rivalPlayer.BattleState.Losses++
+						rivalPlayer.BattleState.LossStreak++
+						rivalPlayer.BattleState.WinStreak = 0
+					} else {
+						if player.BattleState.DailyBattleHighScore < rivalPlayer.BattleState.DailyBattleHighScore {
+							player.BattleState.Losses++
+							player.BattleState.LossStreak++
+							player.BattleState.WinStreak = 0
+							rivalPlayer.BattleState.Wins++
+							rivalPlayer.BattleState.WinStreak++
+							rivalPlayer.BattleState.LossStreak = 0
+							player.AddOperatorMessage(
+								"A compensation reward for losing a Daily Battle.",
+								obj.NewMessageItem(
+									enums.ItemIDRedRing,
+									15,
+									0,
+									0,
+								),
+								2592000,
+							)
+						} else {
+							player.BattleState.Draws++
+							player.BattleState.WinStreak = 0
+							player.BattleState.LossStreak = 0
+							rivalPlayer.BattleState.Draws++
+							rivalPlayer.BattleState.WinStreak = 0
+							rivalPlayer.BattleState.LossStreak = 0
+						}
+					}
+					// TODO: Determine if this routine is working correctly for all scenarios. At some point during the original 2019-2020 test it was determined that the daily battle rewards had a few issues, and it is unknown if these were ever properly addressed.
+					rewardIndex := 0
+					if player.BattleState.WinStreak > 0 {
+						for player.BattleState.WinStreak > constobjs.DefaultDailyBattlePrizeList[rewardIndex].Number && rewardIndex < len(constobjs.DefaultDailyBattlePrizeList) {
+							rewardIndex++
+						}
+						for _, item := range constobjs.DefaultDailyBattlePrizeList[rewardIndex].PresentList {
+							itemid, _ := strconv.Atoi(item.ID)
+							player.AddOperatorMessage(
+								"A reward for "+strconv.Itoa(int(player.BattleState.WinStreak))+" consecutive Daily Battle win(s).",
+								obj.MessageItem{
+									int64(itemid),
+									item.Amount,
+									0,
+									0,
+								},
+								2592000,
+							)
+						}
+					}
+					if rivalPlayer.BattleState.WinStreak > 0 {
+						rewardIndex = 0
+						for player.BattleState.WinStreak > constobjs.DefaultDailyBattlePrizeList[rewardIndex].Number && rewardIndex < len(constobjs.DefaultDailyBattlePrizeList) {
+							rewardIndex++
+						}
+						for _, item := range constobjs.DefaultDailyBattlePrizeList[rewardIndex].PresentList {
+							itemid, _ := strconv.Atoi(item.ID)
+							rivalPlayer.AddOperatorMessage(
+								"A reward for "+strconv.Itoa(int(rivalPlayer.BattleState.WinStreak))+" consecutive Daily Battle win(s).",
+								obj.MessageItem{
+									int64(itemid),
+									item.Amount,
+									0,
+									0,
+								},
+								2592000,
+							)
+						}
+					}
+					player.BattleState.BattleHistory = append(player.BattleState.BattleHistory, battlePair)
+					rivalPlayer.BattleState.BattleHistory = append(rivalPlayer.BattleState.BattleHistory, rivalBattlePair)
+					err = db.SavePlayer(rivalPlayer)
+					if err != nil {
+						helper.InternalErr("Error saving player", err)
+						return
+					}
+					doReward = true
+				} else {
+					// There appears to be no reward for failures
+					// TODO: Guesswork! Confirm if this is correct.
+					player.BattleState.Failures++
+					player.BattleState.LossStreak++
+					player.BattleState.WinStreak = 0
+				}
+			}
+			player.BattleState.BattleStartsAt = now.BeginningOfDay().UTC().Unix()
+			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
+			player.BattleState.ScoreRecordedToday = false
+			player.BattleState.MatchedUpWithRival = false
+			player.BattleState.WantsStricterMatchmaking = false
+		}
 	}
 	battleStatus := obj.BattleStatus{
 		player.BattleState.Wins,
@@ -194,7 +275,7 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 			return
 		}
 	case 2:
-		if player.PlayerState.NumRedRings < 10 {
+		if player.PlayerState.NumRedRings < 50 {
 			baseInfo.StatusCode = status.NotEnoughRedRings
 			err = helper.SendResponse(responses.NewBaseResponse(baseInfo))
 			if err != nil {
@@ -228,12 +309,12 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 	if player.BattleState.RivalID != oldRivalID && player.BattleState.MatchedUpWithRival {
 		switch request.Type {
 		case 1:
-			helper.Warn("Skip RSR deduction for now")
-			//player.PlayerState.NumRedRings -= 5
+			//helper.Warn("Skip RSR deduction for now")
+			player.PlayerState.NumRedRings -= 5
 			player.BattleState.WantsStricterMatchmaking = false
 		case 2:
 			helper.Warn("Skip RSR deduction for now")
-			//player.PlayerState.NumRedRings -= 10
+			player.PlayerState.NumRedRings -= 50
 			player.BattleState.WantsStricterMatchmaking = true
 		}
 	}
@@ -324,6 +405,7 @@ func PostDailyBattleResult(helper *helper.Helper) {
 	var rewardBattlePlayerData obj.BattleData
 	var rewardBattleRivalData obj.BattleData
 	doReward := false
+	// TODO: Solve duplication requirement!
 	if player.BattleState.PendingReward {
 		rewardBattleStartTime = player.BattleState.PendingRewardData.StartTime
 		rewardBattleEndTime = player.BattleState.PendingRewardData.EndTime
@@ -385,7 +467,7 @@ func PostDailyBattleResult(helper *helper.Helper) {
 							rivalPlayer.BattleState.WinStreak++
 							rivalPlayer.BattleState.LossStreak = 0
 							player.AddOperatorMessage(
-								"Daily Battle loss reward.",
+								"A compensation reward for losing a Daily Battle.",
 								obj.NewMessageItem(
 									enums.ItemIDRedRing,
 									15,

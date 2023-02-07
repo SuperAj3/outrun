@@ -81,6 +81,8 @@ func EventState(base responseobjs.BaseInfo, eventState netobj.EventState) EventS
 	return out
 }
 
+// below is stuff for raid bosses
+
 /*type EventUserRaidbossStateResponse struct {
 	BaseResponse
 	netobj.EventUserRaidbossState `json:"eventUserRaidboss"`

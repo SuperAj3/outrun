@@ -20,10 +20,10 @@ func NewBaseResponse(base responseobjs.BaseInfo) BaseResponse {
 	return BaseResponse{
 		base,
 		"054",
-		"2.2.2",
+		"2.2.3",
 		"15",
 		"017",
-		"2.2.2",
+		"2.2.3",
 		meta.Version,
 	}
 }

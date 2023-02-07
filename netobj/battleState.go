@@ -3,6 +3,8 @@ package netobj
 import (
 	"github.com/RunnersRevival/outrun/obj"
 	"github.com/jinzhu/now"
+
+	"time"
 )
 
 type BattleState struct {
@@ -23,9 +25,10 @@ type BattleState struct {
 	PendingReward            bool                 `json:"pendingReward"`
 	PendingRewardData        obj.RewardBattlePair `json:"pendingRewardData"`
 	WantsStricterMatchmaking bool                 `json:"wantsStricterMatchmaking"`
+	NextRerollAvailableAt    int64                `json:"nextRerollAvailableAt"`
 }
 
-func NewBattleState(scoreRecordedToday bool, dailyBattleHighScore, prevDailyBattleHighScore, battleStartTime, battleEndTime int64, matchedUpWithRival bool, rivalID string, wins, losses, draws, failures, winStreak, lossStreak int64, battleHistory []obj.BattlePair, pendingReward bool, pendingRewardData obj.RewardBattlePair, wantsStricterMatchmaking bool) BattleState {
+func NewBattleState(scoreRecordedToday bool, dailyBattleHighScore, prevDailyBattleHighScore, battleStartTime, battleEndTime int64, matchedUpWithRival bool, rivalID string, wins, losses, draws, failures, winStreak, lossStreak int64, battleHistory []obj.BattlePair, pendingReward bool, pendingRewardData obj.RewardBattlePair, wantsStricterMatchmaking bool, nextRerollAvailableAt int64) BattleState {
 	return BattleState{
 		scoreRecordedToday,
 		dailyBattleHighScore,
@@ -44,6 +47,7 @@ func NewBattleState(scoreRecordedToday bool, dailyBattleHighScore, prevDailyBatt
 		pendingReward,
 		pendingRewardData,
 		wantsStricterMatchmaking,
+		nextRerollAvailableAt,
 	}
 }
 
@@ -65,6 +69,7 @@ func DefaultBattleState() BattleState {
 	pendingReward := false
 	pendingRewardData := obj.NewRewardBattlePair(-1, -1, obj.DebugRivalBattleData(), obj.DebugRivalBattleData()) //dummy data
 	wantsStricterMatchmaking := false
+	nextRerollAvailableAt := time.Now().UTC().Unix()
 	return NewBattleState(
 		scoreRecordedToday,
 		dailyBattleHighScore,
@@ -83,5 +88,6 @@ func DefaultBattleState() BattleState {
 		pendingReward,
 		pendingRewardData,
 		wantsStricterMatchmaking,
+		nextRerollAvailableAt,
 	)
 }
