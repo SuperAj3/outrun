@@ -14,7 +14,8 @@ func getDefaultCostList() []obj.ConsumedItem {
 	cids2Num := []int64{3000, 1000, 3000, 2000, 3000, 5000, 4000, 5000, 0, 0, 0}
 	cids3 := []string{"950000", "980000", "980001", "980002"}
 	cids3IDs := []string{"900000", "900000", "900000", "900000"}
-	cids3Num := []int64{3, 2, 5, 10} // TODO: move first entry to consts
+	cids3Num := []int64{3, 2, 5, 40} // TODO: move first entry to consts
+	// cids3: Continue cost, unknown (possibly unused?) daily battle cost, normal reroll cost, stricter reroll cost
 	cids := []string{}
 	cids = append(cids, cids1...)
 	cids = append(cids, cids2...)

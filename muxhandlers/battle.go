@@ -129,6 +129,16 @@ func UpdateDailyBattleStatus(helper *helper.Helper) {
 						rivalPlayer.BattleState.Losses++
 						rivalPlayer.BattleState.LossStreak++
 						rivalPlayer.BattleState.WinStreak = 0
+						rivalPlayer.AddOperatorMessage(
+							"A compensation reward for losing a Daily Battle.",
+							obj.NewMessageItem(
+								enums.ItemIDRedRing,
+								15,
+								0,
+								0,
+							),
+							2592000,
+						)
 					} else {
 						if player.BattleState.DailyBattleHighScore < rivalPlayer.BattleState.DailyBattleHighScore {
 							player.BattleState.Losses++
@@ -275,7 +285,7 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 			return
 		}
 	case 2:
-		if player.PlayerState.NumRedRings < 50 {
+		if player.PlayerState.NumRedRings < 40 {
 			baseInfo.StatusCode = status.NotEnoughRedRings
 			err = helper.SendResponse(responses.NewBaseResponse(baseInfo))
 			if err != nil {
@@ -286,11 +296,13 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 	}
 	oldRivalID := player.BattleState.RivalID
 	if request.Type == 2 {
+		// we don't implement this option yet
 		helper.InvalidRequest()
 		return
 	} else {
 		if request.Type != 0 {
 			player.BattleState.MatchedUpWithRival = false
+			player.BattleState.WantsStricterMatchmaking = false
 			oldRival, err := db.GetPlayer(oldRivalID)
 			if err != nil {
 				helper.InternalErr("error getting rival player", err)
@@ -311,11 +323,9 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 		case 1:
 			//helper.Warn("Skip RSR deduction for now")
 			player.PlayerState.NumRedRings -= 5
-			player.BattleState.WantsStricterMatchmaking = false
 		case 2:
-			helper.Warn("Skip RSR deduction for now")
-			player.PlayerState.NumRedRings -= 50
-			player.BattleState.WantsStricterMatchmaking = true
+			//helper.Warn("Skip RSR deduction for now")
+			player.PlayerState.NumRedRings -= 40
 		}
 	}
 
@@ -458,6 +468,16 @@ func PostDailyBattleResult(helper *helper.Helper) {
 						rivalPlayer.BattleState.Losses++
 						rivalPlayer.BattleState.LossStreak++
 						rivalPlayer.BattleState.WinStreak = 0
+						rivalPlayer.AddOperatorMessage(
+							"A compensation reward for losing a Daily Battle.",
+							obj.NewMessageItem(
+								enums.ItemIDRedRing,
+								15,
+								0,
+								0,
+							),
+							2592000,
+						)
 					} else {
 						if player.BattleState.DailyBattleHighScore < rivalPlayer.BattleState.DailyBattleHighScore {
 							player.BattleState.Losses++
