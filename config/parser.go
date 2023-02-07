@@ -28,6 +28,7 @@ var Defaults = map[string]interface{}{
 	"DGameConfigFilename":          "game_config.json",
 	"DSilenceGameConfigErrors":     false,
 	"DCampaignConfigFilename":      "campaign_config.json",
+	"DAuthorizedConfigFilename":    "authorized_config.json",
 	"DSilenceCampaignConfigErrors": false,
 	"DLegacyCompatibilityMode":     false,
 }
@@ -55,6 +56,7 @@ type ConfigFile struct {
 	GameConfigFilename          string `json:"gameConfigFilename,omitempty"`
 	SilenceGameConfigErrors     bool   `json:"silenceGameConfigErrors,omitempty"`
 	CampaignConfigFilename      string `json:"campaignConfigFilename,omitempty"`
+	AuthorizedConfigFilename    string `json:"authorizedConfigFilename,omitempty"`
 	SilenceCampaignConfigErrors bool   `json:"silenceCampaignConfigErrors,omitempty"`
 	LegacyCompatibilityMode     bool   `json:"legacyCompatibilityMode,omitempty"` // disables the version check
 }
@@ -81,6 +83,7 @@ func Parse(filename string) error {
 		Defaults["DGameConfigFilename"].(string),
 		Defaults["DSilenceGameConfigErrors"].(bool),
 		Defaults["DCampaignConfigFilename"].(string),
+		Defaults["DAuthorizedConfigFilename"].(string),
 		Defaults["DSilenceCampaignConfigErrors"].(bool),
 		Defaults["DLegacyCompatibilityMode"].(bool),
 	}
