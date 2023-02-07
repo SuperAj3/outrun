@@ -227,6 +227,19 @@ func BattleGetPlayer(uid string) (netobj.Player, error) {
 	return player, nil
 }
 
+func BattleGetMatchedPoolPlayer(uid string) (netobj.Player, error) {
+	var player netobj.Player
+	playerData, err := dbaccess.Get(consts.BattleDBBucketMatched, uid)
+	if err != nil {
+		return constnetobjs.BlankPlayer, err
+	}
+	err = json.Unmarshal(playerData, &player)
+	if err != nil {
+		return constnetobjs.BlankPlayer, err
+	}
+	return player, nil
+}
+
 func BattleSaveWaitingPlayer(player netobj.Player) error {
 	j, err := json.Marshal(player)
 	if err != nil {

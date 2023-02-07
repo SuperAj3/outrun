@@ -14,7 +14,6 @@ import (
 func DrawBattleRival(player netobj.Player, limit int) netobj.BattleState {
 	if !player.BattleState.MatchedUpWithRival { // are we not matched up yet?
 		db.BattleSaveWaitingPlayer(player) // Save player in the waiting pool
-		db.BattleDeleteMatchedPlayer(player.ID)
 		playerIDs := []string{}
 		dbaccess.BattleDBForEachKey(consts.BattleDBBucketWaiting, func(k, v []byte) error {
 			playerIDs = append(playerIDs, string(k))
@@ -85,6 +84,7 @@ func DrawBattleRival(player netobj.Player, limit int) netobj.BattleState {
 			}
 		}
 	} else {
+		db.BattleSaveMatchedPlayer(player)
 		db.BattleDeleteWaitingPlayer(player.ID) // Player is matched, delete entry from the waiting pool
 	}
 	if player.ID == player.BattleState.RivalID && player.BattleState.MatchedUpWithRival {
