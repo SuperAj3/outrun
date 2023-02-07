@@ -207,6 +207,7 @@ func UpdateDailyBattleStatus(helper *helper.Helper) {
 					}
 					player.BattleState.BattleHistory = append(player.BattleState.BattleHistory, battlePair)
 					rivalPlayer.BattleState.BattleHistory = append(rivalPlayer.BattleState.BattleHistory, rivalBattlePair)
+					rivalPlayer.BattleState.PendingReward = true
 					err = db.SavePlayer(rivalPlayer)
 					if err != nil {
 						helper.InternalErr("Error saving player", err)
@@ -546,6 +547,7 @@ func PostDailyBattleResult(helper *helper.Helper) {
 					}
 					player.BattleState.BattleHistory = append(player.BattleState.BattleHistory, battlePair)
 					rivalPlayer.BattleState.BattleHistory = append(rivalPlayer.BattleState.BattleHistory, rivalBattlePair)
+					rivalPlayer.BattleState.PendingReward = true
 					err = db.SavePlayer(rivalPlayer)
 					if err != nil {
 						helper.InternalErr("Error saving player", err)
