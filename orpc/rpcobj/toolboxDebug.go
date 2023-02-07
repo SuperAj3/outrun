@@ -47,6 +47,22 @@ func (t *Toolbox) Debug_GetAllPlayerIDs(nothing bool, reply *ToolboxReply) error
 	return nil
 }
 
+func (t *Toolbox) Debug_GetAllBattlePlayerIDs(nothing bool, reply *ToolboxReply) error {
+	playerIDs := []string{}
+	dbaccess.BattleDBForEachKey(consts.BattleDBBucketWaiting, func(k, v []byte) error {
+		playerIDs = append(playerIDs, string(k))
+		return nil
+	})
+	dbaccess.BattleDBForEachKey(consts.BattleDBBucketMatched, func(k, v []byte) error {
+		playerIDs = append(playerIDs, string(k))
+		return nil
+	})
+	final := strings.Join(playerIDs, ",")
+	reply.Status = StatusOK
+	reply.Info = final
+	return nil
+}
+
 func (t *Toolbox) Debug_ResetPlayer(uid string, reply *ToolboxReply) error {
 	player, err := db.GetPlayer(uid)
 	if err != nil {
