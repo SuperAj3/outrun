@@ -17,6 +17,7 @@ import (
 	"github.com/RunnersRevival/outrun/config/eventconf"
 	"github.com/RunnersRevival/outrun/config/gameconf"
 	"github.com/RunnersRevival/outrun/config/infoconf"
+	"github.com/RunnersRevival/outrun/config/authorizedconf"
 	"github.com/RunnersRevival/outrun/cryption"
 	"github.com/RunnersRevival/outrun/inforeporters"
 	"github.com/RunnersRevival/outrun/meta"
@@ -148,6 +149,13 @@ func main() {
 		}
 	} else {
 		log.Printf("[INFO] Campaign config file (%s) loaded\n", config.CFile.CampaignConfigFilename)
+	}
+
+	err = authorizedconf.Parse(config.CFile.AuthorizedConfigFilename)
+	if err != nil {
+		log.Printf("[INFO] Failure loading authorized IDs config file %s (%s), using none\n", config.CFile.AuthorizedConfigFilename, err)
+	} else {
+		log.Printf("[INFO] Authorized IDs config file (%s) loaded\n", config.CFile.AuthorizedConfigFilename)
 	}
 
 	if config.CFile.EnableRPC {
