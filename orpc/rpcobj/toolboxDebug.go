@@ -15,9 +15,9 @@ import (
 	"github.com/RunnersRevival/outrun/consts"
 	"github.com/RunnersRevival/outrun/db"
 	"github.com/RunnersRevival/outrun/db/dbaccess"
+	"github.com/RunnersRevival/outrun/enums"
 	"github.com/RunnersRevival/outrun/logic"
 	"github.com/RunnersRevival/outrun/netobj"
-	"github.com/RunnersRevival/outrun/enums"
 	"github.com/RunnersRevival/outrun/netobj/constnetobjs"
 	"github.com/RunnersRevival/outrun/obj"
 	"github.com/RunnersRevival/outrun/obj/constobjs"
@@ -456,27 +456,27 @@ func (t *Toolbox) Debug_FixWerehogRedRings(uids string, reply *ToolboxReply) err
 }
 
 func (t *Toolbox) Debug_RemoveCharacter(character ChangeCharacter, reply *ToolboxReply) error {
-    allUIDs := strings.Split(character.UIDs, ",")
+	allUIDs := strings.Split(character.UIDs, ",")
 
-    for _, uid := range allUIDs {
-        player, err := db.GetPlayer(uid)
-        if err != nil {
-            reply.Status = StatusOtherError
-            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
-            return err
-        }
-        charaState := player.CharacterState
-        index := player.IndexOfChara(character.ID)
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		charaState := player.CharacterState
+		index := player.IndexOfChara(character.ID)
 		if index != -1 {
-			player.CharacterState = append(charaState[:index], charaState[index + 1:]...)
+			player.CharacterState = append(charaState[:index], charaState[index+1:]...)
 		}
 		println("Removed Character ", character.ID, " to ", uid)
-        err = db.SavePlayer(player)
-        if err != nil {
-            reply.Status = StatusOtherError
-            reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
-            return err
-        }
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+			return err
+		}
 	}
 	reply.Status = StatusOK
 	reply.Info = "OK"
@@ -484,31 +484,31 @@ func (t *Toolbox) Debug_RemoveCharacter(character ChangeCharacter, reply *Toolbo
 }
 
 func (t *Toolbox) Debug_RemoveCharacterIfLocked(character ChangeCharacter, reply *ToolboxReply) error {
-    allUIDs := strings.Split(character.UIDs, ",")
+	allUIDs := strings.Split(character.UIDs, ",")
 
-    for _, uid := range allUIDs {
-        player, err := db.GetPlayer(uid)
-        if err != nil {
-            reply.Status = StatusOtherError
-            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
-            return err
-        }
-        charaState := player.CharacterState
-        index := player.IndexOfChara(character.ID)
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		charaState := player.CharacterState
+		index := player.IndexOfChara(character.ID)
 		if index != -1 {
 			if player.CharacterState[index].Status == enums.CharacterStatusLocked {
-				player.CharacterState = append(charaState[:index], charaState[index + 1:]...)
+				player.CharacterState = append(charaState[:index], charaState[index+1:]...)
 				println("Removed Character ", character.ID, " to ", uid)
 			} else {
 				println("Player ", uid, " has unlocked character ID ", character.ID, ", ignoring. ")
 			}
 		}
-        err = db.SavePlayer(player)
-        if err != nil {
-            reply.Status = StatusOtherError
-            reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
-            return err
-        }
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+			return err
+		}
 	}
 	reply.Status = StatusOK
 	reply.Info = "OK"
@@ -516,24 +516,24 @@ func (t *Toolbox) Debug_RemoveCharacterIfLocked(character ChangeCharacter, reply
 }
 
 func (t *Toolbox) Debug_AddCharacter(character ChangeCharacter, reply *ToolboxReply) error {
-    allUIDs := strings.Split(character.UIDs, ",")
+	allUIDs := strings.Split(character.UIDs, ",")
 	var newCharacter = obj.Character{
 		character.ID,
 		character.Cost,
 		character.NumRedRings,
-		character.Price, // used for limit breaking
-		character.PriceRedRings,    // red rings used for limit breaking
+		character.Price,         // used for limit breaking
+		character.PriceRedRings, // red rings used for limit breaking
 	}
-    for _, uid := range allUIDs {
-        player, err := db.GetPlayer(uid)
-        if err != nil {
-            reply.Status = StatusOtherError
-            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
-            return err
-        }
-        index := player.IndexOfChara(character.ID)
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		index := player.IndexOfChara(character.ID)
 		if index == -1 {
-			switch character.LockCondition{
+			switch character.LockCondition {
 			case 0:
 				player.CharacterState = append(player.CharacterState, netobj.DefaultCharacter(newCharacter))
 			case 1:
@@ -745,12 +745,12 @@ func (t *Toolbox) Debug_SendOperatorMessageToSome(args SendOperatorMessageToSome
 	uidList := strings.Split(args.UIDs, ",")
 
 	for _, uid := range uidList {
-        player, err := db.GetPlayer(uid)
-        if err != nil {
-            reply.Status = StatusOtherError
-            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
-            return err
-        }
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
 
 		if player.Messages == nil {
 			player.Messages = []obj.Message{}
@@ -865,21 +865,23 @@ func (t *Toolbox) Debug_PurgeInactivePlayers(testmode bool, reply *ToolboxReply)
 			return err
 		}
 		if player.LastLogin < time.Now().AddDate(0, -11, 0).UTC().Unix() {
-			log.Printf("[RPC-DEBUG] Player %s hasn't logged in for six or more months! (Last Login: %v)\n", uid, player.LastLogin)
-			numberOfPurgedPlayers++
-			if !testmode {
-				err := db.DeletePlayer(uid)
-				if err != nil {
-					reply.Status = StatusOtherError
-					reply.Info = "unable to delete player " + uid + ": " + err.Error() + " - purged " + strconv.Itoa(numberOfPurgedPlayers) + " inactive players"
-					return err
+			log.Printf("[RPC-DEBUG] Player %s hasn't logged in for six or more months! (Last Login: %v) Purge disallowed = %t\n", uid, player.LastLogin, player.DisallowInactivePurge)
+			if !player.DisallowInactivePurge {
+				numberOfPurgedPlayers++
+				if !testmode {
+					err := db.DeletePlayer(uid)
+					if err != nil {
+						reply.Status = StatusOtherError
+						reply.Info = "unable to delete player " + uid + ": " + err.Error() + " - purged " + strconv.Itoa(numberOfPurgedPlayers) + " inactive players"
+						return err
+					}
 				}
 			}
 		}
 	}
 	reply.Status = StatusOK
 	if testmode {
-		reply.Info = "OK - found " + strconv.Itoa(numberOfPurgedPlayers) + " inactive players"
+		reply.Info = "OK - found " + strconv.Itoa(numberOfPurgedPlayers) + " inactive players that are purgable"
 	} else {
 		reply.Info = "OK - purged " + strconv.Itoa(numberOfPurgedPlayers) + " inactive players"
 	}
@@ -979,64 +981,64 @@ func (t *Toolbox) Debug_ResetEventProgressForAll(nothing bool, reply *ToolboxRep
 
 // Credit: FairPlay137 for starting this code
 func (t *Toolbox) Debug_RemoveDuplicateCharaEntries(uids string, reply *ToolboxReply) error {
-    allUIDs := strings.Split(uids, ",")
-    playerIDsWithDupe := make([]string, 0)
+	allUIDs := strings.Split(uids, ",")
+	playerIDsWithDupe := make([]string, 0)
 
-    for _, uid := range allUIDs {
-        player, err := db.GetPlayer(uid)
-        if err != nil {
-            reply.Status = StatusOtherError
-            reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
-            return err
-        }
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
 
-        charaState := player.CharacterState
-        seenIDs := make([]string, 0)
-        dupedIndexArr := make([]int, 0)
+		charaState := player.CharacterState
+		seenIDs := make([]string, 0)
+		dupedIndexArr := make([]int, 0)
 
-        for index, charaState := range charaState {
-        	if (doesElementExist(seenIDs, charaState.Character.ID)) {
-        		// we found a dupe, add it to the array
-        		dupedIndexArr = append(dupedIndexArr, index)
-        		if (!doesElementExist(playerIDsWithDupe, player.ID)) {
-        			playerIDsWithDupe = append(playerIDsWithDupe, player.ID)
-        		}
+		for index, charaState := range charaState {
+			if doesElementExist(seenIDs, charaState.Character.ID) {
+				// we found a dupe, add it to the array
+				dupedIndexArr = append(dupedIndexArr, index)
+				if !doesElementExist(playerIDsWithDupe, player.ID) {
+					playerIDsWithDupe = append(playerIDsWithDupe, player.ID)
+				}
 			} else {
-        		seenIDs = append(seenIDs, charaState.Character.ID)
-        	}
-        }
+				seenIDs = append(seenIDs, charaState.Character.ID)
+			}
+		}
 
-           	// reverse dupe index array so we don't shift the array during removal
-            for i, j := 0, len(dupedIndexArr) - 1; i < j; i, j = i + 1, j - 1 {
-        		dupedIndexArr[i], dupedIndexArr[j] = dupedIndexArr[j], dupedIndexArr[i]
-    		}
+		// reverse dupe index array so we don't shift the array during removal
+		for i, j := 0, len(dupedIndexArr)-1; i < j; i, j = i+1, j-1 {
+			dupedIndexArr[i], dupedIndexArr[j] = dupedIndexArr[j], dupedIndexArr[i]
+		}
 
-    		// make sure we're not rewriting character states that aren't broken, just to be safe
-    		if (len(dupedIndexArr) != 0) {
-	            for index2 := 0; index2 < len(dupedIndexArr); index2++ {
-		            if dupedIndexArr[index2] < 0 || dupedIndexArr[index2] >= len(charaState) {
-		        		log.Println("[RPC-DEBUG] The given index is out of bounds.")
-		    		} else {
-		    			// write the modified charaState to the player object
-		    			player.CharacterState = append(charaState[:dupedIndexArr[index2]], charaState[dupedIndexArr[index2] + 1:]...)
-		    			charaState = player.CharacterState
-		        	}
-		    	}
-		    }
+		// make sure we're not rewriting character states that aren't broken, just to be safe
+		if len(dupedIndexArr) != 0 {
+			for index2 := 0; index2 < len(dupedIndexArr); index2++ {
+				if dupedIndexArr[index2] < 0 || dupedIndexArr[index2] >= len(charaState) {
+					log.Println("[RPC-DEBUG] The given index is out of bounds.")
+				} else {
+					// write the modified charaState to the player object
+					player.CharacterState = append(charaState[:dupedIndexArr[index2]], charaState[dupedIndexArr[index2]+1:]...)
+					charaState = player.CharacterState
+				}
+			}
+		}
 
-        err = db.SavePlayer(player)
-        if err != nil {
-            reply.Status = StatusOtherError
-            reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
-            return err
-        }
-    }
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+			return err
+		}
+	}
 
-    // convert our string array of IDs to byte array
-    playerIDsDupeJoined := strings.Join(playerIDsWithDupe, ",")
-    playerIDsDupeByte := []byte(playerIDsDupeJoined)
+	// convert our string array of IDs to byte array
+	playerIDsDupeJoined := strings.Join(playerIDsWithDupe, ",")
+	playerIDsDupeByte := []byte(playerIDsDupeJoined)
 
-    os.MkdirAll("logging/ids_with_dupes/", 0644)
+	os.MkdirAll("logging/ids_with_dupes/", 0644)
 	path := "logging/ids_with_dupes/" + "ids.txt"
 	err := ioutil.WriteFile(path, playerIDsDupeByte, 0644)
 
@@ -1044,16 +1046,60 @@ func (t *Toolbox) Debug_RemoveDuplicateCharaEntries(uids string, reply *ToolboxR
 		log.Printf("[RPC-DEBUG] Unable to log IDs", err)
 	}
 
-    reply.Status = StatusOK
-    reply.Info = "OK"
-    return nil
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
 }
 
 func doesElementExist(s []string, str string) bool {
-  for _, v := range s {
-    if v == str {
-      return true
-    }
-  }
-  return false
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+	return false
+}
+
+func (t *Toolbox) Debug_SetDisallowInactivePurgeFlag(uids string, reply *ToolboxReply) error {
+	allUIDs := strings.Split(uids, ",")
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		player.DisallowInactivePurge = true
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+			return err
+		}
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
+func (t *Toolbox) Debug_ResetDisallowInactivePurgeFlag(uids string, reply *ToolboxReply) error {
+	allUIDs := strings.Split(uids, ",")
+	for _, uid := range allUIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		player.DisallowInactivePurge = false
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+			return err
+		}
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
 }

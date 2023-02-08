@@ -11,6 +11,7 @@ import (
 	"github.com/RunnersRevival/outrun/netobj"
 )
 
+// TODO: Add stricter algorithm for the more expensive "Find a Beatable Opponent" reroll option
 func DrawBattleRival(player netobj.Player, limit int) netobj.BattleState {
 	if !player.BattleState.MatchedUpWithRival { // are we not matched up yet?
 		db.BattleSaveWaitingPlayer(player) // Save player in the waiting pool
@@ -30,28 +31,28 @@ func DrawBattleRival(player netobj.Player, limit int) netobj.BattleState {
 				log.Printf("[WARN] (battle.DrawBattleRival) Unable to get player '%s': %s", playerIDs[index], err.Error())
 			} else {
 				if player.ID != playerIDs[index] && // Calculate High ranks first
-				   potentialRival.BattleState.ScoreRecordedToday &&
-				   !potentialRival.BattleState.MatchedUpWithRival &&
-				   currentTime < potentialRival.BattleState.BattleEndsAt &&
-				   potentialRival.PlayerState.Rank >= int64(300) && player.PlayerState.Rank >= int64(300){
-						rivalID = playerIDs[index]
-						break
-				  	} else {
-						if player.ID != playerIDs[index] && // Calculate lower rank players
+					potentialRival.BattleState.ScoreRecordedToday &&
+					!potentialRival.BattleState.MatchedUpWithRival &&
+					currentTime < potentialRival.BattleState.BattleEndsAt &&
+					potentialRival.PlayerState.Rank >= int64(300) && player.PlayerState.Rank >= int64(300) {
+					rivalID = playerIDs[index]
+					break
+				} else {
+					if player.ID != playerIDs[index] && // Calculate lower rank players
 						potentialRival.BattleState.ScoreRecordedToday &&
 						!potentialRival.BattleState.MatchedUpWithRival &&
 						currentTime < potentialRival.BattleState.BattleEndsAt &&
-						(potentialRival.PlayerState.Rank >= player.PlayerState.Rank - int64(40)) && (potentialRival.PlayerState.Rank <= player.PlayerState.Rank + int64(40)){
-							rivalID = playerIDs[index]
-							break
-						}	
-					}// else if player.ID != playerIDs[index] && // Player is none of the above, default to fully randomized rival
-					// potentialRival.BattleState.ScoreRecordedToday &&
-					// !potentialRival.BattleState.MatchedUpWithRival &&
-					// currentTime < potentialRival.BattleState.BattleEndsAt {
-					// 	rivalID = playerIDs[index]
-					// 	break
-					// }
+						(potentialRival.PlayerState.Rank >= player.PlayerState.Rank-int64(40)) && (potentialRival.PlayerState.Rank <= player.PlayerState.Rank+int64(40)) {
+						rivalID = playerIDs[index]
+						break
+					}
+				} // else if player.ID != playerIDs[index] && // Player is none of the above, default to fully randomized rival
+				// potentialRival.BattleState.ScoreRecordedToday &&
+				// !potentialRival.BattleState.MatchedUpWithRival &&
+				// currentTime < potentialRival.BattleState.BattleEndsAt {
+				// 	rivalID = playerIDs[index]
+				// 	break
+				// }
 			}
 			playerIDs[index] = playerIDs[len(playerIDs)-1]
 			playerIDs = playerIDs[:len(playerIDs)-1]
