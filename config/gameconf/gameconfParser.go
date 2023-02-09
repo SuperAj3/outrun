@@ -65,6 +65,7 @@ var Defaults = map[string]interface{}{
 	"DEnableStartDashLoginBonus": true,
 	"DEnableVerification":        true,
 	"DPenalizeUnverifiables":     false,
+	"DEnableDailyBattles":        true,
 }
 
 var CFile ConfigFile
@@ -86,6 +87,7 @@ type ConfigFile struct {
 	EnableStartDashLoginBonus bool   `json:"enableStartDashLoginBonus,omitempty`
 	EnableVerification        bool   `json:"enableVerification,omitempty"`
 	PenalizeUnverifiables     bool   `json:"penalizeUnverifiables,omitempty"`
+	EnableDailyBattles        bool   `json:"enableDailyBattles,omitempty"`
 }
 
 func Parse(filename string) error {
@@ -106,6 +108,7 @@ func Parse(filename string) error {
 		Defaults["DEnableStartDashLoginBonus"].(bool),
 		Defaults["DEnableVerification"].(bool),
 		Defaults["DPenalizeUnverifiables"].(bool),
+		Defaults["DEnableDailyBattles"].(bool),
 	}
 	file, err := loadFile(filename)
 	if err != nil {
