@@ -540,6 +540,9 @@ func QuickPostGameResults(helper *helper.Helper) {
 			playCharacters[0].AbilityLevelUp = AbilityLevelUpIDMain         // array of abilities to level up
 			playCharacters[0].AbilityLevelUpExp = AbilityLevelUpXPValueMain //  array of XP Values in the level up screeen, should always be character.Cost
 		}
+		if playCharacters[0].Star >= int64(11) { // Somehow, someone actually got Limit Smash 13, let's reset it back to 10
+			playCharacters[0].Star = int64(10)
+		}
 		if hasSubCharacter {
 			if playCharacters[1].Level < 100 {
 				playCharacters[1].Exp += expIncrease
@@ -566,6 +569,9 @@ func QuickPostGameResults(helper *helper.Helper) {
 				}
 				playCharacters[1].AbilityLevelUp = AbilityLevelUpIDSub         // array of abilities to level up
 				playCharacters[1].AbilityLevelUpExp = AbilityLevelUpXPValueSub //  array of XP Values in the level up screeen, should always be character.Cost
+			}
+			if playCharacters[1].Star >= int64(11) {
+				playCharacters[1].Star = int64(10)
 			}
 		}
 		player.PlayerState.MainCharaLevel = playCharacters[0].Level
@@ -887,6 +893,9 @@ func PostGameResults(helper *helper.Helper) {
 			playCharacters[0].AbilityLevelUp = AbilityLevelUpIDMain         // array of abilities to level up
 			playCharacters[0].AbilityLevelUpExp = AbilityLevelUpXPValueMain //  array of XP Values in the level up screeen, should always be character.Cost
 		}
+		if playCharacters[0].Star >= int64(11) { // Somehow, someone actually got Limit Smash 13, let's reset it back to 10
+		playCharacters[0].Star = int64(10)
+		}
 		if hasSubCharacter {
 			if playCharacters[1].Level < 100 {
 				playCharacters[1].Exp += expIncrease
@@ -913,6 +922,9 @@ func PostGameResults(helper *helper.Helper) {
 				}
 				playCharacters[1].AbilityLevelUp = AbilityLevelUpIDSub         // array of abilities to level up
 				playCharacters[1].AbilityLevelUpExp = AbilityLevelUpXPValueSub //  array of XP Values in the level up screeen, should always be character.Cost
+			}
+			if playCharacters[1].Star >= int64(11) { // Somehow, someone actually got Limit Smash 13, let's reset it back to 10
+			playCharacters[1].Star = int64(10)
 			}
 		}
 		player.PlayerState.MainCharaLevel = playCharacters[0].Level
