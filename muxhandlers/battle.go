@@ -86,7 +86,7 @@ func UpdateDailyBattleStatus(helper *helper.Helper) {
 		doReward = true
 		if time.Now().UTC().Unix() > player.BattleState.BattleEndsAt {
 			player.BattleState.BattleStartsAt = now.BeginningOfDay().UTC().Unix()
-			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
+			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix() + 1
 			player.BattleState.ScoreRecordedToday = false
 			player.BattleState.MatchedUpWithRival = false
 			player.BattleState.WantsStricterMatchmaking = false
@@ -234,7 +234,7 @@ func UpdateDailyBattleStatus(helper *helper.Helper) {
 				}
 			}
 			player.BattleState.BattleStartsAt = now.BeginningOfDay().UTC().Unix()
-			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
+			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix() + 1
 			player.BattleState.ScoreRecordedToday = false
 			player.BattleState.MatchedUpWithRival = false
 			player.BattleState.WantsStricterMatchmaking = false
@@ -437,7 +437,7 @@ func PostDailyBattleResult(helper *helper.Helper) {
 		doReward = true
 		if time.Now().UTC().Unix() > player.BattleState.BattleEndsAt {
 			player.BattleState.BattleStartsAt = now.BeginningOfDay().UTC().Unix()
-			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
+			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix() + 1
 			player.BattleState.ScoreRecordedToday = false
 			player.BattleState.MatchedUpWithRival = false
 			player.BattleState.WantsStricterMatchmaking = false
@@ -575,7 +575,7 @@ func PostDailyBattleResult(helper *helper.Helper) {
 				}
 			}
 			player.BattleState.BattleStartsAt = now.BeginningOfDay().UTC().Unix()
-			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix()
+			player.BattleState.BattleEndsAt = now.EndOfDay().UTC().Unix() + 1
 			player.BattleState.ScoreRecordedToday = false
 			player.BattleState.MatchedUpWithRival = false
 			player.BattleState.WantsStricterMatchmaking = false

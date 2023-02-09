@@ -4,8 +4,8 @@ import (
 	"github.com/RunnersRevival/outrun/logic/conversion"
 	"github.com/RunnersRevival/outrun/netobj"
 	"github.com/RunnersRevival/outrun/obj"
-	"github.com/RunnersRevival/outrun/responses/responseobjs"
 	"github.com/RunnersRevival/outrun/obj/constobjs"
+	"github.com/RunnersRevival/outrun/responses/responseobjs"
 	"github.com/jinzhu/now"
 )
 
@@ -60,7 +60,7 @@ func DefaultDailyBattleData(base responseobjs.BaseInfo, player netobj.Player) No
 	return NoRivalDailyBattleData(
 		base,
 		now.BeginningOfDay().UTC().Unix(),
-		now.EndOfDay().UTC().Unix(),
+		now.EndOfDay().UTC().Unix()+1,
 		battleData,
 		//		rivalBattleData,
 	)
@@ -72,7 +72,7 @@ func DefaultMatchedDailyBattleData(base responseobjs.BaseInfo, player netobj.Pla
 	return DailyBattleData(
 		base,
 		now.BeginningOfDay().UTC().Unix(),
-		now.EndOfDay().UTC().Unix(),
+		now.EndOfDay().UTC().Unix()+1,
 		battleData,
 		rivalBattleData,
 	)
