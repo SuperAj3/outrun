@@ -313,21 +313,28 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 		return
 	} else {
 		if request.Type != 0 {
-			player.BattleState.MatchedUpWithRival = false
-			player.BattleState.WantsStricterMatchmaking = false
-			oldRival, err := db.GetPlayer(oldRivalID)
-			if err != nil {
-				helper.InternalErr("error getting rival player", err)
-				return
-			}
-			oldRival.BattleState.MatchedUpWithRival = false
-			err = db.SavePlayer(oldRival)
-			if err != nil {
-				helper.InternalErr("Error saving old rival", err)
-				return
+			if time.Now().UTC().Unix() < player.BattleState.BattleEndsAt-5400 {
+				player.BattleState.MatchedUpWithRival = false
+				player.BattleState.WantsStricterMatchmaking = false
+				oldRival, err := db.GetPlayer(oldRivalID)
+				if err != nil {
+					helper.InternalErr("error getting rival player", err)
+					return
+				}
+				oldRival.BattleState.MatchedUpWithRival = false
+				err = db.SavePlayer(oldRival)
+				if err != nil {
+					helper.InternalErr("Error saving old rival", err)
+					return
+				}
+			} else {
+				helper.DebugOut("Daily battle matches are locked in! Not unpairing...")
+				player.PlayerState.NumRedRings += 5
 			}
 		}
-		player.BattleState = battle.DrawBattleRival(player, 200)
+		if !player.BattleState.MatchedUpWithRival {
+			player.BattleState = battle.DrawBattleRival(player, 200)
+		}
 	}
 
 	if player.BattleState.RivalID != oldRivalID && player.BattleState.MatchedUpWithRival {
