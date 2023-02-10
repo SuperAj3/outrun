@@ -313,7 +313,7 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 		return
 	} else {
 		if request.Type != 0 {
-			if time.Now().UTC().Unix() < player.BattleState.BattleEndsAt-5400 {
+			if time.Now().UTC().Unix() < player.BattleState.BattleEndsAt-7200 {
 				player.BattleState.MatchedUpWithRival = false
 				player.BattleState.WantsStricterMatchmaking = false
 				oldRival, err := db.GetPlayer(oldRivalID)
