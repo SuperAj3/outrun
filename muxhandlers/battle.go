@@ -329,7 +329,6 @@ func ResetDailyBattleMatching(helper *helper.Helper) {
 				}
 			} else {
 				helper.DebugOut("Daily battle matches are locked in! Not unpairing...")
-				player.PlayerState.NumRedRings += 5
 			}
 		}
 		if !player.BattleState.MatchedUpWithRival {
