@@ -377,6 +377,15 @@ func GetDailyBattleHistory(helper *helper.Helper) {
 		return
 	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
+	if !obj.BattlePairsAreSorted(player.BattleState.BattleHistory) {
+		// they aren't sorted; let's fix that!
+		player.BattleState.BattleHistory = obj.SortBattlePairsByNewestFirst(player.BattleState.BattleHistory)
+		err = db.SavePlayer(player)
+		if err != nil {
+			helper.InternalErr("Error saving player", err)
+			return
+		}
+	}
 	response := responses.GetDailyBattleHistory(baseInfo, player.BattleState.BattleHistory)
 	err = helper.SendResponse(response)
 	if err != nil {

@@ -10,7 +10,7 @@ type Ticker struct {
 }
 
 func NewTicker(id, end int64, param string) Ticker {
-	start := time.Now().Unix()
+	start := time.Now().UTC().Unix()
 	return Ticker{
 		id,
 		start,

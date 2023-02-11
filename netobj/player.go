@@ -48,7 +48,7 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		migrationPassword,
 		userPassword,
 		key,
-		time.Now().Unix(),
+		time.Now().UTC().Unix(),
 		playerState,
 		characterState,
 		chaoState,

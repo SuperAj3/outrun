@@ -17,7 +17,7 @@ type MileageMapState struct {
 
 func (m MileageMapState) AdvanceChapter() {
 	m.StageTotalScore = int64(0)
-	m.ChapterStartTime = time.Now().Unix()
+	m.ChapterStartTime = time.Now().UTC().Unix()
 	m.Chapter += 1
 	m.Episode = int64(1)
 	m.Point = int64(0)
@@ -35,6 +35,6 @@ func DefaultMileageMapState() MileageMapState {
 		1,
 		0,
 		0,
-		time.Now().Unix(),
+		time.Now().UTC().Unix(),
 	}
 }

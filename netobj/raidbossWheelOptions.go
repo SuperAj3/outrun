@@ -47,8 +47,8 @@ func DefaultRaidbossWheelOptions(numRouletteTicket, numSpecialEgg, rouletteCount
 			item = append(item, 1000)
 		}
 	}
-	itemWon := int64(rand.Intn(len(items)))   //TODO: adjust this to accurately represent item weights
-	nextFreeSpin := now.EndOfDay().Unix() + 1 // midnight
+	itemWon := int64(rand.Intn(len(items)))         //TODO: adjust this to accurately represent item weights
+	nextFreeSpin := now.EndOfDay().UTC().Unix() + 1 // midnight
 	numJackpotRing := int64(consts.RouletteJackpotRings)
 	// TODO: get rid of logic here!
 	costItemList := []obj.CostItem{

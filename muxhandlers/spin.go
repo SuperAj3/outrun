@@ -81,9 +81,9 @@ func CommitWheelSpin(helper *helper.Helper) {
 	}
 
 	endPeriod := player.RouletteInfo.RoulettePeriodEnd
-	helper.DebugOut("Time now: %v", time.Now().Unix())
+	helper.DebugOut("Time now: %v", time.Now().UTC().Unix())
 	helper.DebugOut("End period: %v", endPeriod)
-	if time.Now().Unix() > endPeriod {
+	if time.Now().UTC().Unix() > endPeriod {
 		player.RouletteInfo = netobj.DefaultRouletteInfo() // Effectively reset everything, set new end time
 		helper.DebugOut("New roulette period")
 		helper.DebugOut("RouletteCountInPeriod: %v", player.RouletteInfo.RouletteCountInPeriod)
@@ -143,7 +143,7 @@ func CommitWheelSpin(helper *helper.Helper) {
 				}
 				if player.ChaoState[chaoIndex].Level < maxChaoLevel {
 					player.ChaoState[chaoIndex].Level += amountOfItemWon
-					if player.ChaoState[chaoIndex].Level > 10 { // if max chao level (https://www.deviantart.com/vocaloidbrsfreak97/journal/So-Sonic-Runners-just-recently-updated-574789098)
+					if player.ChaoState[chaoIndex].Level > maxChaoLevel { // if max chao level (https://www.deviantart.com/vocaloidbrsfreak97/journal/So-Sonic-Runners-just-recently-updated-574789098)
 						excess := player.ChaoState[chaoIndex].Level - maxChaoLevel    // get amount gone over
 						amountOfItemWon -= excess                                     // shave it from prize level
 						player.ChaoState[chaoIndex].Level = maxChaoLevel              // reset to maximum
@@ -152,19 +152,19 @@ func CommitWheelSpin(helper *helper.Helper) {
 				} else {
 					player.ChaoState[chaoIndex].Level = maxChaoLevel              // reset to maximum
 					player.ChaoState[chaoIndex].Status = enums.ChaoStatusMaxLevel // set status to MaxLevel
-					player.PlayerState.ChaoEggs += 3                              // maxed out; give 1 special eggs as compensation
+					player.PlayerState.ChaoEggs += 3                              // maxed out; give 3 special eggs as compensation
 				}
 			} else {
 				helper.Warn("item '" + wonItem + "' not found")
 			}
 		}
 
-		helper.DebugOut("Time now: %v", time.Now().Unix())
+		helper.DebugOut("Time now: %v", time.Now().UTC().Unix())
 		helper.DebugOut("RoulettePeriodEnd: %v", player.RouletteInfo.RoulettePeriodEnd)
 		endPeriod := player.RouletteInfo.RoulettePeriodEnd
-		helper.DebugOut("Time now (passed): %v", time.Now().Unix())
+		helper.DebugOut("Time now (passed): %v", time.Now().UTC().Unix())
 		helper.DebugOut("End period (passed): %v", endPeriod)
-		if time.Now().Unix() > endPeriod { // TODO: Do we still need this?
+		if time.Now().UTC().Unix() > endPeriod { // TODO: Do we still need this?
 			player.RouletteInfo = netobj.DefaultRouletteInfo() // Effectively reset everything, set new end time
 			helper.DebugOut("New roulette period")
 			helper.DebugOut("RouletteCountInPeriod: %v", player.RouletteInfo.RouletteCountInPeriod)
@@ -173,6 +173,7 @@ func CommitWheelSpin(helper *helper.Helper) {
 		// generate NEXT! wheel
 		if wonItem != strconv.Itoa(enums.IDTypeItemRouletteWin) {
 			player.RouletteInfo.RouletteCountInPeriod++ // we've spun an additional time
+			// TODO: fix behavior to make it so that a free spin is properly awarded every time when landing on an ItemRouletteWin spot.
 			if player.RouletteInfo.RouletteCountInPeriod > freeSpins {
 				// we've run out of free spins for the period
 				player.PlayerState.NumRouletteTicket--

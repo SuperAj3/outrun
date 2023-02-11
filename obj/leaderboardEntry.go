@@ -69,7 +69,7 @@ func DefaultLeaderboardEntry(uid string) LeaderboardEntry {
 		0,
 		0,
 		0,
-		time.Now().Unix(), // this should be player.LastLogin!
+		time.Now().UTC().Unix(), // this should be player.LastLogin!
 		0,
 		0,
 		0,

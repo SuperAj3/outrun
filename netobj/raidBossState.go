@@ -20,7 +20,7 @@ func NewRaidbossState(id, level, rarity int64, encounterName string) EventRaidbo
 	maxHp := int64((15*(level+3) - 50) * (rarity + 1)) //TODO: Preliminary algorithm
 	hp := maxHp
 	status := int64(0)
-	escapeAt := int64(time.Now().Unix() + 3600) // raid boss expires after 1 hour
+	escapeAt := int64(time.Now().UTC().Unix() + 3600) // raid boss expires after 1 hour
 	encounterFlg := int64(0)
 	crowdedFlg := int64(0)
 	participateCount := int64(0)

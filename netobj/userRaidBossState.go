@@ -22,7 +22,7 @@ func DefaultUserRaidbossState() EventUserRaidbossState {
 	numBeatedEncounter := int64(0)
 	numBeatedEnterprise := int64(0)
 	numRaidBossEncountered := int64(0)
-	energyRenewsAt := int64(time.Now().Unix() + 600) // in ten minutes
+	energyRenewsAt := int64(time.Now().UTC().Unix() + 600) // in ten minutes
 	return EventUserRaidbossState{
 		numRaidbossRings,
 		raidbossEnergy,

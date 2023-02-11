@@ -55,7 +55,7 @@ func DefaultRaidbossUserState(uid string) RaidbossUserState {
 		"",
 		1,
 		0,
-		time.Now().Unix(),
+		time.Now().UTC().Unix(),
 		0,
 		0,
 		0,
