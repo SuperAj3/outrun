@@ -1129,3 +1129,27 @@ func (t *Toolbox) Debug_UpdateAllContinueCounts(nothing bool, reply *ToolboxRepl
 	reply.Info = "OK"
 	return nil
 }
+
+func (t *Toolbox) Debug_AddTransferCredentialsForPlayer(uid string, reply *ToolboxReply) error {
+	player, err := db.GetPlayer(uid)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to get player: " + err.Error()
+		return err
+	}
+	if len(player.UserPassword) == 0 {
+		reply.Status = StatusOtherError
+		reply.Info = "specified player does not have a user password set"
+		return nil
+	}
+	transferCreds := netobj.PlayerToTransferCredentials(player)
+	err = db.SaveTransferCredentials(transferCreds)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to save transfer credentials: " + err.Error()
+		return err
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
