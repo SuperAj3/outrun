@@ -83,7 +83,7 @@ func CheckIfDBSet() {
 
 // Battle stuff
 
-func CheckIfBattleSet() {
+func CheckIfBattleDBSet() {
 	if battleDb == nil {
 		bdb, err := bolt.Open(consts.BattleDBFileName, 0600, &bolt.Options{Timeout: 3 * time.Second})
 		if err != nil {
@@ -94,7 +94,7 @@ func CheckIfBattleSet() {
 }
 
 func BattleDBSet(bucket, key string, value []byte) error {
-	CheckIfBattleSet()
+	CheckIfBattleDBSet()
 	value = Compress(value) // compress the input first
 	err := battleDb.Update(func(tx *bolt.Tx) error {
 		bucket, err := tx.CreateBucketIfNotExists([]byte(bucket))
@@ -111,7 +111,7 @@ func BattleDBSet(bucket, key string, value []byte) error {
 }
 
 func BattleDBGet(bucket, key string) ([]byte, error) {
-	CheckIfBattleSet()
+	CheckIfBattleDBSet()
 	var value []byte
 	err := battleDb.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(bucket))
@@ -129,14 +129,14 @@ func BattleDBGet(bucket, key string) ([]byte, error) {
 }
 
 func BattleDBDelete(bucket, key string) error {
-	CheckIfBattleSet()
+	CheckIfBattleDBSet()
 	return battleDb.Update(func(tx *bolt.Tx) error {
 		return tx.Bucket([]byte(bucket)).Delete([]byte(key))
 	})
 }
 
 func BattleDBForEachKey(bucket string, each func(k, v []byte) error) error {
-	CheckIfBattleSet()
+	CheckIfBattleDBSet()
 	err := battleDb.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(bucket))
 		err2 := b.ForEach(each)
@@ -146,7 +146,7 @@ func BattleDBForEachKey(bucket string, each func(k, v []byte) error) error {
 }
 
 func BattleDBForEachLogic(each func(tx *bolt.Tx) error) error {
-	CheckIfBattleSet()
+	CheckIfBattleDBSet()
 	err := battleDb.View(each)
 	return err
 }

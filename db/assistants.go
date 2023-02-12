@@ -126,15 +126,6 @@ func SavePlayer(player netobj.Player) error {
 	return err
 }
 
-func SaveTransferCredentials(transferCreds netobj.TransferCredentials) error {
-	j, err := json.Marshal(transferCreds)
-	if err != nil {
-		return err
-	}
-	err = dbaccess.Set(consts.DBBucketTransferCreds, transferCreds.TransferID, j)
-	return err
-}
-
 func GetPlayer(uid string) (netobj.Player, error) {
 	var player netobj.Player
 	playerData, err := dbaccess.Get(consts.DBBucketPlayers, uid)
@@ -146,19 +137,6 @@ func GetPlayer(uid string) (netobj.Player, error) {
 		return constnetobjs.BlankPlayer, err
 	}
 	return player, nil
-}
-
-func GetTransferCredentials(tid string) (netobj.TransferCredentials, error) {
-	var transferCreds netobj.TransferCredentials
-	trCredsData, err := dbaccess.Get(consts.DBBucketTransferCreds, tid)
-	if err != nil {
-		return netobj.DefaultTransferCredentials(), err
-	}
-	err = json.Unmarshal(trCredsData, &transferCreds)
-	if err != nil {
-		return netobj.DefaultTransferCredentials(), err
-	}
-	return transferCreds, nil
 }
 
 func DeletePlayer(uid string) error {
@@ -236,6 +214,33 @@ func PurgeAllExpiredSessionIDs() {
 	for _, key := range keysToPurge {
 		PurgeSessionID(string(key))
 	}
+}
+
+func SaveTransferCredentials(transferCreds netobj.TransferCredentials) error {
+	j, err := json.Marshal(transferCreds)
+	if err != nil {
+		return err
+	}
+	err = dbaccess.Set(consts.DBBucketTransferCreds, transferCreds.TransferID, j)
+	return err
+}
+
+func GetTransferCredentials(tid string) (netobj.TransferCredentials, error) {
+	var transferCreds netobj.TransferCredentials
+	trCredsData, err := dbaccess.Get(consts.DBBucketTransferCreds, tid)
+	if err != nil {
+		return netobj.DefaultTransferCredentials(), err
+	}
+	err = json.Unmarshal(trCredsData, &transferCreds)
+	if err != nil {
+		return netobj.DefaultTransferCredentials(), err
+	}
+	return transferCreds, nil
+}
+
+func DeleteTransferCredentials(tid string) error {
+	err := dbaccess.Delete(consts.DBBucketTransferCreds, tid)
+	return err
 }
 
 func BattleGetPlayer(uid string) (netobj.Player, error) {

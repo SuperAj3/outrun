@@ -410,6 +410,7 @@ func GetMigrationPassword(helper *helper.Helper) {
 		player.MigrationPassword = randChar("abcdefghijklmnopqrstuvwxyz1234567890", 10)
 	}
 	player.UserPassword = request.UserPassword
+	db.SaveTransferCredentials(netobj.PlayerToTransferCredentials(player))
 	db.SavePlayer(player)
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	response := responses.MigrationPassword(baseInfo, player)
@@ -442,7 +443,7 @@ func Migration(helper *helper.Helper) {
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 
 	helper.DebugOut("Transfer ID: %s", password)
-	foundPlayers, err := logic.FindPlayersByMigrationPassword(password, false)
+	/*foundPlayers, err := logic.FindPlayersByMigrationPassword(password, false)
 	if err != nil {
 		helper.Err("Error finding players by password", err)
 		return
@@ -450,14 +451,20 @@ func Migration(helper *helper.Helper) {
 	playerIDs := []string{}
 	for _, player := range foundPlayers {
 		playerIDs = append(playerIDs, player.ID)
-	}
-	if len(playerIDs) > 0 {
-		migratePlayer, err := db.GetPlayer(playerIDs[0])
-		if err != nil {
-			helper.InternalErr("Error getting player", err)
-			return
-		}
-		if migrationUserPassword == migratePlayer.UserPassword {
+	}*/
+	transferCreds, err := db.GetTransferCredentials(password)
+	if err == nil {
+		migrationUserPasswordOK, migratePlayerID := netobj.VerifyTransferPasswordAndGetPlayerID(transferCreds, migrationUserPassword)
+		if migrationUserPasswordOK {
+			db.DeleteTransferCredentials(password) // we won't need it anymore either way
+			migratePlayer, err := db.GetPlayer(migratePlayerID)
+			if err != nil {
+				helper.Warn("Unable to get player for transfer ID \"%s\" (player ID %s)! Possibly a dead transfer ID?", password, migratePlayerID)
+				baseInfo.StatusCode = status.MissingPlayer
+				response := responses.NewBaseResponseV(baseInfo, request.Version)
+				helper.SendResponse(response)
+				return
+			}
 			baseInfo.StatusCode = status.OK
 			baseInfo.SetErrorMessage(emess.OK)
 			migratePlayer.MigrationPassword = randChar("abcdefghijklmnopqrstuvwxyz1234567890", 10) //generate a brand new transfer ID
@@ -468,25 +475,25 @@ func Migration(helper *helper.Helper) {
 				helper.InternalErr("Error saving player", err)
 				return
 			}
-			sid, err := db.AssignSessionID(migratePlayer.ID)
+			sid, err := db.AssignSessionID(migratePlayerID)
 			if err != nil {
 				helper.InternalErr("Error assigning session ID", err)
 				return
 			}
-			helper.DebugOut("User ID: %s", migratePlayer.ID)
+			helper.DebugOut("User ID: %s", migratePlayerID)
 			helper.DebugOut("Username: %s", migratePlayer.Username)
 			helper.DebugOut("New Transfer ID: %s", migratePlayer.MigrationPassword)
-			response := responses.MigrationSuccess(baseInfo, sid, migratePlayer.ID, migratePlayer.Username, migratePlayer.Password, migratePlayer.PlayerVarious.EnergyRecoveryTime, migratePlayer.PlayerVarious.EnergyRecoveryMax)
+			response := responses.MigrationSuccess(baseInfo, sid, migratePlayerID, migratePlayer.Username, migratePlayer.Password, migratePlayer.PlayerVarious.EnergyRecoveryTime, migratePlayer.PlayerVarious.EnergyRecoveryMax)
 			helper.SendResponse(response)
 		} else {
 			baseInfo.StatusCode = status.InvalidPassword
 			baseInfo.SetErrorMessage(emess.BadPassword)
-			helper.DebugOut("Incorrect password for user ID %s", migratePlayer.ID)
+			helper.DebugOut("Incorrect password for transfer ID \"%s\"", password)
 			response := responses.NewBaseResponseV(baseInfo, request.Version)
 			helper.SendResponse(response)
 		}
 	} else {
-		helper.DebugOut("Failed to find player")
+		helper.DebugOut("Invalid transfer ID")
 		baseInfo.StatusCode = status.InvalidPassword
 		response := responses.NewBaseResponseV(baseInfo, request.Version)
 		helper.SendResponse(response)
