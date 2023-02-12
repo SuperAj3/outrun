@@ -1,10 +1,13 @@
 package rpcobj
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 
 	"github.com/RunnersRevival/outrun/config/eventconf"
 	"github.com/RunnersRevival/outrun/db"
+	"github.com/RunnersRevival/outrun/netobj"
 )
 
 func (t *Toolbox) SetRings(args ChangeValueArgs, reply *ToolboxReply) error {
@@ -339,5 +342,33 @@ func (t *Toolbox) SetPersonalEventsJSON(args ChangeValueArgs, reply *ToolboxRepl
 	}
 	reply.Status = StatusOK
 	reply.Info = "OK"
+	return nil
+}
+
+func (t *Toolbox) SetUserPassword(args ChangeValueArgs, reply *ToolboxReply) error {
+	player, err := db.GetPlayer(args.UID)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to get player: " + err.Error()
+		return err
+	}
+	newPassword := args.Value.(string)
+	hash := md5.Sum([]byte(newPassword))
+	player.UserPassword = hex.EncodeToString(hash[:])
+	transferCreds := netobj.PlayerToTransferCredentials(player)
+	err = db.SaveTransferCredentials(transferCreds)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to save transfer credentials: " + err.Error()
+		return err
+	}
+	err = db.SavePlayer(player)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to save player: " + err.Error()
+		return err
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK - transfer ID " + player.MigrationPassword + " has the updated password"
 	return nil
 }
