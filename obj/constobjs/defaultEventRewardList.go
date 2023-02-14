@@ -2,6 +2,7 @@ package constobjs
 
 import (
 	"strconv"
+
 	"github.com/RunnersRevival/outrun/enums"
 	"github.com/RunnersRevival/outrun/obj"
 )
@@ -1424,7 +1425,7 @@ var DefaultAnimalEventRewardList = func() []obj.EventReward {
 		),
 		obj.NewEventReward(
 			80,
-			7500,
+			2500,
 			strconv.Itoa(int(enums.ItemIDRing)),
 			50000,
 		),
@@ -1610,8 +1611,6 @@ var DefaultAnimalEventRewardList = func() []obj.EventReward {
 		),
 	}
 }
-
-
 
 func GetPendingEventRewards(oldParam, newParam int64) ([]obj.EventReward, int64) {
 	rewards := DefaultAnimalEventRewardList()
