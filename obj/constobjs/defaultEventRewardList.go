@@ -1305,7 +1305,7 @@ var DefaultAnimalEventRewardList = func() []obj.EventReward {
 		),
 		obj.NewEventReward(
 			60,
-			5500,
+			1500,
 			strconv.Itoa(int(enums.ItemIDRing)),
 			50000,
 		),
@@ -1545,7 +1545,7 @@ var DefaultAnimalEventRewardList = func() []obj.EventReward {
 		),
 		obj.NewEventReward(
 			100,
-			9500,
+			3500,
 			strconv.Itoa(int(enums.ItemIDRing)),
 			60000,
 		),
