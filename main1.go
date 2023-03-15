@@ -94,6 +94,10 @@ func checkArgs() bool {
 			ServerMode = 2
 			return false
 		}
+		if args[0] == "--betamaintenance" {
+			muxhandlers.ServerMode = 3
+			return false
+		}
 		fmt.Println("Unknown given arguments")
 		return true
 	}

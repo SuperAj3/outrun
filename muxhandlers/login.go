@@ -25,6 +25,8 @@ import (
 	"github.com/jinzhu/now"
 )
 
+var ServerMode int64
+
 func Login(helper *helper.Helper) {
 	recv := helper.GetGameRequest()
 	var request requests.LoginRequest
@@ -38,7 +40,19 @@ func Login(helper *helper.Helper) {
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	helper.Out("User logging in with Revival Version ID %v (%s)", request.RevivalVerID, request.Version)
-	if request.Version != "2.2.3" && request.Version != "2.0.3" && !config.CFile.LegacyCompatibilityMode {
+	if ServerMode == 3 {
+		if request.RevivalVerID != 0 {
+			helper.Out("A beta client has tried to log in during maintenance!")
+			baseInfo.StatusCode = status.ServerMaintenance
+			response := responses.NewBaseResponse(baseInfo)
+			err := helper.SendResponse(response)
+			if err != nil {
+				helper.InternalErr("Error sending response", err)
+			}
+			return
+		}
+	}
+	if request.Version != "2.2.3" && request.RevivalVerID != 4 && !config.CFile.LegacyCompatibilityMode {
 		helper.Out("Client version too old or too new for this version of Outrun!")
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
