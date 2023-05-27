@@ -148,11 +148,11 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrRCBlockFace: 1.0,
 	//enums.ChaoIDStrDFekt:                0.0, // Revival Event (assets TBD)
 	//enums.ChaoIDStrDarkChaoWalker:       0.0, // Daily Battle?
-	//enums.ChaoIDStrPrideChaoL:           1.5,
-	//enums.ChaoIDStrPrideChaoG:           1.5,
-	//enums.ChaoIDStrPrideChaoB:           1.5,
-	//enums.ChaoIDStrPrideChaoT:           1.5,
-	//enums.ChaoIDStrPrideChaoP:           1.5,
-	//enums.ChaoIDStrPrideChaoA:           1.5,
-	//enums.ChaoIDStrPrideChaoNB:          1.5,
+	enums.ChaoIDStrPrideChaoL:           1.5,
+	enums.ChaoIDStrPrideChaoG:           1.5,
+	enums.ChaoIDStrPrideChaoB:           1.5,
+	enums.ChaoIDStrPrideChaoT:           1.5,
+	enums.ChaoIDStrPrideChaoP:           1.5,
+	enums.ChaoIDStrPrideChaoA:           1.5,
+	enums.ChaoIDStrPrideChaoNB:          1.5,
 }
