@@ -30,25 +30,25 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	//enums.CTStrPSISilver:       0.0, // Revival Event
 	enums.CTStrRouge:  0.3,
 	enums.CTStrShadow: 0.3,
-	//enums.CTStrMarine:          0.8, // Revival Event
+	enums.CTStrMarine:          1.0, // Revival Event
 	enums.CTStrTangle: 1.0, // Revival Event
-	//enums.CTStrWhisper: 1.2, // Revival Event
+	enums.CTStrWhisper: 1.0, // Revival Event
 	//enums.CTStrSticks:          0.3, // Revival Event
 	//enums.CTStrTikal:           1.5, // Event (Sonic Adventure)
 	enums.CTStrVector: 0.3,
 	//enums.CTStrWerehog:         1.5, // Revival Event
-	//enums.CTStrClassicSonic: 1.5, // Event (Birthday)
+	enums.CTStrClassicSonic: 1.0, // Event (Birthday)
 	//enums.CTStrMetalSonic:      0.0, // Revival Event
 
 	// The below characters shouldn't be activated until event characters are fixed!
-	//enums.CTStrAmitieAmy:       2.0, // Event (Puyo Puyo Quest)
+	enums.CTStrAmitieAmy:       1.0, // Event (Puyo Puyo Quest)
 	//enums.CTStrGothicAmy:       0.0, // Not given out on Revival
-	//enums.CTStrHalloweenShadow: 1.2,   // Event (Halloween)
-	//enums.CTStrHalloweenRouge:  1.2,   // Event (Halloween)
-	//enums.CTStrHalloweenOmega:  1.2,   // Event (Halloween)
-	//enums.CTStrXMasSonic:       2.3, // Event (Christmas)
-	//enums.CTStrXMasTails:       2.3, // Event (Christmas)
-	//enums.CTStrXMasKnuckles:    2.3, // Event (Christmas)
+	enums.CTStrHalloweenShadow: 1.0,   // Event (Halloween)
+	enums.CTStrHalloweenRouge:  1.0,   // Event (Halloween)
+	enums.CTStrHalloweenOmega:  1.0,   // Event (Halloween)
+	enums.CTStrXMasSonic:       1.0, // Event (Christmas)
+	enums.CTStrXMasTails:       1.0, // Event (Christmas)
+	enums.CTStrXMasKnuckles:    1.0, // Event (Christmas)
 }
 
 var RandomChaoWheelChaoPrizes = map[string]float64{
@@ -92,9 +92,9 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrBlowfishTransporter:  1.5, // Event (Tropical Coast)
 	//enums.ChaoIDStrMotherWisp:           1.2, // Event (Tropical Coast)
 	//enums.ChaoIDStrMarineChao:           1.5, // Event (Tropical Coast)
-	//enums.ChaoIDStrGenesis:              1.5, // Event (Birthday)
-	//enums.ChaoIDStrCartridge:            1.5, // Event (Birthday)
-	//enums.ChaoIDStrDeathEgg:             1.0, // Event (Birthday)
+	enums.ChaoIDStrGenesis:              1.5, // Event (Birthday)
+	enums.ChaoIDStrCartridge:            1.5, // Event (Birthday)
+	enums.ChaoIDStrDeathEgg:             1.0, // Event (Birthday)
 	enums.ChaoIDStrRCFighter:            1.0,
 	enums.ChaoIDStrRCHovercraft:         1.0,
 	enums.ChaoIDStrRCHelicopter:         1.0,
