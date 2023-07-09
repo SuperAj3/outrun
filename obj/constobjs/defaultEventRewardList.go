@@ -330,7 +330,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			54,
 			230000,
 			strconv.Itoa(int(enums.ItemIDLaser)),
-			80,
+			8,
 		),
 		obj.NewEventReward(
 			55,
@@ -366,7 +366,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			60,
 			290000,
 			strconv.Itoa(int(enums.ChaoIDGenesis)),
-			10,
+			1,
 		),
 		obj.NewEventReward(
 			61,
