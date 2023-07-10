@@ -87,7 +87,7 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterAmitieAmy))
 	}
-	charindex := player.IndexOfChara(enums.CTStrHalloweenShadow)
+	charindex = player.IndexOfChara(enums.CTStrHalloweenShadow)
 	helper.Out("Player ", player.Username, "'s charIndex for Halloween Shadow is", charindex)
 	if charindex == -1 {
 		helper.Out("Player ", player.Username, "'s charIndex was -1")
