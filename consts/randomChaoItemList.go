@@ -31,8 +31,8 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	enums.CTStrRouge:  0.3,
 	enums.CTStrShadow: 0.3,
 	enums.CTStrMarine:          1.0, // Revival Event
-	enums.CTStrTangle: 1.0, // Revival Event
-	enums.CTStrWhisper: 1.0, // Revival Event
+	//enums.CTStrTangle: 1.0, // Revival Event
+	//enums.CTStrWhisper: 1.0, // Revival Event
 	//enums.CTStrSticks:          0.3, // Revival Event
 	//enums.CTStrTikal:           1.5, // Event (Sonic Adventure)
 	enums.CTStrVector: 0.3,
@@ -41,7 +41,7 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	//enums.CTStrMetalSonic:      0.0, // Revival Event
 
 	// The below characters shouldn't be activated until event characters are fixed!
-	enums.CTStrAmitieAmy:       1.0, // Event (Puyo Puyo Quest)
+	//enums.CTStrAmitieAmy:       1.0, // Event (Puyo Puyo Quest)
 	//enums.CTStrGothicAmy:       0.0, // Not given out on Revival
 	//enums.CTStrHalloweenShadow: 1.0,   // Event (Halloween)
 	//enums.CTStrHalloweenRouge:  1.0,   // Event (Halloween)
