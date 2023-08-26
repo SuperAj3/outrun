@@ -85,7 +85,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrRCBomber:          1.0,
 	//enums.ChaoIDStrStarShapedMissile:    0.0, // Event (Zazz Raid Boss)
 	//enums.ChaoIDStrRCSatellite:          0.0, // Event (Zazz Raid Boss)
-	//enums.ChaoIDStrRCMoonMech:           0.0, // Event (Zazz Raid Boss?)
+	//enums.ChaoIDStrRCMoonMech:           0.0, // Event (Zazz Raid Boss; Only Obtainable through the Boss Raid Roulette, which is currently unavailable)
 	//enums.ChaoIDStrRappy:                1.0, // Event (Phantasy Star Online 2)
 	//enums.ChaoIDStrKuna:                 1.0, // Event (Phantasy Star Online 2)
 	//enums.ChaoIDStrMagLv1:               1.0, // Event (Phantasy Star Online 2)
@@ -130,7 +130,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrHeroChaos:  1.5,
 	enums.ChaoIDStrDarkChaos:  1.5,
 	enums.ChaoIDStrChip:       1.5,
-	//enums.ChaoIDStrShahra:               0.0, // Runners' League
+	//enums.ChaoIDStrShahra:               0.0, // Runners' League Story Mode
 	enums.ChaoIDStrCaliburn:         1.2,
 	enums.ChaoIDStrKingArthursGhost: 1.0,
 	enums.ChaoIDStrRCTornado:        1.0,
@@ -144,7 +144,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrChaos:                1.0, // Event (Sonic Adventure)
 	//enums.ChaoIDStrOrca:                 1.5, // Event (Sonic Adventure)
 	//enums.ChaoIDStrChaoWalker:           0.0, // Daily Battle
-	//enums.ChaoIDStrDarkQueen:            0.0, // Runners' League
+	//enums.ChaoIDStrDarkQueen:            0.0, // Runners' League Timed Mode
 	enums.ChaoIDStrRCBlockFace: 1.0,
 	//enums.ChaoIDStrDFekt:                0.0, // Revival Event (assets TBD)
 	//enums.ChaoIDStrDarkChaoWalker:       0.0, // Daily Battle?
