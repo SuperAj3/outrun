@@ -153,6 +153,24 @@ func CommitWheelSpin(helper *helper.Helper) {
 					player.ChaoState[chaoIndex].Level = maxChaoLevel              // reset to maximum
 					player.ChaoState[chaoIndex].Status = enums.ChaoStatusMaxLevel // set status to MaxLevel
 					player.PlayerState.ChaoEggs += 3                              // maxed out; give 3 special eggs as compensation
+					
+					// refresh the Premium Roulette - should fix issue #19 (https://github.com/RunnersRevival/revival_issues/issues/19)
+
+					player.ChaoRouletteGroup.ChaoWheelOptions = netobj.DefaultChaoWheelOptions(player.PlayerState) // create a new wheel
+					newRarities, ok := fixRarities(player.ChaoRouletteGroup.ChaoWheelOptions.Rarity)
+					if !ok { // if player is entirely unable to upgrade anything
+						// TODO: this method is super-hacky - ideally we'd want to return an error code for this situation
+						player.ChaoRouletteGroup.ChaoWheelOptions.SpinCost = player.PlayerState.NumChaoRouletteTicket + player.PlayerState.NumRedRings // make it impossible for player to use roulette
+					} else { // if player can upgrade
+						player.ChaoRouletteGroup.ChaoWheelOptions.Rarity = newRarities
+					}
+					newItems, newRarities, err := roulette.GetRandomChaoRouletteItems(player.ChaoRouletteGroup.ChaoWheelOptions.Rarity, player.GetAllNonMaxedCharacters(), player.GetAllNonMaxedChao())
+					if err != nil {
+						helper.InternalErr("Error getting new items", err)
+						return
+					}
+					player.ChaoRouletteGroup.WheelChao = newItems
+					player.ChaoRouletteGroup.ChaoWheelOptions.Rarity = newRarities
 				}
 			} else {
 				helper.Warn("item '" + wonItem + "' not found")

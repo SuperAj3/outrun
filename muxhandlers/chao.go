@@ -314,7 +314,7 @@ func CommitChaoWheelSpin(helper *helper.Helper) {
 		player.ChaoRouletteGroup.ChaoWheelOptions = netobj.DefaultChaoWheelOptions(player.PlayerState) // create a new wheel
 		newRarities, ok := fixRarities(player.ChaoRouletteGroup.ChaoWheelOptions.Rarity)
 		if !ok { // if player is entirely unable to upgrade anything
-			// TODO: this is probably not the right way to do this!
+			// TODO: this method is super-hacky - ideally we'd want to return an error code for this situation
 			player.ChaoRouletteGroup.ChaoWheelOptions.SpinCost = player.PlayerState.NumChaoRouletteTicket + player.PlayerState.NumRedRings // make it impossible for player to use roulette
 		} else { // if player can upgrade
 			player.ChaoRouletteGroup.ChaoWheelOptions.Rarity = newRarities
