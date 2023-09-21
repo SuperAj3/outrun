@@ -2,11 +2,14 @@ package muxhandlers
 
 import (
 	"encoding/json"
+	"fmt"
+	"math/rand"
 	"strconv"
 	"time"
 
 	"github.com/RunnersRevival/outrun/analytics"
 	"github.com/RunnersRevival/outrun/analytics/factors"
+	"github.com/RunnersRevival/outrun/config"
 	"github.com/RunnersRevival/outrun/config/campaignconf"
 	"github.com/RunnersRevival/outrun/consts"
 	"github.com/RunnersRevival/outrun/db"
@@ -187,7 +190,9 @@ func CommitWheelSpin(helper *helper.Helper) {
 						}
 						return newRarities, true
 					}
-
+					
+					chaoCanBeLevelled := !player.AllChaoMaxLevel()
+					charactersCanBeLevelled := !player.AllCharactersMaxLevel()
 					player.ChaoRouletteGroup.ChaoWheelOptions = netobj.DefaultChaoWheelOptions(player.PlayerState) // create a new wheel
 					newRarities, ok := fixRarities(player.ChaoRouletteGroup.ChaoWheelOptions.Rarity)
 					if !ok { // if player is entirely unable to upgrade anything
