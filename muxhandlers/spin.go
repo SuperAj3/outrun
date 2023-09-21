@@ -15,6 +15,7 @@ import (
 	"github.com/RunnersRevival/outrun/helper"
 	"github.com/RunnersRevival/outrun/logic"
 	"github.com/RunnersRevival/outrun/logic/conversion"
+	"github.com/RunnersRevival/outrun/logic/roulette"
 	"github.com/RunnersRevival/outrun/netobj"
 	"github.com/RunnersRevival/outrun/obj"
 	"github.com/RunnersRevival/outrun/requests"
@@ -155,6 +156,37 @@ func CommitWheelSpin(helper *helper.Helper) {
 					player.PlayerState.ChaoEggs += 3                              // maxed out; give 3 special eggs as compensation
 					
 					// refresh the Premium Roulette - should fix issue #19 (https://github.com/RunnersRevival/revival_issues/issues/19)
+
+					fixRarities := func(rarities []int64) ([]int64, bool) {
+						newRarities := []int64{}
+						if !chaoCanBeLevelled && !charactersCanBeLevelled {
+							// Wow, they can't upgrade _anything!_
+							return newRarities, false
+						}
+						if config.CFile.Debug {
+							player.PlayerState.NumRedRings += 150
+							//return []int64{100, 100, 100, 100, 100, 100, 100, 100}, true
+							return []int64{0, 0, 0, 0, 0, 0, 0, 0}, true
+						}
+						for _, r := range rarities {
+							if r == 0 || r == 1 || r == 2 { // Chao
+								if chaoCanBeLevelled {
+									newRarities = append(newRarities, r)
+								} else {
+									newRarities = append(newRarities, 100) // append a character
+								}
+							} else if r == 100 { // character
+								if charactersCanBeLevelled {
+									newRarities = append(newRarities, r)
+								} else {
+									newRarities = append(newRarities, int64(rand.Intn(3))) // append random rarity Chao
+								}
+							} else { // should never happen
+								panic(fmt.Errorf("invalid rarity '" + strconv.Itoa(int(r)) + "'")) // TODO: use better way to handle
+							}
+						}
+						return newRarities, true
+					}
 
 					player.ChaoRouletteGroup.ChaoWheelOptions = netobj.DefaultChaoWheelOptions(player.PlayerState) // create a new wheel
 					newRarities, ok := fixRarities(player.ChaoRouletteGroup.ChaoWheelOptions.Rarity)
