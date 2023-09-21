@@ -160,6 +160,8 @@ func CommitWheelSpin(helper *helper.Helper) {
 					
 					// refresh the Premium Roulette - should fix issue #19 (https://github.com/RunnersRevival/revival_issues/issues/19)
 
+					chaoCanBeLevelled := !player.AllChaoMaxLevel()
+					charactersCanBeLevelled := !player.AllCharactersMaxLevel()
 					fixRarities := func(rarities []int64) ([]int64, bool) {
 						newRarities := []int64{}
 						if !chaoCanBeLevelled && !charactersCanBeLevelled {
@@ -191,8 +193,6 @@ func CommitWheelSpin(helper *helper.Helper) {
 						return newRarities, true
 					}
 					
-					chaoCanBeLevelled := !player.AllChaoMaxLevel()
-					charactersCanBeLevelled := !player.AllCharactersMaxLevel()
 					player.ChaoRouletteGroup.ChaoWheelOptions = netobj.DefaultChaoWheelOptions(player.PlayerState) // create a new wheel
 					newRarities, ok := fixRarities(player.ChaoRouletteGroup.ChaoWheelOptions.Rarity)
 					if !ok { // if player is entirely unable to upgrade anything
