@@ -38,7 +38,7 @@ Functional:
 
 1. [Download and install Go 1.17](https://golang.org/dl/)
 2. [Download and install Git](https://git-scm.com/downloads) (for `go get`)
-3. Set your [GOPATH](https://github.com/golang/go/wiki/SettingGOPATH) environment variable (on Windows, the default is `C:\Users\UsernameHere\go`, while on Linux the default is `/home/usernamehere/go` - only change this if you want to put your work in another)
+3. Set your [GOPATH](https://github.com/golang/go/wiki/SettingGOPATH) environment variable (on Windows, the default is `C:\Users\UsernameHere\go`, while on Linux the default is `/home/usernamehere/go` - only change this if you want to put your work in another directory)
 4. Open a terminal/command prompt
 5. Use `cd` ([Windows,](https://www.digitalcitizen.life/command-prompt-how-use-basic-commands) [Linux/macOS](https://www.macworld.com/article/2042378/master-the-command-line-navigating-files-and-folders.html)) to navigate to a directory of choice
 6. Run `go get github.com/RunnersRevival/outrun` and wait until the command line returns
