@@ -35,16 +35,14 @@ Functional:
 
 ### Building
 
-1. [Download and install Go 1.15.8](https://golang.org/dl/) (**NOTE:** Go 1.16+ currently break the ability to build some or all of Outrun, such as RPC programs. A fix will be deployed whenever one is available.)
+1. [Download and install Go](https://golang.org/dl/) (latest version should work, but the availability of the legacy `go get` syntax )
 2. [Download and install Git](https://git-scm.com/downloads) (for `go get`)
-3. Set your [GOPATH](https://github.com/golang/go/wiki/SettingGOPATH) environment variable
+3. Set your [GOPATH](https://github.com/golang/go/wiki/SettingGOPATH) environment variable (on Windows, the default is `C:\Users\UsernameHere\go`, while on Linux the default is `/home/usernamehere/go` - only change this if you want to put your work in another directory)
 4. Open a terminal/command prompt
 5. Use `cd` ([Windows,](https://www.digitalcitizen.life/command-prompt-how-use-basic-commands) [Linux/macOS](https://www.macworld.com/article/2042378/master-the-command-line-navigating-files-and-folders.html)) to navigate to a directory of choice
-6. Run `go get github.com/RunnersRevival/outrun` and wait until the command line returns
+6. Run `go get github.com/RunnersRevival/outrun@self-hostable` and wait until the command line returns
 7. Run `go build github.com/RunnersRevival/outrun` and wait until the build is complete
 8. Run the produced executable (`outrun.exe` on Windows, `outrun` on Linux/macOS)
-
-Binary releases can be found [in the releases tab.](https://github.com/fluofoxxo/outrun/releases)
 
 #### Modifying an APK to connect to your instance (from Windows)
 
