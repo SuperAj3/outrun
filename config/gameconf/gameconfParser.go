@@ -40,7 +40,7 @@ var CharacterMap = map[string]string{ // TODO: move to consts?
 	"xmasSonic":       enums.CTStrXMasSonic,
 	"xmasTails":       enums.CTStrXMasTails,
 	"xmasKnuckles":    enums.CTStrXMasKnuckles,
-	// TODO: add Marine to the list
+	// TODO: add Marine, Tangle, and Whisper to the list
 	"empty": "-1",
 	"none":  "-1",
 }
