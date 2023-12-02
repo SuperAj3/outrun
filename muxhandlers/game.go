@@ -366,6 +366,29 @@ func QuickPostGameResults(helper *helper.Helper) {
 		subCIndex = player.IndexOfChara(subC.ID) // TODO: check if -1
 	}
 	if request.Closed == 0 { // If the game wasn't exited out of
+		var unsignedScore int64 = int64(uint32(request.Score))
+		if unsignedScore > request.Distance*45000 && gameconf.CFile.EnableVerification {
+			// highly experimental
+			timeStr := strconv.Itoa(int(time.Now().Unix()))
+			os.MkdirAll(GAME_RESULT_LOG_DIRECTORY, 0644)
+			deets := []byte(fmt.Sprintf("%s (%s)\r\nScore: %v\r\nRings: %v (%v lost), Red Rings: %v\r\nDistance: %v\r\nAnimals: %v\r\nGame-reported cheat result: %s", player.Username, player.ID, request.Score, request.Rings, request.FailureRings, request.RedRings, request.Distance, request.Animals, request.CheatResult))
+			path := GAME_RESULT_LOG_DIRECTORY + player.ID + "_" + timeStr + "_quick.txt"
+			err := ioutil.WriteFile(path, deets, 0644)
+			if err != nil {
+				helper.InternalErr("Unable to log run", err)
+			}
+
+			if gameconf.CFile.PenalizeUnverifiables {
+				request.Rings = 0
+				request.FailureRings = 0
+				request.RedRings = 0
+				request.Animals = 0
+				request.Distance = 0
+				request.Score = 0
+				request.DailyChallengeValue = 0
+				request.DailyChallengeComplete = 0
+			}
+		}
 		var finalRingCount int64 = player.PlayerState.NumRings + request.Rings
 		const maxRingValue = 2147483647 // int32 maximum value
 		if finalRingCount >= maxRingValue {
