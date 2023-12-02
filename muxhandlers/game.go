@@ -712,7 +712,7 @@ func PostGameResults(helper *helper.Helper) {
 
 	if request.Closed == 0 { // If the game wasn't exited out of
 		var unsignedScore int64 = int64(uint32(request.Score))
-		if unsignedScore > request.Distance*25000 && gameconf.CFile.EnableVerification {
+		if unsignedScore > request.Distance*45000 && gameconf.CFile.EnableVerification {
 			// highly experimental
 			timeStr := strconv.Itoa(int(time.Now().Unix()))
 			os.MkdirAll(GAME_RESULT_LOG_DIRECTORY, 0644)
