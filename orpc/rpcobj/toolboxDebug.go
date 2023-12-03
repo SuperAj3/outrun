@@ -929,9 +929,9 @@ func (t *Toolbox) Debug_FixAllChaoStateNumAcquiredValues(nothing bool, reply *To
 
 		for i, chao := range chaoState {
 			if chao.Status != enums.ChaoStatusNotOwned {
-				player.ChaoState[i].NumAcquired = chao.Level + 1
+				player.ChaoState[i].Acquired = chao.Level + 1
 			} else {
-				player.ChaoState[i].NumAcquired = 0
+				player.ChaoState[i].Acquired = 0
 			}
 		}
 		err = db.SavePlayer(player)
@@ -941,6 +941,9 @@ func (t *Toolbox) Debug_FixAllChaoStateNumAcquiredValues(nothing bool, reply *To
 			return err
 		}
 	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
 }
 
 // Returns how many players are in the Battle database
