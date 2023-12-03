@@ -912,6 +912,37 @@ func (t *Toolbox) Debug_CountPlayers(nothing bool, reply *ToolboxReply) error {
 	return nil
 }
 
+func (t *Toolbox) Debug_FixAllChaoStateNumAcquiredValues(nothing bool, reply *ToolboxReply) error {
+	playerIDs := []string{}
+	dbaccess.ForEachKey(consts.DBBucketPlayers, func(k, v []byte) error {
+		playerIDs = append(playerIDs, string(k))
+		return nil
+	})
+	for _, uid := range playerIDs {
+		player, err := db.GetPlayer(uid)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("unable to get player %s: ", uid) + err.Error()
+			return err
+		}
+		chaoState := player.ChaoState
+
+		for i, chao := range chaoState {
+			if chao.Status != enums.ChaoStatusNotOwned {
+				player.ChaoState[i].NumAcquired = chao.Level + 1
+			} else {
+				player.ChaoState[i].NumAcquired = 0
+			}
+		}
+		err = db.SavePlayer(player)
+		if err != nil {
+			reply.Status = StatusOtherError
+			reply.Info = fmt.Sprintf("error saving player %s: ", uid) + err.Error()
+			return err
+		}
+	}
+}
+
 // Returns how many players are in the Battle database
 func (t *Toolbox) Debug_CountBattlePlayers(nothing bool, reply *ToolboxReply) error {
 	waiting := 0
