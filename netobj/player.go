@@ -38,6 +38,7 @@ type Player struct {
 	ResetCount            int64                       `json:"resetCount"` // Automatically incremented when Debug_ResetPlayer is executed on the player, for bookkeeping purposes
 	BattleState           BattleState                 `json:"battleState"`
 	DisallowInactivePurge bool                        `json:"disallowInactivePurge"`
+	LastLoginPlatformID   int64                       `json:"lastLoginPlatformID`
 }
 
 func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, inRun bool, eventState EventState, resetCount int64, battleState BattleState, disallowInactivePurge bool) Player {

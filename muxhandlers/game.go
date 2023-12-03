@@ -369,9 +369,16 @@ func QuickPostGameResults(helper *helper.Helper) {
 		var unsignedScore int64 = int64(uint32(request.Score))
 		if unsignedScore > request.Distance*45000 && gameconf.CFile.EnableVerification {
 			// highly experimental
+			platformName := "Unknown"
+			if player.LastLoginPlatformID == 1 {
+				platform = "iOS"
+			}
+			if player.LastLoginPlatformID == 2 {
+				platform = "Android"
+			}
 			timeStr := strconv.Itoa(int(time.Now().Unix()))
 			os.MkdirAll(GAME_RESULT_LOG_DIRECTORY, 0644)
-			deets := []byte(fmt.Sprintf("%s (%s)\r\nScore: %v\r\nRings: %v (%v lost), Red Rings: %v\r\nDistance: %v\r\nAnimals: %v\r\nGame-reported cheat result: %s", player.Username, player.ID, request.Score, request.Rings, request.FailureRings, request.RedRings, request.Distance, request.Animals, request.CheatResult))
+			deets := []byte(fmt.Sprintf("%s (%s)\r\nVersion: %s (%s)\r\nScore: %v\r\nRings: %v (%v lost), Red Rings: %v\r\nDistance: %v\r\nAnimals: %v\r\nGame-reported cheat result: %s", player.Username, player.ID, request.Version, platformName, request.Score, request.Rings, request.FailureRings, request.RedRings, request.Distance, request.Animals, request.CheatResult))
 			path := GAME_RESULT_LOG_DIRECTORY + player.ID + "_" + timeStr + "_quick.txt"
 			err := ioutil.WriteFile(path, deets, 0644)
 			if err != nil {
@@ -737,9 +744,16 @@ func PostGameResults(helper *helper.Helper) {
 		var unsignedScore int64 = int64(uint32(request.Score))
 		if unsignedScore > request.Distance*45000 && gameconf.CFile.EnableVerification {
 			// highly experimental
+			platformName := "Unknown"
+			if player.LastLoginPlatformID == 1 {
+				platform = "iOS"
+			}
+			if player.LastLoginPlatformID == 2 {
+				platform = "Android"
+			}
 			timeStr := strconv.Itoa(int(time.Now().Unix()))
 			os.MkdirAll(GAME_RESULT_LOG_DIRECTORY, 0644)
-			deets := []byte(fmt.Sprintf("%s (%s)\r\nScore: %v\r\nRings: %v (%v lost), Red Rings: %v\r\nDistance: %v\r\nAnimals: %v\r\nGame-reported cheat result: %s", player.Username, player.ID, request.Score, request.Rings, request.FailureRings, request.RedRings, request.Distance, request.Animals, request.CheatResult))
+			deets := []byte(fmt.Sprintf("%s (%s)\r\nVersion: %s (%s)\r\nScore: %v\r\nRings: %v (%v lost), Red Rings: %v\r\nDistance: %v\r\nAnimals: %v\r\nGame-reported cheat result: %s", player.Username, player.ID, request.Version, platformName, request.Score, request.Rings, request.FailureRings, request.RedRings, request.Distance, request.Animals, request.CheatResult))
 			path := GAME_RESULT_LOG_DIRECTORY + player.ID + "_" + timeStr + ".txt"
 			err := ioutil.WriteFile(path, deets, 0644)
 			if err != nil {

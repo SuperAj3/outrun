@@ -189,6 +189,7 @@ func Login(helper *helper.Helper) {
 				return
 			}
 			player.LastLogin = time.Now().UTC().Unix()
+			player.LastLoginPlatformID = request.Platform
 			player.PlayerVarious.EnergyRecoveryMax = gameconf.CFile.EnergyRecoveryMax
 			player.PlayerVarious.EnergyRecoveryTime = gameconf.CFile.EnergyRecoveryTime
 			err = db.SavePlayer(player)
