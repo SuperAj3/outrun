@@ -371,10 +371,10 @@ func QuickPostGameResults(helper *helper.Helper) {
 			// highly experimental
 			platformName := "Unknown"
 			if player.LastLoginPlatformID == 1 {
-				platform = "iOS"
+				platformName = "iOS"
 			}
 			if player.LastLoginPlatformID == 2 {
-				platform = "Android"
+				platformName = "Android"
 			}
 			timeStr := strconv.Itoa(int(time.Now().Unix()))
 			os.MkdirAll(GAME_RESULT_LOG_DIRECTORY, 0644)
@@ -746,10 +746,10 @@ func PostGameResults(helper *helper.Helper) {
 			// highly experimental
 			platformName := "Unknown"
 			if player.LastLoginPlatformID == 1 {
-				platform = "iOS"
+				platformName = "iOS"
 			}
 			if player.LastLoginPlatformID == 2 {
-				platform = "Android"
+				platformName = "Android"
 			}
 			timeStr := strconv.Itoa(int(time.Now().Unix()))
 			os.MkdirAll(GAME_RESULT_LOG_DIRECTORY, 0644)
