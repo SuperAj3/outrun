@@ -41,7 +41,7 @@ type Player struct {
 	LastLoginPlatformID   int64                       `json:"lastLoginPlatformID`
 }
 
-func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, inRun bool, eventState EventState, resetCount int64, battleState BattleState, disallowInactivePurge bool) Player {
+func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, inRun bool, eventState EventState, resetCount int64, battleState BattleState, disallowInactivePurge bool, lastLoginPlatformID int64) Player {
 	return Player{
 		id,
 		username,
@@ -69,6 +69,7 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		resetCount,
 		battleState,
 		disallowInactivePurge,
+		lastLoginPlatformID,
 	}
 }
 
