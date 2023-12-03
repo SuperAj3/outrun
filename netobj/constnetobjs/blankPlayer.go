@@ -65,7 +65,7 @@ var BlankPlayer = func() netobj.Player {
 	eventState := netobj.DefaultEventState()
 	battleState := netobj.DefaultBattleState()
 	disallowInactivePurge := false
-	lastLoginPlatformID := 0
+	lastLoginPlatformID := int64(0)
 	return netobj.NewPlayer(
 		uid,
 		username,
