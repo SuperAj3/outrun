@@ -51,7 +51,6 @@ func UnlockedChaoState() []netobj.Chao {
 	chaoLevel := int64(0)
 	chaoDealing := int64(enums.ChaoDealingNone) // TODO: discover use
 	acquired := int64(1)
-	}
 	for _, chaoID := range ChaoIDs {
 		id := chaoID
 		rarity, _ := strconv.Atoi(string(id[2])) // numerical rarity (third digit)
