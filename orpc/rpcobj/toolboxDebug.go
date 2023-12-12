@@ -170,6 +170,25 @@ func (t *Toolbox) Debug_ResetChao(uid string, reply *ToolboxReply) error {
 	return nil
 }
 
+func (t *Toolbox) Debug_UnlockAllInChaoState(uid string, reply *ToolboxReply) error {
+	player, err := db.GetPlayer(uid)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to get player: " + err.Error()
+		return err
+	}
+	player.ChaoState = constnetobjs.UnlockedChaoState
+	err = db.SavePlayer(player)
+	if err != nil {
+		reply.Status = StatusOK
+		reply.Info = "OK"
+		return err
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
 func (t *Toolbox) Debug_MigrateUser(uidToUID string, reply *ToolboxReply) error {
 	uidSrc := strings.Split(uidToUID, "->")
 	if len(uidSrc) != 2 {
@@ -263,6 +282,25 @@ func (t *Toolbox) Debug_ResetCharacterState(uid string, reply *ToolboxReply) err
 		return err
 	}
 	player.CharacterState = netobj.DefaultCharacterState()
+	err = db.SavePlayer(player)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = err.Error()
+		return err
+	}
+	reply.Status = StatusOK
+	reply.Info = "OK"
+	return nil
+}
+
+func (t *Toolbox) Debug_UnlockAllInCharacterState(uid string, reply *ToolboxReply) error {
+	player, err := db.GetPlayer(uid)
+	if err != nil {
+		reply.Status = StatusOtherError
+		reply.Info = "unable to get player: " + err.Error()
+		return err
+	}
+	player.CharacterState = netobj.UnlockedCharacterState()
 	err = db.SavePlayer(player)
 	if err != nil {
 		reply.Status = StatusOtherError
