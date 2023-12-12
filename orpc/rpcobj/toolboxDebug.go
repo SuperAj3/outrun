@@ -177,7 +177,7 @@ func (t *Toolbox) Debug_UnlockAllInChaoState(uid string, reply *ToolboxReply) er
 		reply.Info = "unable to get player: " + err.Error()
 		return err
 	}
-	player.ChaoState = constnetobjs.UnlockedChaoState
+	player.ChaoState = constnetobjs.UnlockedChaoState()
 	err = db.SavePlayer(player)
 	if err != nil {
 		reply.Status = StatusOK
