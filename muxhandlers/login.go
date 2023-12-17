@@ -63,7 +63,22 @@ func Login(helper *helper.Helper) {
 		return
 	}
 	if uid == "0" && password == "" {
-		helper.Out("Entering LoginAlpha")
+		helper.Out("Entering LoginAlpha (registration)")
+		if config.CFile.DisableRegistrations {
+			baseInfo.StatusCode = status.ServerNextVersion
+			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
+				0,
+				0,
+				"",
+				"This server does not permit new player registrations at this time.",
+				"This server does not permit new player registrations at this time.",
+				"https://sonicrunners.com/",
+			))
+			if err != nil {
+				helper.InternalErr("Error sending response", err)
+			}
+			return
+		}
 		if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
 			// message that only shows on 2.0.3
 			baseInfo.StatusCode = status.ServerNextVersion
@@ -108,12 +123,12 @@ func Login(helper *helper.Helper) {
 		}
 		return
 	} else if uid == "0" && password != "" {
-		helper.Out("Entering LoginBravo")
-		// invalid request
+		helper.Out("Entering LoginBravo (invalid request)")
+		// This situation should not be possible; invalid request
 		helper.InvalidRequest()
 		return
 	} else if uid != "0" && password == "" {
-		helper.Out("Entering LoginCharlie")
+		helper.Out("Entering LoginCharlie (initial login)")
 		// game wants to log in
 		baseInfo.StatusCode = status.InvalidPassword
 		baseInfo.SetErrorMessage(emess.BadPassword)
@@ -152,7 +167,7 @@ func Login(helper *helper.Helper) {
 		}
 		return
 	} else if uid != "0" && password != "" {
-		helper.Out("Entering LoginDelta")
+		helper.Out("Entering LoginDelta (passkey login)")
 		// game is attempting to log in using key
 		player, err := db.GetPlayer(uid)
 		if err != nil {
@@ -165,6 +180,7 @@ func Login(helper *helper.Helper) {
 			return
 		}
 		if request.Password == logic.GenerateLoginPasskey(player) {
+			// we're clear to log in!
 			baseInfo.StatusCode = status.OK
 			baseInfo.SetErrorMessage(emess.OK)
 			if request.Version == "2.0.3" && !config.CFile.LegacyCompatibilityMode {
@@ -206,6 +222,7 @@ func Login(helper *helper.Helper) {
 			}
 			analytics.Store(player.ID, factors.AnalyticTypeLogins)
 		} else {
+			// the passkey supplied by the game was incorrect - possibly changed during a data transfer?
 			baseInfo.StatusCode = status.InvalidPassword
 			baseInfo.SetErrorMessage(emess.BadPassword)
 			helper.DebugOut("Incorrect passkey sent: \"%s\"", request.Password)
