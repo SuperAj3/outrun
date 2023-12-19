@@ -6,7 +6,7 @@ import (
 	"github.com/RunnersRevival/outrun/obj"
 )
 
-var DefaultEventRewardList = func() []obj.EventReward {
+/* var DefaultEventRewardList = func() []obj.EventReward {
 	return []obj.EventReward{
 		obj.NewEventReward(
 			1,
@@ -549,7 +549,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			15,
 		),
 	}
-}
+}*/
 
 var DefaultXmasEventRewardList = func() []obj.EventReward {
 	return []obj.EventReward{
