@@ -42,7 +42,7 @@ const (
 	UsernameUnacceptable       = int64(-40000) // 2.1.0 and later; generic server side rejection of username change
 	UsernameTooLong            = int64(-40001) // 2.1.0 and later; username not saved due to length
 	UsernameHasNGWord          = int64(-40002) // 2.1.0 and later; username not saved due to ng word
-	DailyBattleRematchTooSoon  = int64(-41000) // 2.2.4 and later; daily battle reroll cooldown still active
+	DailyBattleRematchTooSoon  = int64(-41000) // 2.3.x and later; daily battle reroll cooldown still active (unimplemented)
 	VersionForApplication      = int64(-999002)
 	Timeout                    = int64(-7)
 	OtherError                 = int64(-8)
