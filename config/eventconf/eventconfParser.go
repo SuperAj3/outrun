@@ -1,5 +1,7 @@
 package eventconf
 
+// THIS WILL SOON BE DEPRECATED IN FAVOR OF SCHEDULECONF
+
 import (
 	"encoding/json"
 	"io/ioutil"

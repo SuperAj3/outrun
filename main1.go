@@ -126,6 +126,7 @@ func main() {
 		}
 	} else {
 		log.Printf("[INFO] Event config file (%s) loaded\n", config.CFile.EventConfigFilename)
+		log.Println("[WARN] The event config will soon be deprecated in favor of the schedule config, which will handle many of the same actions.")
 	}
 
 	err = infoconf.Parse(config.CFile.InfoConfigFilename)
@@ -157,7 +158,9 @@ func main() {
 
 	err = authorizedconf.Parse(config.CFile.AuthorizedConfigFilename)
 	if err != nil {
-		log.Printf("[INFO] Failure loading authorized IDs config file %s (%s), using none\n", config.CFile.AuthorizedConfigFilename, err)
+		if !config.CFile.SilenceAuthorizedConfigErrors {
+			log.Printf("[INFO] Failure loading authorized IDs config file %s (%s), using none\n", config.CFile.AuthorizedConfigFilename, err)
+		}
 	} else {
 		log.Printf("[INFO] Authorized IDs config file (%s) loaded\n", config.CFile.AuthorizedConfigFilename)
 	}
