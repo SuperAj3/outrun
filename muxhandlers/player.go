@@ -117,7 +117,7 @@ func GetCharacterState(helper *helper.Helper) {
 		//helper.Out("Adding Marine to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine))
   }
-  charIndex = player.IndexOfChara(enums.CTStrXT)
+  charindex = player.IndexOfChara(enums.CTStrXT)
   if charindex == -1 {
     player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXT))
   }
