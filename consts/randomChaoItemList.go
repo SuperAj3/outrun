@@ -49,6 +49,7 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	enums.CTStrXMasSonic:       1.0, // Event (Christmas)
 	enums.CTStrXMasTails:       1.0, // Event (Christmas)
 	enums.CTStrXMasKnuckles:    1.0, // Event (Christmas)
+  enums.CTStrXT:              100.0, // change this
 }
 
 var RandomChaoWheelChaoPrizes = map[string]float64{
