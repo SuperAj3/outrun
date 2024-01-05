@@ -19,11 +19,11 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	enums.CTStrSonic:    0.3, // Initial character
 	enums.CTStrTails:    0.3, // Obtained in story mode
 	enums.CTStrKnuckles: 0.3, // Obtained in story mode
-	// enums.CTStrAmy:      0.3,
-	// enums.CTStrBig:      0.3,
+	enums.CTStrAmy:      0.3,
+	enums.CTStrBig:      0.3,
 	//enums.CTStrBlaze:           1.0, // Revival Event (Sonic Rush)
 	enums.CTStrCharmy: 0.3,
-	// enums.CTStrCream:  0.3,
+	enums.CTStrCream:  0.3,
 	enums.CTStrEspio:  0.3,
 	//enums.CTStrMephiles:        0.0, // Revival Event
 	enums.CTStrOmega: 0.3,
