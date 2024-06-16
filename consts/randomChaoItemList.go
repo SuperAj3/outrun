@@ -149,11 +149,11 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrRCBlockFace: 1.0,
 	//enums.ChaoIDStrDFekt:                0.0, // Revival Event (assets TBD)
 	//enums.ChaoIDStrDarkChaoWalker:       0.0, // Daily Battle?
-	//enums.ChaoIDStrPrideChaoL:           1.5, // Revival Event (Pride Month Celebration)
-	//enums.ChaoIDStrPrideChaoG:           1.5, // Revival Event (Pride Month Celebration)
-	//enums.ChaoIDStrPrideChaoB:           1.5, // Revival Event (Pride Month Celebration)
-	//enums.ChaoIDStrPrideChaoT:           1.5, // Revival Event (Pride Month Celebration)
-	//enums.ChaoIDStrPrideChaoP:           1.5, // Revival Event (Pride Month Celebration)
-	//enums.ChaoIDStrPrideChaoA:           1.5, // Revival Event (Pride Month Celebration)
-	//enums.ChaoIDStrPrideChaoNB:          1.5, // Revival Event (Pride Month Celebration)
+	enums.ChaoIDStrPrideChaoL:           2.2, // Revival Event (Pride Month Celebration)
+	enums.ChaoIDStrPrideChaoG:           2.2, // Revival Event (Pride Month Celebration)
+	enums.ChaoIDStrPrideChaoB:           2.2, // Revival Event (Pride Month Celebration)
+	enums.ChaoIDStrPrideChaoT:           2.2, // Revival Event (Pride Month Celebration)
+	enums.ChaoIDStrPrideChaoP:           2.2, // Revival Event (Pride Month Celebration)
+	enums.ChaoIDStrPrideChaoA:           2.2, // Revival Event (Pride Month Celebration)
+	enums.ChaoIDStrPrideChaoNB:          2.2, // Revival Event (Pride Month Celebration)
 }
