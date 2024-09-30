@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
-	"fmt"
 )
 
 var Defaults = map[string]interface{}{
