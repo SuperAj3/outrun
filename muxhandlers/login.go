@@ -506,17 +506,6 @@ func Migration(helper *helper.Helper) {
 		}
 		return string(final)
 	}
-	
-	if ServerMode == 4 {
-		// authorized maintenance mode; lock out migration
-		baseInfo.StatusCode = status.ServerMaintenance
-		response := responses.NewBaseResponse(baseInfo)
-		err := helper.SendResponse(response)
-		if err != nil {
-			helper.InternalErr("Error sending response", err)
-		}
-		return
-	}
 
 	recv := helper.GetGameRequest()
 	var request requests.LoginRequest
@@ -529,6 +518,17 @@ func Migration(helper *helper.Helper) {
 	migrationUserPassword := request.LineAuth.MigrationUserPassword
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
+	
+	if ServerMode == 4 {
+		// authorized maintenance mode; lock out migration
+		baseInfo.StatusCode = status.ServerMaintenance
+		response := responses.NewBaseResponse(baseInfo)
+		err := helper.SendResponse(response)
+		if err != nil {
+			helper.InternalErr("Error sending response", err)
+		}
+		return
+	}
 
 	helper.DebugOut("Transfer ID: %s", password)
 	/*foundPlayers, err := logic.FindPlayersByMigrationPassword(password, false)
