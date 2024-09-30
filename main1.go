@@ -105,11 +105,11 @@ func checkArgs() bool {
 			return false
 		}
 		if args[0] == "--betamaintenance" {
-			muxhandlers.ServerMode = 3
+			ServerMode = 3
 			return false
 		}
 		if args[0] == "--authmaintenance" {
-			muxhandlers.ServerMode = 4
+			ServerMode = 4
 			return false
 		}
 		fmt.Println("Unknown given arguments")
@@ -120,6 +120,7 @@ func checkArgs() bool {
 
 func main() {
 	end := checkArgs()
+	muxhandlers.ServerMode = ServerMode // this alters behavior of the login action
 	if end {
 		return
 	}
