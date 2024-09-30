@@ -86,6 +86,16 @@ func checkArgs() bool {
 			fmt.Printf("Outrun for Revival %s\n", meta.Version)
 			return true
 		}
+		if args[0] == "--help" {
+			fmt.Println("Usable arguments:")
+			fmt.Println("--help: This screen")
+			fmt.Println("--version: Shows the version number.")
+			fmt.Println("--maintenance: Start server in maintenance mode, not accepting logins. RPC functionality will still be functional.")
+			fmt.Println("--nvmaintenance: Same as --maintenance, except it brings up a special message as defined in the login.go source file. (Will be moved into a config parameter soon)")
+			fmt.Println("--betamaintenance: Only allow stable versions of Sonic Runners Revival to log in.")
+			fmt.Println("--authmaintenance: Only allow specific players as defined in the authorized ID configuration file.")
+			return true
+		}
 		if args[0] == "--nvmaintenance" {
 			ServerMode = 1
 			return false
@@ -96,6 +106,10 @@ func checkArgs() bool {
 		}
 		if args[0] == "--betamaintenance" {
 			muxhandlers.ServerMode = 3
+			return false
+		}
+		if args[0] == "--authmaintenance" {
+			muxhandlers.ServerMode = 4
 			return false
 		}
 		fmt.Println("Unknown given arguments")
@@ -277,6 +291,12 @@ func main() {
 	if ServerMode == 2 {
 		log.Println(" == STARTING IN MAINTENANCE MODE == ")
 		router.HandleFunc(prefix+"/Login/login/", h(muxhandlers.LoginMaintenance, LogExecutionTime))
+	}
+	if ServerMode == 3 {
+		log.Println(" == STARTING IN BETA-ONLY MAINTENANCE MODE == ")
+	}
+	if ServerMode == 4 {
+		log.Println(" == STARTING IN AUTHORIZED MAINTENANCE MODE == ")
 	}
 
 	router.HandleFunc("/generate204", Generate204)

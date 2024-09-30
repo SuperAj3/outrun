@@ -27,6 +27,15 @@ import (
 
 var ServerMode int64
 
+func contains(arr []int, value int) bool {
+    for _, v := range arr {
+        if v == value {
+            return true
+        }
+    }
+    return false
+}
+
 func Login(helper *helper.Helper) {
 	recv := helper.GetGameRequest()
 	var request requests.LoginRequest
@@ -41,6 +50,7 @@ func Login(helper *helper.Helper) {
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	helper.Out("User logging in with Revival Version ID %v (%s)", request.RevivalVerID, request.Version)
 	if ServerMode == 3 {
+		// beta maintenance mode
 		if request.RevivalVerID != 0 {
 			helper.Out("A beta client has tried to log in during maintenance!")
 			baseInfo.StatusCode = status.ServerMaintenance
@@ -64,6 +74,16 @@ func Login(helper *helper.Helper) {
 	}
 	if uid == "0" && password == "" {
 		helper.Out("Entering LoginAlpha (registration)")
+		if ServerMode == 4 {
+			// authorized maintenance mode; don't let new players in
+			baseInfo.StatusCode = status.ServerMaintenance
+			response := responses.NewBaseResponse(baseInfo)
+			err := helper.SendResponse(response)
+			if err != nil {
+				helper.InternalErr("Error sending response", err)
+			}
+			return
+		}
 		if config.CFile.DisableRegistrations {
 			baseInfo.StatusCode = status.ServerNextVersion
 			err = helper.SendResponse(responses.NewNextVersionResponse(baseInfo,
@@ -130,6 +150,18 @@ func Login(helper *helper.Helper) {
 	} else if uid != "0" && password == "" {
 		helper.Out("Entering LoginCharlie (initial login)")
 		// game wants to log in
+		if ServerMode == 4 {
+			// authorized maintenance mode
+			if contains(authorizedconf.playerIDs, uid) {
+				baseInfo.StatusCode = status.ServerMaintenance
+				response := responses.NewBaseResponse(baseInfo)
+				err := helper.SendResponse(response)
+				if err != nil {
+					helper.InternalErr("Error sending response", err)
+				}
+				return
+			}
+		}
 		baseInfo.StatusCode = status.InvalidPassword
 		baseInfo.SetErrorMessage(emess.BadPassword)
 		player, err := db.GetPlayer(uid)
@@ -169,6 +201,18 @@ func Login(helper *helper.Helper) {
 	} else if uid != "0" && password != "" {
 		helper.Out("Entering LoginDelta (passkey login)")
 		// game is attempting to log in using key
+		if ServerMode == 4 {
+			// authorized maintenance mode
+			if contains(authorizedconf.playerIDs, uid) {
+				baseInfo.StatusCode = status.ServerMaintenance
+				response := responses.NewBaseResponse(baseInfo)
+				err := helper.SendResponse(response)
+				if err != nil {
+					helper.InternalErr("Error sending response", err)
+				}
+				return
+			}
+		}
 		player, err := db.GetPlayer(uid)
 		if err != nil {
 			// player might not exist
