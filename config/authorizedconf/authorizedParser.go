@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-var AuthorizedPlayerIDs []string{}
+var AuthorizedPlayerIDs []string
 
 func Parse(filename string) error {
 	file, err := loadFile(filename)
