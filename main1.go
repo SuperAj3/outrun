@@ -120,7 +120,7 @@ func checkArgs() bool {
 
 func main() {
 	end := checkArgs()
-	muxhandlers.ServerMode = ServerMode // this alters behavior of the login action
+	muxhandlers.ServerMode = int64(ServerMode) // this alters behavior of the login action
 	if end {
 		return
 	}
