@@ -153,7 +153,7 @@ func Login(helper *helper.Helper) {
 		// game wants to log in
 		if ServerMode == 4 {
 			// authorized maintenance mode
-			if contains(authorizedconf.playerIDs, uid) {
+			if contains(authorizedconf.AuthorizedPlayerIDs, uid) {
 				baseInfo.StatusCode = status.ServerMaintenance
 				response := responses.NewBaseResponse(baseInfo)
 				err := helper.SendResponse(response)
@@ -204,7 +204,7 @@ func Login(helper *helper.Helper) {
 		// game is attempting to log in using key
 		if ServerMode == 4 {
 			// authorized maintenance mode
-			if contains(authorizedconf.playerIDs, uid) {
+			if contains(authorizedconf.AuthorizedPlayerIDs, uid) {
 				baseInfo.StatusCode = status.ServerMaintenance
 				response := responses.NewBaseResponse(baseInfo)
 				err := helper.SendResponse(response)

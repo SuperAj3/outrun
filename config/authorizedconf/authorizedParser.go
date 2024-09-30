@@ -7,21 +7,22 @@ import (
 	"fmt"
 )
 
-var playerIDs = []string{}
+var AuthorizedPlayerIDs []string{}
 
 func Parse(filename string) error {
 	file, err := loadFile(filename)
 	if err != nil {
 		return err
 	}
+	AuthorizedPlayerIDs := []string{}
 	var values map[string]interface{}
 	err = json.Unmarshal(file, &values)
     if err != nil {
         log.Fatal("Error during Unmarshal(): ", err)
     }
 	str := fmt.Sprintf("%v", values["ids"])
-    playerIDs = append(playerIDs, str)
-	log.Printf("ids: %s\n", playerIDs)
+    AuthorizedPlayerIDs = append(AuthorizedPlayerIDs, str)
+	log.Printf("ids: %s\n", AuthorizedPlayerIDs)
 	return nil
 }
 
