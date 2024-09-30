@@ -194,7 +194,7 @@ func main() {
 	router.HandleFunc("/", GenericRootResponse)
 	router.HandleFunc("/favicon.ico", FaviconResponse)
 
-	if ServerMode == 0 {
+	if ServerMode == 0 || ServerMode == 3 || ServerMode == 4 {
 		// Login
 		router.HandleFunc(prefix+"/Login/login/", h(muxhandlers.Login, LogExecutionTime))
 		router.HandleFunc(prefix+"/Sgn/sendApollo/", h(muxhandlers.SendApollo, LogExecutionTime))
@@ -284,6 +284,13 @@ func main() {
 		if config.CFile.LogUnknownRequests {
 			router.PathPrefix("/").HandlerFunc(OutputUnknownRequest)
 		}
+	
+		if ServerMode == 3 {
+			log.Println(" == STARTING IN BETA-ONLY MAINTENANCE MODE == ")
+		}
+		if ServerMode == 4 {
+			log.Println(" == STARTING IN AUTHORIZED MAINTENANCE MODE == ")
+		}
 	}
 	if ServerMode == 1 {
 		log.Println(" == STARTING IN NEXT VERSION MAINTENANCE MODE == ")
@@ -292,12 +299,6 @@ func main() {
 	if ServerMode == 2 {
 		log.Println(" == STARTING IN MAINTENANCE MODE == ")
 		router.HandleFunc(prefix+"/Login/login/", h(muxhandlers.LoginMaintenance, LogExecutionTime))
-	}
-	if ServerMode == 3 {
-		log.Println(" == STARTING IN BETA-ONLY MAINTENANCE MODE == ")
-	}
-	if ServerMode == 4 {
-		log.Println(" == STARTING IN AUTHORIZED MAINTENANCE MODE == ")
 	}
 
 	router.HandleFunc("/generate204", Generate204)
