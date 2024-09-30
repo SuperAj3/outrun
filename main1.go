@@ -93,7 +93,7 @@ func checkArgs() bool {
 			fmt.Println("--maintenance: Start server in maintenance mode, not accepting logins. RPC functionality will still be functional.")
 			fmt.Println("--nvmaintenance: Same as --maintenance, except it brings up a special message as defined in the login.go source file. (Will be moved into a config parameter soon)")
 			fmt.Println("--betamaintenance: Only allow stable versions of Sonic Runners Revival to log in.")
-			fmt.Println("--authmaintenance: Only allow specific players as defined in the authorized ID configuration file.")
+			fmt.Println("--authmaintenance: Only allow specific players as defined in the authorized ID configuration file to log in.")
 			return true
 		}
 		if args[0] == "--nvmaintenance" {
@@ -182,7 +182,7 @@ func main() {
 	}
 
 	if config.CFile.LegacyCompatibilityMode {
-		log.Println("[WARN] Legacy Compatibility Mode is enabled. 2.0.3 users will be able to connect and log in. The Revival Team will not provide support for any issues that arise from Legacy Compatibility Mode.")
+		log.Println("[WARN] Legacy Compatibility Mode is enabled. 2.0.3 users will be able to connect and log in. Revival Team will not provide support for any issues that arise from Legacy Compatibility Mode.")
 	}
 
 	h := muxobj.Handle
@@ -195,6 +195,12 @@ func main() {
 	router.HandleFunc("/favicon.ico", FaviconResponse)
 
 	if ServerMode == 0 || ServerMode == 3 || ServerMode == 4 {
+		if ServerMode == 3 {
+			log.Println(" == STARTING IN BETA-ONLY MAINTENANCE MODE == ")
+		}
+		if ServerMode == 4 {
+			log.Println(" == STARTING IN AUTHORIZED MAINTENANCE MODE == ")
+		}
 		// Login
 		router.HandleFunc(prefix+"/Login/login/", h(muxhandlers.Login, LogExecutionTime))
 		router.HandleFunc(prefix+"/Sgn/sendApollo/", h(muxhandlers.SendApollo, LogExecutionTime))
@@ -283,13 +289,6 @@ func main() {
 		}
 		if config.CFile.LogUnknownRequests {
 			router.PathPrefix("/").HandlerFunc(OutputUnknownRequest)
-		}
-	
-		if ServerMode == 3 {
-			log.Println(" == STARTING IN BETA-ONLY MAINTENANCE MODE == ")
-		}
-		if ServerMode == 4 {
-			log.Println(" == STARTING IN AUTHORIZED MAINTENANCE MODE == ")
 		}
 	}
 	if ServerMode == 1 {

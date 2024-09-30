@@ -21,7 +21,7 @@ func Parse(filename string) error {
         log.Fatal("Error during Unmarshal(): ", err)
     }
 	str := fmt.Sprintf("%v", values["ids"])
-    AuthorizedPlayerIDs = append(AuthorizedPlayerIDs, str)
+    AuthorizedPlayerIDs = values["ids"]
 	log.Printf("ids: %s\n", AuthorizedPlayerIDs)
 	return nil
 }
