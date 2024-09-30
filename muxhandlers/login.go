@@ -9,6 +9,7 @@ import (
 	"github.com/RunnersRevival/outrun/analytics"
 	"github.com/RunnersRevival/outrun/analytics/factors"
 	"github.com/RunnersRevival/outrun/config"
+	"github.com/RunnersRevival/outrun/config/authorizedconf"
 	"github.com/RunnersRevival/outrun/config/gameconf"
 	"github.com/RunnersRevival/outrun/config/infoconf"
 	"github.com/RunnersRevival/outrun/db"
