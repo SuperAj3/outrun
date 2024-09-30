@@ -7,22 +7,34 @@ import (
 	"fmt"
 )
 
-var AuthorizedPlayerIDs []string
+var Defaults = map[string]interface{}{
+	"DAuthorizedIDs":           []string{},
+	"DAllowCustomBlockMessage": false,
+	"DCustomBlockMessage":      "",
+}
+
+type ConfigFile struct {
+	AuthorizedIDs           []string `json:"ids,omitempty"`
+	AllowCustomBlockMessage bool     `json:"useCustomBlockMessage,omitempty"`
+	CustomBlockMessage      string   `json:"customBlockMessage,omitempty"`
+}
+
+var CFile ConfigFile
 
 func Parse(filename string) error {
+	CFile = ConfigFile{
+		Defaults["DAuthorizedIDs"].([]string),
+		Defaults["DAllowCustomBlockMessage"].(bool),
+		Defaults["DCustomBlockMessage"].(string),
+	}
 	file, err := loadFile(filename)
 	if err != nil {
 		return err
 	}
-	AuthorizedPlayerIDs := []string{}
-	var values map[string]interface{}
-	err = json.Unmarshal(file, &values)
+	err = json.Unmarshal(file, &CFile)
     if err != nil {
         log.Fatal("Error during Unmarshal(): ", err)
     }
-	str := fmt.Sprintf("%v", values["ids"])
-    AuthorizedPlayerIDs = values["ids"]
-	log.Printf("ids: %s\n", AuthorizedPlayerIDs)
 	return nil
 }
 

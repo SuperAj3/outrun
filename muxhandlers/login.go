@@ -153,7 +153,7 @@ func Login(helper *helper.Helper) {
 		// game wants to log in
 		if ServerMode == 4 {
 			// authorized maintenance mode
-			if !contains(authorizedconf.AuthorizedPlayerIDs, uid) {
+			if !contains(authorizedconf.CFile.AuthorizedIDs, uid) {
 				helper.Out("User ID %s is NOT AUTHORIZED! LoginCharlie blocked.", uid)
 				baseInfo.StatusCode = status.ServerMaintenance
 				response := responses.NewBaseResponse(baseInfo)
@@ -205,7 +205,7 @@ func Login(helper *helper.Helper) {
 		// game is attempting to log in using key
 		if ServerMode == 4 {
 			// authorized maintenance mode
-			if !contains(authorizedconf.AuthorizedPlayerIDs, uid) {
+			if !contains(authorizedconf.CFile.AuthorizedIDs, uid) {
 				helper.Out("User ID %s is NOT AUTHORIZED! LoginDelta blocked.", uid)
 				baseInfo.StatusCode = status.ServerMaintenance
 				response := responses.NewBaseResponse(baseInfo)
