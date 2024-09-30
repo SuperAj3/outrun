@@ -28,7 +28,7 @@ import (
 
 var ServerMode int64
 
-func contains(arr []int, value int) bool {
+func contains(arr []string, value string) bool {
     for _, v := range arr {
         if v == value {
             return true
