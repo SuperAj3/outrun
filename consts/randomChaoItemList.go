@@ -43,9 +43,9 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	// The below characters shouldn't be activated until event characters are fixed!
 	//enums.CTStrAmitieAmy:       1.0, // Event (Puyo Puyo Quest)
 	//enums.CTStrGothicAmy:       0.0, // Not given out on Revival
-	// enums.CTStrHalloweenShadow: 1.0,   // Event (Halloween)
-	// enums.CTStrHalloweenRouge:  1.0,   // Event (Halloween)
-	// enums.CTStrHalloweenOmega:  1.0,   // Event (Halloween)
+	enums.CTStrHalloweenShadow: 1.0,   // Event (Halloween)
+	enums.CTStrHalloweenRouge:  1.0,   // Event (Halloween)
+	enums.CTStrHalloweenOmega:  1.0,   // Event (Halloween)
 	// enums.CTStrXMasSonic:       1.0, // Event (Christmas)
 	// enums.CTStrXMasTails:       1.0, // Event (Christmas)
 	// enums.CTStrXMasKnuckles:    1.0, // Event (Christmas)
