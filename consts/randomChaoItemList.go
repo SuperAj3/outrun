@@ -40,16 +40,15 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	//enums.CTStrClassicSonic: 1.0, // Event (Birthday)
 	//enums.CTStrMetalSonic:      0.0, // Revival Event
 
-	// The below characters shouldn't be activated until event characters are fixed!
-	//enums.CTStrAmitieAmy:       1.0, // Event (Puyo Puyo Quest)
-	//enums.CTStrGothicAmy:       0.0, // Not given out on Revival
-	enums.CTStrHalloweenShadow: 1.0,   // Event (Halloween)
-	enums.CTStrHalloweenRouge:  1.0,   // Event (Halloween)
-	enums.CTStrHalloweenOmega:  1.0,   // Event (Halloween)
+	// enums.CTStrAmitieAmy:       1.0, // Event (Puyo Puyo Quest)
+	// enums.CTStrGothicAmy:       0.0, // Revival Event
+	// enums.CTStrHalloweenShadow: 1.0, // Event (Halloween)
+	// enums.CTStrHalloweenRouge:  1.0, // Event (Halloween)
+	// enums.CTStrHalloweenOmega:  1.0, // Event (Halloween)
 	// enums.CTStrXMasSonic:       1.0, // Event (Christmas)
 	// enums.CTStrXMasTails:       1.0, // Event (Christmas)
 	// enums.CTStrXMasKnuckles:    1.0, // Event (Christmas)
-  // enums.CTStrXT:                 1.2, // Event (Christmas)
+	// enums.CTStrXT:              1.2, // Revival Event (Christmas)
 }
 
 var RandomChaoWheelChaoPrizes = map[string]float64{
@@ -112,8 +111,8 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrTailsOmochao:         1.0, // Event (Team Sonic Omochao)
 	enums.ChaoIDStrKnucklesOmochao:      1.0, // Event (Team Sonic Omochao)
 	//enums.ChaoIDStrKingBoomBoo:          1.5, // Event (Halloween: Premium Roulette for Timed Mode Event Only; Obtainable through Rewards List Only for Story Event)
-	enums.ChaoIDStrBoo:                  3.0, // Event (Halloween; Increase Odds During Event)
-	enums.ChaoIDStrHalloweenChao:        3.0, // Event (Halloween; Increase Odds During Event)
+	enums.ChaoIDStrBoo:                  1.0, // Event (Halloween; Increase Odds During Event)
+	enums.ChaoIDStrHalloweenChao:        1.0, // Event (Halloween; Increase Odds During Event)
 	//enums.ChaoIDStrHeavyBomb:            1.2, // Event (Fantasy Zone)
 	//enums.ChaoIDStrOPapa:                1.5, // Event (Fantasy Zone)
 	//enums.ChaoIDStrOpaOpa:               1.5, // Event (Fantasy Zone)
