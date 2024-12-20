@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"time"
+
 	"github.com/RunnersRevival/outrun/analytics"
 	"github.com/RunnersRevival/outrun/analytics/factors"
 	"github.com/RunnersRevival/outrun/config"
@@ -18,6 +19,7 @@ import (
 	"github.com/RunnersRevival/outrun/emess"
 	"github.com/RunnersRevival/outrun/enums"
 	"github.com/RunnersRevival/outrun/helper"
+	"github.com/RunnersRevival/outrun/logic/battle"
 	"github.com/RunnersRevival/outrun/logic/campaign"
 	"github.com/RunnersRevival/outrun/logic/conversion"
 	"github.com/RunnersRevival/outrun/logic/gameplay"
@@ -27,7 +29,6 @@ import (
 	"github.com/RunnersRevival/outrun/requests"
 	"github.com/RunnersRevival/outrun/responses"
 	"github.com/RunnersRevival/outrun/status"
-	"github.com/RunnersRevival/outrun/logic/battle"
 	"github.com/jinzhu/now"
 )
 
@@ -501,14 +502,18 @@ func QuickPostGameResults(helper *helper.Helper) {
 
 		// increase character(s)'s experience
 		expIncrease := request.Rings + request.FailureRings // all rings collected
+		// TODO: This isn't original server behavior! Expected behavior is described below:
+		// Normal runs: The experience is the total score divided by 5000 (divided by 1000 prior to 2.0.0)
+		// Boss battles: 2000 EXP if you clear it, nothing if you don't
+		// Raid bosses: 10 EXP normal, 100 EXP rare, 500 EXP super-rare
 		mainAbilityIndex := 1
 		//tempAbilityIndex := 0
 		//tempAbilityIndex = mainAbilityIndex
 		mainAbilitySum := sum(mainC.AbilityLevel)
-		AbilityLevelUpIDMain := make([]int64, 0) // Does not need to be fixed
-		AbilityLevelUpIDSub := make([]int64, 0) // Does not need to be fixed
+		AbilityLevelUpIDMain := make([]int64, 0)      // Does not need to be fixed
+		AbilityLevelUpIDSub := make([]int64, 0)       // Does not need to be fixed
 		AbilityLevelUpXPValueMain := make([]int64, 0) // Does not need to be fixed, but needs same size as AbilityLevelUp
-		AbilityLevelUpXPValueSub := make([]int64, 0) // Does not need to be fixed, but needs same size as AbilityLevelUp
+		AbilityLevelUpXPValueSub := make([]int64, 0)  // Does not need to be fixed, but needs same size as AbilityLevelUp
 		if mainAbilitySum < 100 {
 			for mainAbilityIndex == 1 || mainC.AbilityLevel[mainAbilityIndex] >= 10 { // unused ability is at index 1
 				mainAbilityIndex = rand.Intn(len(mainC.AbilityLevel))
@@ -549,10 +554,10 @@ func QuickPostGameResults(helper *helper.Helper) {
 			for playCharacters[0].Exp >= playCharacters[0].Cost {
 				// more exp than cost = level up
 				if playCharacters[0].Level < 100 {
-					playCharacters[0].Level++                                               // increase level
-					playCharacters[0].AbilityLevel[mainAbilityIndex]++                      // increase ability level
+					playCharacters[0].Level++                          // increase level
+					playCharacters[0].AbilityLevel[mainAbilityIndex]++ // increase ability level
 					AbilityLevelUpXPValueMain = append(AbilityLevelUpXPValueMain, int64(playCharacters[0].Cost))
-					AbilityLevelUpIDMain = append(AbilityLevelUpIDMain, 120000 + int64(mainAbilityIndex))
+					AbilityLevelUpIDMain = append(AbilityLevelUpIDMain, 120000+int64(mainAbilityIndex))
 					playCharacters[0].Exp -= playCharacters[0].Cost                         // remove cost from exp
 					playCharacters[0].Cost += consts.UpgradeIncreases[playCharacters[0].ID] // increase cost
 					mainAbilitySum = sum(playCharacters[0].AbilityLevel)
@@ -579,10 +584,10 @@ func QuickPostGameResults(helper *helper.Helper) {
 				for playCharacters[1].Exp >= playCharacters[1].Cost {
 					// more exp than cost = level up
 					if playCharacters[1].Level < 100 {
-						playCharacters[1].Level++                                               // increase level
-						playCharacters[1].AbilityLevel[subAbilityIndex]++                       // increase ability level
+						playCharacters[1].Level++                         // increase level
+						playCharacters[1].AbilityLevel[subAbilityIndex]++ // increase ability level
 						AbilityLevelUpXPValueSub = append(AbilityLevelUpXPValueSub, int64(playCharacters[1].Cost))
-						AbilityLevelUpIDSub = append(AbilityLevelUpIDSub, 120000 + int64(subAbilityIndex))
+						AbilityLevelUpIDSub = append(AbilityLevelUpIDSub, 120000+int64(subAbilityIndex))
 						playCharacters[1].Exp -= playCharacters[1].Cost                         // remove cost from exp
 						playCharacters[1].Cost += consts.UpgradeIncreases[playCharacters[1].ID] // increase cost
 						subAbilitySum = sum(playCharacters[1].AbilityLevel)
@@ -608,7 +613,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 		hasMainChao := player.PlayerState.MainChaoID != "none"
 		hasSubChao := player.PlayerState.SubChaoID != "none"
 		var subCh netobj.Chao
-		if hasMainChao{
+		if hasMainChao {
 			mainCh, err := player.GetMainChao()
 			if err != nil {
 				helper.InternalErr("Error getting main chao", err)
@@ -630,8 +635,7 @@ func QuickPostGameResults(helper *helper.Helper) {
 				}
 				player.PlayerState.SubChaoLevel = playChao[1].Level
 			}
-		}		
-
+		}
 
 		helper.DebugOut("Old mainC Exp: %v / %v", mainC.Exp, mainC.Cost)
 		helper.DebugOut("Old mainC Level: %v", mainC.Level)
@@ -866,12 +870,16 @@ func PostGameResults(helper *helper.Helper) {
 
 		// increase character(s)'s experience
 		expIncrease := request.Rings + request.FailureRings // all rings collected
+		// TODO: This isn't original server behavior! Expected behavior is described below:
+		// Normal runs: The experience is the total score divided by 5000 (divided by 1000 prior to 2.0.0)
+		// Boss battles: 2000 EXP if you clear it, nothing if you don't
+		// Raid bosses: 10 EXP normal, 100 EXP rare, 500 EXP super-rare
 		mainAbilityIndex := 1
 		mainAbilitySum := sum(mainC.AbilityLevel)
-		AbilityLevelUpIDMain := make([]int64, 0) // Does not need to be fixed
-		AbilityLevelUpIDSub := make([]int64, 0) // Does not need to be fixed
+		AbilityLevelUpIDMain := make([]int64, 0)      // Does not need to be fixed
+		AbilityLevelUpIDSub := make([]int64, 0)       // Does not need to be fixed
 		AbilityLevelUpXPValueMain := make([]int64, 0) // Does not need to be fixed, but needs same size as AbilityLevelUp
-		AbilityLevelUpXPValueSub := make([]int64, 0) // Does not need to be fixed, but needs same size as AbilityLevelUp
+		AbilityLevelUpXPValueSub := make([]int64, 0)  // Does not need to be fixed, but needs same size as AbilityLevelUp
 		if mainAbilitySum < 100 {
 			for mainAbilityIndex == 1 || mainC.AbilityLevel[mainAbilityIndex] >= 10 { // unused ability is at index 1
 				mainAbilityIndex = rand.Intn(len(mainC.AbilityLevel))
@@ -909,10 +917,10 @@ func PostGameResults(helper *helper.Helper) {
 			for playCharacters[0].Exp >= playCharacters[0].Cost {
 				// more exp than cost = level up
 				if playCharacters[0].Level < 100 {
-					playCharacters[0].Level++                                               // increase level
-					playCharacters[0].AbilityLevel[mainAbilityIndex]++                      // increase ability level
+					playCharacters[0].Level++                          // increase level
+					playCharacters[0].AbilityLevel[mainAbilityIndex]++ // increase ability level
 					AbilityLevelUpXPValueMain = append(AbilityLevelUpXPValueMain, int64(playCharacters[0].Cost))
-					AbilityLevelUpIDMain = append(AbilityLevelUpIDMain, 120000 + int64(mainAbilityIndex))
+					AbilityLevelUpIDMain = append(AbilityLevelUpIDMain, 120000+int64(mainAbilityIndex))
 					playCharacters[0].Exp -= playCharacters[0].Cost                         // remove cost from exp
 					playCharacters[0].Cost += consts.UpgradeIncreases[playCharacters[0].ID] // increase cost
 					mainAbilitySum = sum(playCharacters[0].AbilityLevel)
@@ -931,7 +939,7 @@ func PostGameResults(helper *helper.Helper) {
 			playCharacters[0].AbilityLevelUpExp = AbilityLevelUpXPValueMain //  array of XP Values in the level up screeen, should always be character.Cost
 		}
 		if playCharacters[0].Star >= int64(11) { // Somehow, someone actually got Limit Smash 13, let's reset it back to 10
-		playCharacters[0].Star = int64(10)
+			playCharacters[0].Star = int64(10)
 		}
 		if hasSubCharacter {
 			if playCharacters[1].Level < 100 {
@@ -939,10 +947,10 @@ func PostGameResults(helper *helper.Helper) {
 				for playCharacters[1].Exp >= playCharacters[1].Cost {
 					// more exp than cost = level up
 					if playCharacters[1].Level < 100 {
-						playCharacters[1].Level++                                               // increase level
-						playCharacters[1].AbilityLevel[subAbilityIndex]++                       // increase ability level
+						playCharacters[1].Level++                         // increase level
+						playCharacters[1].AbilityLevel[subAbilityIndex]++ // increase ability level
 						AbilityLevelUpXPValueSub = append(AbilityLevelUpXPValueSub, int64(playCharacters[1].Cost))
-						AbilityLevelUpIDSub = append(AbilityLevelUpIDSub, 120000 + int64(subAbilityIndex))
+						AbilityLevelUpIDSub = append(AbilityLevelUpIDSub, 120000+int64(subAbilityIndex))
 						playCharacters[1].Exp -= playCharacters[1].Cost                         // remove cost from exp
 						playCharacters[1].Cost += consts.UpgradeIncreases[playCharacters[1].ID] // increase cost
 						subAbilitySum = sum(playCharacters[1].AbilityLevel)
@@ -961,14 +969,14 @@ func PostGameResults(helper *helper.Helper) {
 				playCharacters[1].AbilityLevelUpExp = AbilityLevelUpXPValueSub //  array of XP Values in the level up screeen, should always be character.Cost
 			}
 			if playCharacters[1].Star >= int64(11) { // Somehow, someone actually got Limit Smash 13, let's reset it back to 10
-			playCharacters[1].Star = int64(10)
+				playCharacters[1].Star = int64(10)
 			}
 		}
 		player.PlayerState.MainCharaLevel = playCharacters[0].Level
 		hasMainChao := player.PlayerState.MainChaoID != "none"
 		hasSubChao := player.PlayerState.SubChaoID != "none"
 		var subCh netobj.Chao
-		if hasMainChao{
+		if hasMainChao {
 			mainCh, err := player.GetMainChao()
 			if err != nil {
 				helper.InternalErr("Error getting main character", err)
@@ -1227,6 +1235,22 @@ func GetMileageReward(helper *helper.Helper) {
 	response := responses.DefaultMileageReward(baseInfo, request.Chapter, request.Episode)
 	//response.BaseResponse = responses.NewBaseResponseV(baseInfo, request.Version)
 	err = helper.SendResponse(response)
+	if err != nil {
+		helper.InternalErr("Error sending response", err)
+	}
+}
+
+func DrawRaidBoss(helper *helper.Helper) {
+	recv := helper.GetGameRequest()
+	var request requests.DrawRaidBossRequest
+	err := json.Unmarshal(recv, &request)
+	if err != nil {
+		helper.Err("Error unmarshalling", err)
+		return
+	}
+	baseInfo := helper.BaseInfo(emess.OK, status.OK)
+	response := responses.DrawRaidBoss(baseInfo, netobj.DefaultRaidbossState())
+	err = helper.SendCompatibleResponse(response, true)
 	if err != nil {
 		helper.InternalErr("Error sending response", err)
 	}

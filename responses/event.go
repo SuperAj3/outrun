@@ -4,7 +4,7 @@ import (
 	//	"strconv"
 
 	//	"github.com/RunnersRevival/outrun/enums"
-	//	"github.com/RunnersRevival/outrun/logic"
+	"github.com/RunnersRevival/outrun/logic"
 	"github.com/RunnersRevival/outrun/netobj"
 	"github.com/RunnersRevival/outrun/obj"
 	"github.com/RunnersRevival/outrun/obj/constobjs"
@@ -83,7 +83,7 @@ func EventState(base responseobjs.BaseInfo, eventState netobj.EventState) EventS
 
 // below is stuff for raid bosses
 
-/*type EventUserRaidbossStateResponse struct {
+type EventUserRaidbossStateResponse struct {
 	BaseResponse
 	netobj.EventUserRaidbossState `json:"eventUserRaidboss"`
 }
@@ -228,4 +228,4 @@ func DefaultEventUpdateGameResults(base responseobjs.BaseInfo, player netobj.Pla
 		wo,
 		es,
 	}
-}*/
+}

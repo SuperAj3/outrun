@@ -39,6 +39,7 @@ func NewRaidbossState(id, level, rarity int64, encounterName string) EventRaidbo
 	}
 }
 
+// Default normal raid boss state (level 2)
 func DefaultRaidbossState() EventRaidbossState {
 	// TODO: establish as constants
 	id := int64(0)
@@ -53,6 +54,7 @@ func DefaultRaidbossState() EventRaidbossState {
 	)
 }
 
+// Default rare raid boss state (level 4)
 func DefaultRaidbossState2() EventRaidbossState {
 	// TODO: establish as constants
 	id := int64(1)
@@ -67,6 +69,7 @@ func DefaultRaidbossState2() EventRaidbossState {
 	)
 }
 
+// Default super-rare raid boss state (level 8)
 func DefaultRaidbossState3() EventRaidbossState {
 	// TODO: establish as constants
 	id := int64(2)

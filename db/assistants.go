@@ -76,6 +76,7 @@ func NewAccountWithID(uid string, resetcount int64) netobj.Player {
 	battleState := netobj.DefaultBattleState()
 	disallowInactivePurge := false
 	lastLoginPlatformID := int64(0)
+	eventUserRaidbossState := netobj.DefaultUserRaidbossState()
 	return netobj.NewPlayer(
 		uid,
 		username,
@@ -103,6 +104,7 @@ func NewAccountWithID(uid string, resetcount int64) netobj.Player {
 		battleState,
 		disallowInactivePurge,
 		lastLoginPlatformID,
+		eventUserRaidbossState,
 	)
 }
 

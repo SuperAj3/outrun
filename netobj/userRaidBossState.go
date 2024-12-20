@@ -8,7 +8,7 @@ type EventUserRaidbossState struct {
 	NumRaidbossRings       int64 `json:"numRaidbossRings"` // NOTE: these are different from normal rings!
 	RaidBossEnergy         int64 `json:"raidbossEnergy"`
 	RaidBossEnergyBuy      int64 `json:"raidbossEnergyBuy"`
-	NumBeatedEncounter     int64 `json:"numBeatedEncounter"`  // number of times the boss has been defeated?
+	NumBeatedEncounter     int64 `json:"numBeatedEncounter"`  // ?
 	NumBeatedEnterprise    int64 `json:"numBeatedEnterprise"` // ?
 	NumRaidBossEncountered int64 `json:"numTotalEncountered"`
 	EnergyRenewsAt         int64 `json:"raidbossEnergyRenewsAt"`
