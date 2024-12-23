@@ -273,6 +273,7 @@ func EventActStart(helper *helper.Helper) {
 		helper.InternalErr("Error sending response", err)
 		return
 	}
+	player.InRun = true
 	err = db.SavePlayer(player)
 	if err != nil {
 		helper.InternalErr("Error saving player", err)
@@ -294,6 +295,13 @@ func EventPostGameResults(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
+
+	if !player.InRun {
+		helper.Out("Player is not in a run!")
+		helper.InvalidRequest()
+		return
+	}
+
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	for time.Now().UTC().Unix() >= player.EventUserRaidbossState.EnergyRenewsAt && player.EventUserRaidbossState.RaidBossEnergy < 3 {
 		player.EventUserRaidbossState.RaidBossEnergy++
@@ -305,6 +313,7 @@ func EventPostGameResults(helper *helper.Helper) {
 	if err != nil {
 		helper.InternalErr("Error sending response", err)
 	}
+	player.InRun = false
 	err = db.SavePlayer(player)
 	if err != nil {
 		helper.InternalErr("Error saving player", err)
