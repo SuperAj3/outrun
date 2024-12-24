@@ -229,3 +229,15 @@ func DefaultEventUpdateGameResults(base responseobjs.BaseInfo, player netobj.Pla
 		es,
 	}
 }
+
+type EventRaidbossDesiredListResponse struct {
+	BaseResponse
+	DesiredList []netobj.RaidBossDesiredUser `json:"eventRaidbossDesiredList"`
+}
+
+type EventRaidBossUserListResponse struct {
+	BaseResponse
+	UserList      []netobj.RaidBossUserState `json:"eventRaidbossUserList"`
+	RaidbossBonus netobj.RaidBossBonus       `json:"eventRaidbossBonus"`
+	RaidbossState netobj.EventRaidbossState  `json:"eventRaidboss"`
+}

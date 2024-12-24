@@ -37,3 +37,16 @@ type EventUpdateGameResultsRequest struct {
 	RaidbossDamage         int64 `json:"raidbossDamage,string"`
 	RaidbossBeatFlg        int64 `json:"raidbossBeatFlg,string"`
 }
+
+type EventRaidbossDesiredListRequest struct {
+	Base
+	RaidbossID   int64    `json:"raidbossId,string"`
+	EventID      int64    `json:"eventId,string"`
+	FriendIDList []string `json:"friendIdList"`
+}
+
+type EventRaidbossUserListRequest struct {
+	Base
+	RaidbossID int64 `json:"raidbossId,string"`
+	EventID    int64 `json:"eventId,string"`
+}
