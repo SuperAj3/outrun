@@ -28,7 +28,7 @@ func GetRaidbossWheelOptions(helper *helper.Helper) {
 		return
 	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	wheelOptions := netobj.DefaultRaidbossWheelOptions(0, player.PlayerState.ChaoEggs, 0, enums.WheelRankNormal, 0)
+	wheelOptions := netobj.DefaultRaidbossWheelOptions(0, player.PlayerState.ChaoEggs, 0, enums.WheelRankNormal, 0, player.RaidBossPlayerState.NumRaidBossRings)
 	response := responses.RaidbossWheelOptions(baseInfo, wheelOptions)
 	err = helper.SendCompatibleResponse(response, true) // For some reason the game expects an unencrypted response for all raid boss endpoints.
 	if err != nil {

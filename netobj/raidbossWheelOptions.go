@@ -28,7 +28,7 @@ type RaidbossWheelOptions struct {
 	CostItemList         []obj.CostItem `json:"costItemList"`
 }
 
-func DefaultRaidbossWheelOptions(numRouletteTicket, numSpecialEgg, rouletteCountInPeriod, rouletteRank, freeSpins int64) RaidbossWheelOptions {
+func DefaultRaidbossWheelOptions(numRouletteTicket, numSpecialEgg, rouletteCountInPeriod, rouletteRank, freeSpins, raidbossRings int64) RaidbossWheelOptions {
 	items := []string{strconv.Itoa(enums.IDTypeItemRouletteWin)} // first item is always jackpot/big/super
 	item := []int64{1}
 	itemWeight := []int64{1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250}
@@ -55,7 +55,7 @@ func DefaultRaidbossWheelOptions(numRouletteTicket, numSpecialEgg, rouletteCount
 		obj.NewCostItem(
 			strconv.Itoa(enums.ItemIDRaidbossRing),
 			5000,
-			27272,
+			raidbossRings,
 		),
 	}
 	numRouletteToken := numRouletteTicket
