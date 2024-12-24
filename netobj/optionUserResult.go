@@ -9,7 +9,7 @@ type OptionUserResult struct {
 	NumItemRoulette        int64 `json:"numItemRoulette"`         // total times the item roulette was spun
 	NumJackpot             int64 `json:"numJackPot"`              // total number of jackpots won ever
 	NumMaximumJackpotRings int64 `json:"numMaximumJackPotRings"`  // biggest jackpot won
-	NumSupport             int64 `json:"numSupport"`              // ?
+	NumSupport             int64 `json:"numSupport"`              // number of times support has been sent
 }
 
 func DefaultOptionUserResult() OptionUserResult {

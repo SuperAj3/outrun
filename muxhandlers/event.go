@@ -155,12 +155,12 @@ func GetEventUserRaidbossState(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
-	for time.Now().UTC().Unix() >= player.EventUserRaidbossState.EnergyRenewsAt && player.EventUserRaidbossState.RaidBossEnergy < 3 {
-		player.EventUserRaidbossState.RaidBossEnergy++
-		player.EventUserRaidbossState.EnergyRenewsAt += 1200
+	for time.Now().UTC().Unix() >= player.RaidBossPlayerState.EnergyRenewsAt && player.RaidBossPlayerState.RaidBossEnergy < 3 {
+		player.RaidBossPlayerState.RaidBossEnergy++
+		player.RaidBossPlayerState.EnergyRenewsAt += 600
 	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	response := responses.EventUserRaidbossState(baseInfo, player.EventUserRaidbossState)
+	response := responses.EventUserRaidbossState(baseInfo, netobj.ConvertRaidBossPlayerState(player.RaidBossPlayerState))
 	err = helper.SendCompatibleResponse(response, true)
 	if err != nil {
 		helper.InternalErr("Error sending response", err)
@@ -180,12 +180,12 @@ func GetEventUserRaidbossList(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
-	for time.Now().UTC().Unix() >= player.EventUserRaidbossState.EnergyRenewsAt && player.EventUserRaidbossState.RaidBossEnergy < 3 {
-		player.EventUserRaidbossState.RaidBossEnergy++
-		player.EventUserRaidbossState.EnergyRenewsAt += 1200
+	for time.Now().UTC().Unix() >= player.RaidBossPlayerState.EnergyRenewsAt && player.RaidBossPlayerState.RaidBossEnergy < 3 {
+		player.RaidBossPlayerState.RaidBossEnergy++
+		player.RaidBossPlayerState.EnergyRenewsAt += 1200
 	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	response := responses.DefaultEventUserRaidbossList(baseInfo, player.EventUserRaidbossState)
+	response := responses.DefaultEventUserRaidbossList(baseInfo, netobj.ConvertRaidBossPlayerState(player.RaidBossPlayerState))
 	err = helper.SendCompatibleResponse(response, true)
 	if err != nil {
 		helper.InternalErr("Error sending response", err)
@@ -209,22 +209,22 @@ func EventActStart(helper *helper.Helper) {
 
 	// consume items
 	helper.DebugOut(fmt.Sprintf("%v", player.PlayerState.Items))
-	for time.Now().UTC().Unix() >= player.EventUserRaidbossState.EnergyRenewsAt && player.EventUserRaidbossState.RaidBossEnergy < 3 {
-		player.EventUserRaidbossState.RaidBossEnergy++
-		player.EventUserRaidbossState.EnergyRenewsAt += 1200
+	for time.Now().UTC().Unix() >= player.RaidBossPlayerState.EnergyRenewsAt && player.RaidBossPlayerState.RaidBossEnergy < 3 {
+		player.RaidBossPlayerState.RaidBossEnergy++
+		player.RaidBossPlayerState.EnergyRenewsAt += 600
 	}
-	if player.EventUserRaidbossState.RaidBossEnergy+player.EventUserRaidbossState.RaidBossEnergyBuy >= request.EnergyExpend {
+	if player.RaidBossPlayerState.RaidBossEnergy+player.RaidBossPlayerState.RaidBossEnergyBuy >= request.EnergyExpend {
 		if gameconf.CFile.EnableEnergyConsumption {
-			if player.EventUserRaidbossState.RaidBossEnergyBuy > 0 {
-				player.EventUserRaidbossState.RaidBossEnergyBuy -= request.EnergyExpend
-				if player.EventUserRaidbossState.RaidBossEnergyBuy < 0 { //did we go negative?
-					player.EventUserRaidbossState.RaidBossEnergy += player.EventUserRaidbossState.RaidBossEnergyBuy
-					player.EventUserRaidbossState.RaidBossEnergyBuy = 0
+			if player.RaidBossPlayerState.RaidBossEnergyBuy > 0 {
+				player.RaidBossPlayerState.RaidBossEnergyBuy -= request.EnergyExpend
+				if player.RaidBossPlayerState.RaidBossEnergyBuy < 0 { //did we go negative?
+					player.RaidBossPlayerState.RaidBossEnergy += player.RaidBossPlayerState.RaidBossEnergyBuy
+					player.RaidBossPlayerState.RaidBossEnergyBuy = 0
 				}
 			} else {
-				player.EventUserRaidbossState.RaidBossEnergy -= request.EnergyExpend
-				if player.EventUserRaidbossState.RaidBossEnergy < 3 {
-					player.EventUserRaidbossState.EnergyRenewsAt = time.Now().UTC().Unix() + 1200
+				player.RaidBossPlayerState.RaidBossEnergy -= request.EnergyExpend
+				if player.RaidBossPlayerState.RaidBossEnergy < 3 {
+					player.RaidBossPlayerState.EnergyRenewsAt = time.Now().UTC().Unix() + 600
 				}
 			}
 		}
@@ -303,12 +303,12 @@ func EventPostGameResults(helper *helper.Helper) {
 	}
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	for time.Now().UTC().Unix() >= player.EventUserRaidbossState.EnergyRenewsAt && player.EventUserRaidbossState.RaidBossEnergy < 3 {
-		player.EventUserRaidbossState.RaidBossEnergy++
-		player.EventUserRaidbossState.EnergyRenewsAt += 1200
+	for time.Now().UTC().Unix() >= player.RaidBossPlayerState.EnergyRenewsAt && player.RaidBossPlayerState.RaidBossEnergy < 3 {
+		player.RaidBossPlayerState.RaidBossEnergy++
+		player.RaidBossPlayerState.EnergyRenewsAt += 600
 	}
-	player.EventUserRaidbossState.NumRaidbossRings += request.NumRaidbossRings
-	response := responses.EventUserRaidbossState(baseInfo, player.EventUserRaidbossState)
+	player.RaidBossPlayerState.NumRaidBossRings += request.NumRaidbossRings
+	response := responses.EventUserRaidbossState(baseInfo, netobj.ConvertRaidBossPlayerState(player.RaidBossPlayerState))
 	err = helper.SendCompatibleResponse(response, true)
 	if err != nil {
 		helper.InternalErr("Error sending response", err)
@@ -340,9 +340,9 @@ func EventUpdateGameResults(helper *helper.Helper) {
 		player.PlayerState.Energy++
 		player.PlayerState.EnergyRenewsAt += player.PlayerVarious.EnergyRecoveryTime
 	}
-	for time.Now().UTC().Unix() >= player.EventUserRaidbossState.EnergyRenewsAt && player.EventUserRaidbossState.RaidBossEnergy < 3 {
-		player.EventUserRaidbossState.RaidBossEnergy++
-		player.EventUserRaidbossState.EnergyRenewsAt += 1200
+	for time.Now().UTC().Unix() >= player.RaidBossPlayerState.EnergyRenewsAt && player.RaidBossPlayerState.RaidBossEnergy < 3 {
+		player.RaidBossPlayerState.RaidBossEnergy++
+		player.RaidBossPlayerState.EnergyRenewsAt += 600
 	}
 
 	hasSubCharacter := player.PlayerState.SubCharaID != "-1"
@@ -470,7 +470,7 @@ func EventUpdateGameResults(helper *helper.Helper) {
 		helper.DebugOut("It took %v point(s) of damage", request.RaidbossDamage)
 		if request.RaidbossBeatFlg != 0 {
 			helper.DebugOut("It was defeated!")
-			player.EventUserRaidbossState.NumBeatedEncounter++
+			player.RaidBossPlayerState.NumBeatedEncounter++
 		}
 	}
 

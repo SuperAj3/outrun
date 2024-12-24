@@ -12,37 +12,38 @@ import (
 )
 
 type Player struct {
-	ID                     string                      `json:"userID"`
-	Username               string                      `json:"username"`
-	Password               string                      `json:"password"`
-	MigrationPassword      string                      `json:"migrationPassword"` // used in migration
-	UserPassword           string                      `json:"userPassword"`      // used in migration
-	Key                    string                      `json:"key"`
-	LastLogin              int64                       // TODO: use `json:"lastLogin"`
-	PlayerState            PlayerState                 `json:"playerState"`
-	CharacterState         []Character                 `json:"characterState"`
-	ChaoState              []Chao                      `json:"chaoState"`
-	MileageMapState        MileageMapState             `json:"mileageMapState"`
-	MileageFriends         []MileageFriend             `json:"mileageFriendList"`
-	PlayerVarious          PlayerVarious               `json:"playerVarious"`
-	OptionUserResult       OptionUserResult            `json:"optionUserResult"`
-	LastWheelOptions       WheelOptions                `json:"ORN_wheelOptions"` // TODO: Make RouletteGroup to hold LastWheelOptions and RouletteInfo?
-	RouletteInfo           RouletteInfo                `json:"ORN_rouletteInfo"`
-	ChaoRouletteGroup      ChaoRouletteGroup           `json:"ORN_chaoRouletteGroup"`
-	PersonalEvents         []eventconf.ConfiguredEvent `json:"ORN_personalEvents"`
-	Messages               []obj.Message               `json:"messageList"`
-	OperatorMessages       []obj.OperatorMessage       `json:"operatorMessageList"`
-	LoginBonusState        LoginBonusState             `json:"loginBonusState"`
-	InRun                  bool                        `json:"inRun"`
-	EventState             EventState                  `json:"eventState"`
-	ResetCount             int64                       `json:"resetCount"` // Automatically incremented when Debug_ResetPlayer is executed on the player, for bookkeeping purposes
-	BattleState            BattleState                 `json:"battleState"`
-	DisallowInactivePurge  bool                        `json:"disallowInactivePurge"`
-	LastLoginPlatformID    int64                       `json:"lastLoginPlatformID`
-	EventUserRaidbossState EventUserRaidbossState      `json:"eventUserRaidboss"`
+	ID                    string                      `json:"userID"`
+	Username              string                      `json:"username"`
+	Password              string                      `json:"password"`
+	MigrationPassword     string                      `json:"migrationPassword"` // used in migration
+	UserPassword          string                      `json:"userPassword"`      // used in migration
+	Key                   string                      `json:"key"`
+	LastLogin             int64                       // TODO: use `json:"lastLogin"`
+	PlayerState           PlayerState                 `json:"playerState"`
+	CharacterState        []Character                 `json:"characterState"`
+	ChaoState             []Chao                      `json:"chaoState"`
+	MileageMapState       MileageMapState             `json:"mileageMapState"`
+	MileageFriends        []MileageFriend             `json:"mileageFriendList"`
+	PlayerVarious         PlayerVarious               `json:"playerVarious"`
+	OptionUserResult      OptionUserResult            `json:"optionUserResult"`
+	LastWheelOptions      WheelOptions                `json:"ORN_wheelOptions"` // TODO: Make RouletteGroup to hold LastWheelOptions and RouletteInfo?
+	RouletteInfo          RouletteInfo                `json:"ORN_rouletteInfo"`
+	ChaoRouletteGroup     ChaoRouletteGroup           `json:"ORN_chaoRouletteGroup"`
+	PersonalEvents        []eventconf.ConfiguredEvent `json:"ORN_personalEvents"`
+	Messages              []obj.Message               `json:"messageList"`
+	OperatorMessages      []obj.OperatorMessage       `json:"operatorMessageList"`
+	LoginBonusState       LoginBonusState             `json:"loginBonusState"`
+	InRun                 bool                        `json:"inRun"`
+	EventState            EventState                  `json:"eventState"`
+	ResetCount            int64                       `json:"resetCount"` // Automatically incremented when Debug_ResetPlayer is executed on the player, for bookkeeping purposes
+	BattleState           BattleState                 `json:"battleState"`
+	DisallowInactivePurge bool                        `json:"disallowInactivePurge"`
+	LastLoginPlatformID   int64                       `json:"lastLoginPlatformID`
+	RaidBossPlayerState   RaidBossPlayerState         `json:"raidBossPlayerState"`
+	//	EventUserRaidbossState EventUserRaidbossState      `json:"eventUserRaidboss"`
 }
 
-func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, inRun bool, eventState EventState, resetCount int64, battleState BattleState, disallowInactivePurge bool, lastLoginPlatformID int64, eventUserRaidbossState EventUserRaidbossState) Player {
+func NewPlayer(id, username, password, migrationPassword, userPassword, key string, playerState PlayerState, characterState []Character, chaoState []Chao, mileageMapState MileageMapState, mf []MileageFriend, playerVarious PlayerVarious, optionUserResult OptionUserResult, wheelOptions WheelOptions, rouletteInfo RouletteInfo, chaoRouletteGroup ChaoRouletteGroup, personalEvents []eventconf.ConfiguredEvent, messages []obj.Message, operatorMessages []obj.OperatorMessage, loginBonusState LoginBonusState, inRun bool, eventState EventState, resetCount int64, battleState BattleState, disallowInactivePurge bool, lastLoginPlatformID int64, raidBossPlayerState RaidBossPlayerState) Player {
 	return Player{
 		id,
 		username,
@@ -71,7 +72,7 @@ func NewPlayer(id, username, password, migrationPassword, userPassword, key stri
 		battleState,
 		disallowInactivePurge,
 		lastLoginPlatformID,
-		eventUserRaidbossState,
+		raidBossPlayerState,
 	}
 }
 

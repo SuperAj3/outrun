@@ -66,7 +66,7 @@ var BlankPlayer = func() netobj.Player {
 	battleState := netobj.DefaultBattleState()
 	disallowInactivePurge := false
 	lastLoginPlatformID := int64(0)
-	eventUserRaidbossState := netobj.DefaultUserRaidbossState()
+	raidBossPlayerState := netobj.DefaultRaidBossPlayerState()
 	return netobj.NewPlayer(
 		uid,
 		username,
@@ -94,6 +94,6 @@ var BlankPlayer = func() netobj.Player {
 		battleState,
 		disallowInactivePurge,
 		lastLoginPlatformID,
-		eventUserRaidbossState,
+		raidBossPlayerState,
 	)
 }() // TODO: Solve duplication requirement with db/assistants.go

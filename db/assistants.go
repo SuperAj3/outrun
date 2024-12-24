@@ -76,7 +76,7 @@ func NewAccountWithID(uid string, resetcount int64) netobj.Player {
 	battleState := netobj.DefaultBattleState()
 	disallowInactivePurge := false
 	lastLoginPlatformID := int64(0)
-	eventUserRaidbossState := netobj.DefaultUserRaidbossState()
+	raidBossPlayerState := netobj.DefaultRaidBossPlayerState()
 	return netobj.NewPlayer(
 		uid,
 		username,
@@ -100,11 +100,11 @@ func NewAccountWithID(uid string, resetcount int64) netobj.Player {
 		loginBonusState,
 		false,
 		eventState,
-		resetcount,
+		0,
 		battleState,
 		disallowInactivePurge,
 		lastLoginPlatformID,
-		eventUserRaidbossState,
+		raidBossPlayerState,
 	)
 }
 
@@ -306,3 +306,5 @@ func BattleDeletePlayer(uid string) error {
 	err = dbaccess.BattleDBDelete(consts.BattleDBBucketMatched, uid)
 	return err
 }
+
+// raidboss assistants go below

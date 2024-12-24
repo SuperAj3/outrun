@@ -6,6 +6,7 @@ const (
 	DBBucketPlayers       = "players"
 	DBBucketAnalytics     = "analytics"
 	DBBucketTransferCreds = "transferCreds"
+	DBBucketGlobalParams  = "globalParams"
 	DBSessionExpiryTime   = 5600
 )
 
@@ -15,4 +16,10 @@ const (
 	BattleDBBucketMatched     = "matched"
 	BattleDBBucketWaiting     = "waiting"
 	BattleDBSessionExpiryTime = 5600
+)
+
+const (
+	RaidbossDBFileName                 = "raid.db"
+	RaidbossDBBucketStandardRaidBosses = "standard"
+	RaidbossDBBucketGlobalRaidBosses   = "global"
 )
