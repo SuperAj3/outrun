@@ -182,7 +182,7 @@ func GetEventUserRaidbossList(helper *helper.Helper) {
 	}
 	for time.Now().UTC().Unix() >= player.RaidBossPlayerState.EnergyRenewsAt && player.RaidBossPlayerState.RaidBossEnergy < 3 {
 		player.RaidBossPlayerState.RaidBossEnergy++
-		player.RaidBossPlayerState.EnergyRenewsAt += 1200
+		player.RaidBossPlayerState.EnergyRenewsAt += 600
 	}
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	response := responses.DefaultEventUserRaidbossList(baseInfo, netobj.ConvertRaidBossPlayerState(player.RaidBossPlayerState))
