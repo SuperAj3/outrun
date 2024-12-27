@@ -63,7 +63,7 @@ func Login(helper *helper.Helper) {
 			return
 		}
 	}
-	if request.Version != "2.2.4" && request.RevivalVerID != 6 && !config.CFile.LegacyCompatibilityMode {
+	if request.Version != "2.2.4" && request.RevivalVerID != 6 && request.RevivalVerID != 7 && !config.CFile.LegacyCompatibilityMode {
 		helper.Out("Client version too old or too new for this version of Outrun!")
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
