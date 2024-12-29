@@ -4,6 +4,11 @@ import (
 	//	"strconv"
 
 	//	"github.com/RunnersRevival/outrun/enums"
+	"fmt"
+	"strconv"
+
+	"github.com/RunnersRevival/outrun/config/gameconf"
+	"github.com/RunnersRevival/outrun/db"
 	"github.com/RunnersRevival/outrun/logic"
 	"github.com/RunnersRevival/outrun/netobj"
 	"github.com/RunnersRevival/outrun/obj"
@@ -240,4 +245,76 @@ type EventRaidBossUserListResponse struct {
 	UserList      []netobj.RaidBossUserState `json:"eventRaidbossUserList"`
 	RaidbossBonus netobj.RaidBossBonus       `json:"eventRaidbossBonus"`
 	RaidbossState netobj.EventRaidbossState  `json:"eventRaidboss"`
+}
+
+func GetRaidBossPlayerList(state netobj.RaidBossInternalState) []netobj.RaidBossUserState {
+	userStates := []netobj.RaidBossUserState{}
+	for _, playerS := range state.PlayerStates {
+		wrestleBeatFlg := int64(0)
+		if playerS.HadFinalHit {
+			wrestleBeatFlg = 1
+		}
+		userState := netobj.RaidBossUserState{
+			WrestleID:         strconv.Itoa(int(playerS.PlayerID)),
+			Name:              fmt.Sprintf("Unknown Player %X", playerS.PlayerID*2),
+			Grade:             playerS.Grade,
+			NumRank:           0,
+			LoginTime:         1563177600,
+			CharacterID:       gameconf.CFile.DefaultMainCharacter,
+			CharacterLevel:    0,
+			SubcharacterID:    gameconf.CFile.DefaultSubCharacter,
+			SubcharacterLevel: 0,
+			MainChaoID:        gameconf.CFile.DefaultMainChao,
+			MainChaoLevel:     0,
+			SubChaoID:         gameconf.CFile.DefaultSubChao,
+			SubChaoLevel:      0,
+			Language:          0,
+			League:            0,
+			WrestleCount:      playerS.NumBattles,
+			WrestleDamage:     playerS.DamageTotal,
+			WrestleBeatFlg:    wrestleBeatFlg,
+		}
+		player, err := db.GetPlayer(strconv.Itoa(int(playerS.PlayerID)))
+		if err == nil {
+			mainCharaInfo, _ := player.GetChara(player.PlayerState.MainCharaID)
+			mainCharaLevel := mainCharaInfo.Level
+			subCharaLevel := int64(0)
+			mainChaoLevel := int64(0)
+			subChaoLevel := int64(0)
+			if player.PlayerState.SubCharaID != "-1" {
+				subCharaInfo, _ := player.GetChara(player.PlayerState.SubCharaID)
+				subCharaLevel = subCharaInfo.Level
+			}
+			if player.PlayerState.MainChaoID != "-1" {
+				mainChaoInfo, _ := player.GetChao(player.PlayerState.MainChaoID)
+				mainChaoLevel = mainChaoInfo.Level
+			}
+			if player.PlayerState.SubChaoID != "-1" {
+				subChaoInfo, _ := player.GetChao(player.PlayerState.SubChaoID)
+				subChaoLevel = subChaoInfo.Level
+			}
+			userState = netobj.RaidBossUserState{
+				WrestleID:         strconv.Itoa(int(playerS.PlayerID)),
+				Name:              player.Username,
+				Grade:             playerS.Grade,
+				NumRank:           player.PlayerState.Rank,
+				LoginTime:         player.LastLogin,
+				CharacterID:       player.PlayerState.MainCharaID,
+				CharacterLevel:    mainCharaLevel,
+				SubcharacterID:    player.PlayerState.SubCharaID,
+				SubcharacterLevel: subCharaLevel,
+				MainChaoID:        player.PlayerState.MainChaoID,
+				MainChaoLevel:     mainChaoLevel,
+				SubChaoID:         player.PlayerState.SubChaoID,
+				SubChaoLevel:      subChaoLevel,
+				Language:          0,
+				League:            player.PlayerState.RankingLeague,
+				WrestleCount:      playerS.NumBattles,
+				WrestleDamage:     playerS.DamageTotal,
+				WrestleBeatFlg:    wrestleBeatFlg,
+			}
+		}
+		userStates = append(userStates, userState)
+	}
+	return userStates
 }

@@ -166,7 +166,7 @@ func AssignSessionID(uid string) (string, error) {
 	hash := md5.Sum(uidB)
 	hashStr := fmt.Sprintf("%x", hash)
 	sid := fmt.Sprintf(SessionIDSchema, hashStr)
-	value := fmt.Sprintf("%s/%s", uid, time.Now().Unix()) // register the time that the session ID was assigned
+	value := fmt.Sprintf("%s/%v", uid, time.Now().Unix()) // register the time that the session ID was assigned
 	valueB := []byte(value)
 	err := dbaccess.Set(consts.DBBucketSessionIDs, sid, valueB)
 	return sid, err
@@ -181,10 +181,7 @@ func ParseSIDEntry(sidResult []byte) (string, int64) {
 
 func IsValidSessionTime(sessionTime int64) bool {
 	timeNow := time.Now().Unix()
-	if sessionTime+consts.DBSessionExpiryTime < timeNow {
-		return false
-	}
-	return true
+	return sessionTime+consts.DBSessionExpiryTime >= timeNow
 }
 
 func IsValidSessionID(sid []byte) (bool, error) {
@@ -247,6 +244,21 @@ func DeleteTransferCredentials(tid string) error {
 	return err
 }
 
+func GetGlobalState() (netobj.GlobalState, error) {
+	var globalState netobj.GlobalState
+	globalStateData, err := dbaccess.Get(consts.DBBucketGlobalParams, "outrun")
+	if err != nil {
+		return netobj.DefaultGlobalState(), err
+	}
+	err = json.Unmarshal(globalStateData, &globalState)
+	if err != nil {
+		return netobj.DefaultGlobalState(), err
+	}
+	return globalState, nil
+}
+
+// battle functions are below
+
 func BattleGetPlayer(uid string) (netobj.Player, error) {
 	var player netobj.Player
 	playerData, err := dbaccess.Get(consts.BattleDBBucketWaiting, uid)
@@ -301,10 +313,65 @@ func BattleDeleteMatchedPlayer(uid string) error {
 	return err
 }
 
-func BattleDeletePlayer(uid string) error {
+// Deletes a player from the battle DB in both the waiting and matched buckets.
+func BattleDeletePlayer(uid string) (error, error) {
 	err := dbaccess.BattleDBDelete(consts.BattleDBBucketWaiting, uid)
-	err = dbaccess.BattleDBDelete(consts.BattleDBBucketMatched, uid)
+	err2 := dbaccess.BattleDBDelete(consts.BattleDBBucketMatched, uid)
+	return err, err2
+}
+
+// raidboss functions are below
+
+func GetRaidBoss(rbid string) (netobj.RaidBossInternalState, error) {
+	var raidboss netobj.RaidBossInternalState
+	raidbossData, err := dbaccess.RaidbossDBGet(consts.RaidbossDBBucketStandardRaidBosses, rbid)
+	if err != nil {
+		return netobj.DefaultRaidBossInternalState(), err
+	}
+	err = json.Unmarshal(raidbossData, &raidboss)
+	if err != nil {
+		return netobj.DefaultRaidBossInternalState(), err
+	}
+	return raidboss, nil
+}
+
+func GetGlobalRaidBoss(rbid string) (netobj.RaidBossInternalState, error) {
+	var raidboss netobj.RaidBossInternalState
+	raidbossData, err := dbaccess.RaidbossDBGet(consts.RaidbossDBBucketGlobalRaidBosses, rbid)
+	if err != nil {
+		return netobj.DefaultRaidBossInternalState(), err
+	}
+	err = json.Unmarshal(raidbossData, &raidboss)
+	if err != nil {
+		return netobj.DefaultRaidBossInternalState(), err
+	}
+	return raidboss, nil
+}
+
+func SaveRaidBoss(raidboss netobj.RaidBossInternalState) error {
+	j, err := json.Marshal(raidboss)
+	if err != nil {
+		return err
+	}
+	err = dbaccess.RaidbossDBSet(consts.RaidbossDBBucketStandardRaidBosses, strconv.Itoa(int(raidboss.ID)), j)
 	return err
 }
 
-// raidboss assistants go below
+func SaveGlobalRaidBoss(raidboss netobj.RaidBossInternalState) error {
+	j, err := json.Marshal(raidboss)
+	if err != nil {
+		return err
+	}
+	err = dbaccess.RaidbossDBSet(consts.RaidbossDBBucketGlobalRaidBosses, strconv.Itoa(int(raidboss.ID)), j)
+	return err
+}
+
+func DeleteRaidBoss(rbid string) error {
+	err := dbaccess.RaidbossDBDelete(consts.RaidbossDBBucketStandardRaidBosses, rbid)
+	return err
+}
+
+func DeleteGlobalRaidBoss(rbid string) error {
+	err := dbaccess.RaidbossDBDelete(consts.RaidbossDBBucketGlobalRaidBosses, rbid)
+	return err
+}

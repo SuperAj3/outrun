@@ -17,7 +17,18 @@ type EventRaidbossState struct {
 }
 
 func NewRaidbossState(id, level, rarity int64, encounterName string) EventRaidbossState {
-	maxHp := int64((15*(level+3) - 50) * (rarity + 1)) //TODO: Preliminary algorithm
+	if level < 1 {
+		level = 1
+	}
+	hpMult := int64(1)
+	if rarity == 1 {
+		hpMult = 2
+	}
+	if rarity == 2 {
+		hpMult = 6
+	}
+	hpOffset := ((level - 1) / 10) * 10
+	maxHp := int64((10 + ((level - 1) * 2) + hpOffset) * hpMult)
 	hp := maxHp
 	status := int64(0)
 	escapeAt := int64(time.Now().UTC().Unix() + 3600) // raid boss expires after 1 hour
@@ -43,7 +54,7 @@ func NewRaidbossState(id, level, rarity int64, encounterName string) EventRaidbo
 func DefaultRaidbossState() EventRaidbossState {
 	// TODO: establish as constants
 	id := int64(0)
-	level := int64(2)
+	level := int64(1)
 	rarity := int64(0)
 	encounterName := "System"
 	return NewRaidbossState(
@@ -54,11 +65,11 @@ func DefaultRaidbossState() EventRaidbossState {
 	)
 }
 
-// Default rare raid boss state (level 4)
+// Default rare raid boss state (level 3)
 func DefaultRaidbossState2() EventRaidbossState {
 	// TODO: establish as constants
 	id := int64(1)
-	level := int64(4)
+	level := int64(3)
 	rarity := int64(1)
 	encounterName := "System"
 	return NewRaidbossState(
@@ -69,11 +80,11 @@ func DefaultRaidbossState2() EventRaidbossState {
 	)
 }
 
-// Default super-rare raid boss state (level 8)
+// Default super-rare raid boss state (level 5)
 func DefaultRaidbossState3() EventRaidbossState {
 	// TODO: establish as constants
 	id := int64(2)
-	level := int64(8)
+	level := int64(5)
 	rarity := int64(2)
 	encounterName := "System"
 	return NewRaidbossState(

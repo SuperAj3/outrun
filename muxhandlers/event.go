@@ -308,6 +308,7 @@ func EventPostGameResults(helper *helper.Helper) {
 		player.RaidBossPlayerState.EnergyRenewsAt += 600
 	}
 	player.RaidBossPlayerState.NumRaidBossRings += request.NumRaidbossRings
+	helper.DebugOut("Player got %v raid boss rings", request.NumRaidbossRings)
 	response := responses.EventUserRaidbossState(baseInfo, netobj.ConvertRaidBossPlayerState(player.RaidBossPlayerState))
 	err = helper.SendCompatibleResponse(response, true)
 	if err != nil {

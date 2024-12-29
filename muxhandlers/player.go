@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/RunnersRevival/outrun/consts"
@@ -99,10 +100,10 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		helper.Out("Player " + player.Username + "'s charIndex was -1")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenRouge))
-		helper.Out("Player ", player.Username, "'s charIndex is now " + strconv.Itoa(player.IndexOfChara(enums.CTStrHalloweenRouge)))
+		helper.Out("Player ", player.Username, "'s charIndex is now "+strconv.Itoa(player.IndexOfChara(enums.CTStrHalloweenRouge)))
 	}
 	charindex = player.IndexOfChara(enums.CTStrHalloweenOmega)
-	helper.Out("Player " + player.Username + "'s charIndex for Halloween Omega is", charindex)
+	helper.Out("Player "+player.Username+"'s charIndex for Halloween Omega is", charindex)
 	if charindex == -1 {
 		helper.Out("Player " + player.Username + "'s charIndex was -1")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterHalloweenOmega))
@@ -116,11 +117,11 @@ func GetCharacterState(helper *helper.Helper) {
 	if charindex == -1 {
 		//helper.Out("Adding Marine to CharacterState")
 		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterMarine))
-  }
-  charindex = player.IndexOfChara(enums.CTStrXT)
-  if charindex == -1 {
-    player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXT))
-  }
+	}
+	charindex = player.IndexOfChara(enums.CTStrXT)
+	if charindex == -1 {
+		player.CharacterState = append(player.CharacterState, netobj.DefaultRouletteOnlyLockedCharacter(constobjs.CharacterXT))
+	}
 	charindex = player.IndexOfChara(enums.CTStrWhisper)
 	if charindex == -1 {
 		//helper.Out("Adding Whisper to CharacterState")
@@ -217,7 +218,11 @@ func SetUsername(helper *helper.Helper) {
 		helper.InternalErr("Error getting calling player", err)
 		return
 	}
-	// TODO: check if username is already taken
+	if strings.ToLower(request.Username) == "system" {
+		// System is a reserved name, block
+		helper.InvalidRequest()
+		return
+	}
 	player.Username = request.Username
 	err = db.SavePlayer(player)
 	if err != nil {

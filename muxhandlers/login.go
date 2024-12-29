@@ -29,12 +29,12 @@ import (
 var ServerMode int64
 
 func contains(arr []string, value string) bool {
-    for _, v := range arr {
-        if v == value {
-            return true
-        }
-    }
-    return false
+	for _, v := range arr {
+		if v == value {
+			return true
+		}
+	}
+	return false
 }
 
 func Login(helper *helper.Helper) {
@@ -63,7 +63,7 @@ func Login(helper *helper.Helper) {
 			return
 		}
 	}
-	if request.Version != "2.2.4" && request.RevivalVerID != 6 && !config.CFile.LegacyCompatibilityMode {
+	if request.Version != "2.2.4" && request.RevivalVerID != 7 && !config.CFile.LegacyCompatibilityMode {
 		helper.Out("Client version too old or too new for this version of Outrun!")
 		baseInfo.StatusCode = status.VersionDifference
 		response := responses.NewBaseResponse(baseInfo)
@@ -520,7 +520,7 @@ func Migration(helper *helper.Helper) {
 	migrationUserPassword := request.LineAuth.MigrationUserPassword
 
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
-	
+
 	if ServerMode == 4 {
 		// authorized maintenance mode; lock out migration
 		baseInfo.StatusCode = status.ServerMaintenance
