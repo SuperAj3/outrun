@@ -33,8 +33,8 @@ func DrawBattleRival(player netobj.Player, limit int) netobj.BattleState {
 						potentialRival.BattleState.ScoreRecordedToday &&
 						!potentialRival.BattleState.MatchedUpWithRival &&
 						currentTime < potentialRival.BattleState.BattleEndsAt &&
-						(potentialRival.BattleState.PrevDailyBattleHighScore < player.BattleState.PrevDailyBattleHighScore - 100000) && 
-						potentialRival.BattleState.PrevDailyBattleHighScore > player.BattleState.PrevDailyBattleHighScore + 100000{
+						(potentialRival.BattleState.PrevDailyBattleHighScore < player.BattleState.PrevDailyBattleHighScore - 1500000) && 
+						potentialRival.BattleState.PrevDailyBattleHighScore > player.BattleState.PrevDailyBattleHighScore + 1500000{
 						rivalID = playerIDs[index]
 						break
 					} else { 
