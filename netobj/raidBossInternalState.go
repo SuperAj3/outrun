@@ -9,7 +9,6 @@ type RaidBossInternalState struct {
 	Status        int64                         `json:"raidbossStatus"`   // TODO: research
 	EscapeAt      int64                         `json:"raidbossEscapeAt"` // the time when the raid boss expires
 	EncounterName string                        `json:"encounterName"`
-	EncounterFlg  int64                         `json:"encounterFlg"`
 	MaxPlayers    int64                         `json:"ORN_maxPlayers"`
 	PlayerStates  []RaidBossInternalPlayerState `json:"ORN_playerStates"`
 }
@@ -32,13 +31,12 @@ func DefaultRaidBossInternalState() RaidBossInternalState {
 		0,
 		-1,
 		"Unknown",
-		0,
 		10,
 		[]RaidBossInternalPlayerState{},
 	}
 }
 
-func GetRaidBossState(state RaidBossInternalState) EventRaidbossState {
+func GetRaidBossState(state RaidBossInternalState, encounterFlg int64) EventRaidbossState {
 	crowdedFlg := int64(0)
 	if len(state.PlayerStates) >= int(state.MaxPlayers) {
 		crowdedFlg = 1
@@ -52,8 +50,23 @@ func GetRaidBossState(state RaidBossInternalState) EventRaidbossState {
 		state.Status,
 		state.EscapeAt,
 		state.EncounterName,
-		state.EncounterFlg,
+		encounterFlg,
 		crowdedFlg,
 		int64(len(state.PlayerStates)),
+	}
+}
+
+func ToEmptyRaidBossInternalState(state EventRaidbossState) RaidBossInternalState {
+	return RaidBossInternalState{
+		state.ID,
+		state.Level,
+		state.Rarity,
+		state.HP,
+		state.MaxHP,
+		state.Status,
+		state.EscapeAt,
+		state.EncounterName,
+		10,
+		[]RaidBossInternalPlayerState{},
 	}
 }

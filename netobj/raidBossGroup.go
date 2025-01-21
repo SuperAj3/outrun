@@ -1,5 +1,6 @@
 package netobj
 
+// OLD!
 type RaidBossGroup struct {
 	CurrentRaidBoss      EventRaidbossState   `json:"ORN_currentRaidBoss"`
 	PreviousRaidBosses   []EventRaidbossState `json:"ORN_previousRaidBosses`

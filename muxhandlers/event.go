@@ -159,6 +159,7 @@ func GetEventUserRaidbossState(helper *helper.Helper) {
 		player.RaidBossPlayerState.RaidBossEnergy++
 		player.RaidBossPlayerState.EnergyRenewsAt += 600
 	}
+	// TODO: Read from the raid boss database!
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	response := responses.EventUserRaidbossState(baseInfo, netobj.ConvertRaidBossPlayerState(player.RaidBossPlayerState))
 	err = helper.SendCompatibleResponse(response, true)
@@ -184,6 +185,7 @@ func GetEventUserRaidbossList(helper *helper.Helper) {
 		player.RaidBossPlayerState.RaidBossEnergy++
 		player.RaidBossPlayerState.EnergyRenewsAt += 600
 	}
+	// TODO: Read from the raid boss database!
 	baseInfo := helper.BaseInfo(emess.OK, status.OK)
 	response := responses.DefaultEventUserRaidbossList(baseInfo, netobj.ConvertRaidBossPlayerState(player.RaidBossPlayerState))
 	err = helper.SendCompatibleResponse(response, true)
@@ -473,6 +475,8 @@ func EventUpdateGameResults(helper *helper.Helper) {
 			helper.DebugOut("It was defeated!")
 			player.RaidBossPlayerState.NumBeatedEncounter++
 		}
+
+		// TODO: update the raidboss database accordingly here!
 	}
 
 	mainCIndex := player.IndexOfChara(mainC.ID) // TODO: check if -1

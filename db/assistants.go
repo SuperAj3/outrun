@@ -322,6 +322,11 @@ func BattleDeletePlayer(uid string) (error, error) {
 
 // raidboss functions are below
 
+func NewRaidBossWithID(level, rarity int64, encounterName string, rbid int64) netobj.RaidBossInternalState {
+	raidboss := netobj.NewRaidbossState(rbid, level, rarity, encounterName)
+	return netobj.ToEmptyRaidBossInternalState(raidboss)
+}
+
 func GetRaidBoss(rbid string) (netobj.RaidBossInternalState, error) {
 	var raidboss netobj.RaidBossInternalState
 	raidbossData, err := dbaccess.RaidbossDBGet(consts.RaidbossDBBucketStandardRaidBosses, rbid)

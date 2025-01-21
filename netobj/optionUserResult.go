@@ -21,7 +21,7 @@ func DefaultOptionUserResult() OptionUserResult {
 	numItemRoulette := int64(0)
 	numJackpot := int64(0)
 	numMaximumJackpotRings := int64(0)
-	numSupport := int64(19191)
+	numSupport := int64(0)
 	return OptionUserResult{
 		totalSumHighScore,
 		quickTotalSumHighScore,
