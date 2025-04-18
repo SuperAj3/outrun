@@ -19,11 +19,11 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	enums.CTStrSonic:    0.3, // Initial character
 	enums.CTStrTails:    0.3, // Obtained in story mode
 	enums.CTStrKnuckles: 0.3, // Obtained in story mode
-	enums.CTStrAmy:      0.3,
-	enums.CTStrBig:      0.3,
+	// enums.CTStrAmy:      0.3, //Purchasable Only (No Need to Re-Implement in Premium Roulette)
+	// enums.CTStrBig:      0.3, //Purchasable Only (No Need to Re-Implement in Premium Roulette)
 	//enums.CTStrBlaze:           1.0, // Revival Event (Sonic Rush)
 	enums.CTStrCharmy: 0.3,
-	enums.CTStrCream:  0.3,
+	// enums.CTStrCream:  0.3, //Purchasable Only (No Need to Re-Implement in Premium Roulette)
 	enums.CTStrEspio:  0.3,
 	//enums.CTStrMephiles:        0.0, // Revival Event
 	enums.CTStrOmega: 0.3,
@@ -34,7 +34,7 @@ var RandomChaoWheelCharacterPrizes = map[string]float64{
 	//enums.CTStrTangle: 1.0, // Revival Event
 	//enums.CTStrWhisper: 1.0, // Revival Event
 	//enums.CTStrSticks:          0.3, // Revival Event
-	enums.CTStrTikal:           1.5, // Event (Sonic Adventure)
+	enums.CTStrTikal:           0.3, // Event (Sonic Adventure)
 	enums.CTStrVector: 0.3,
 	enums.CTStrWerehog:         0.3, // Revival Event
 	//enums.CTStrClassicSonic: 1.0, // Event (Birthday)
@@ -68,8 +68,8 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrRCPinwheel:           2.0,
 	enums.ChaoIDStrRCPiggyBank:          1.2,
 	enums.ChaoIDStrRCBalloon:            2.0,
-	//enums.ChaoIDStrEasterChao:           1.0, // Event (Easter; Increase Odds During Event)
-	//enums.ChaoIDStrEasterBunny:          1.0, // Event (Easter; Increase Odds During Event)
+	enums.ChaoIDStrEasterChao:           3.5, // Event (Easter; Increase Odds During Event)
+	enums.ChaoIDStrEasterBunny:          3.5, // Event (Easter; Increase Odds During Event)
 	//enums.ChaoIDStrMerlina:              1.5, // Event (Easter: Premium Roulette for Timed Mode Event Only; Obtainable through Rewards List Only for Story Event)
 	//enums.ChaoIDStrPurplePapurisu:       2.5, // Event (Puyo Puyo Quest)
 	//enums.ChaoIDStrSuketoudara:          2.5, // Event (Puyo Puyo Quest)
@@ -140,9 +140,9 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrGoldenGoose:        1.0,
 	enums.ChaoIDStrRCPirateSpaceship: 0.7,
 	enums.ChaoIDStrGoldenAngel:       1.0,
-	enums.ChaoIDStrRCTornado2:           3.5, // Event (Sonic Adventure; Increase Odds During Event)
-	enums.ChaoIDStrChaos:                3.5, // Event (Sonic Adventure; Increase Odds During Event)
-	enums.ChaoIDStrOrca:                 3.5, // Event (Sonic Adventure; Increase Odds During Event)
+	enums.ChaoIDStrRCTornado2:           1.0, // Event (Sonic Adventure; Increase Odds During Event)
+	enums.ChaoIDStrChaos:                1.0, // Event (Sonic Adventure; Increase Odds During Event)
+	enums.ChaoIDStrOrca:                 1.0, // Event (Sonic Adventure; Increase Odds During Event)
 	//enums.ChaoIDStrChaoWalker:           0.0, // Daily Battle
 	//enums.ChaoIDStrDarkQueen:            0.0, // Runners' League Timed Mode
 	enums.ChaoIDStrRCBlockFace: 1.0,
