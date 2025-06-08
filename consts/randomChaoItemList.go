@@ -95,7 +95,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrMarineChao:           0.82, // Event (Tropical Coast; Increase Odds During Event)
 	//enums.ChaoIDStrGenesis:              1.5, // Event (Birthday: Premium Roulette for Timed Mode Event Only; Obtainable through Rewards List Only for Story Event)
 	enums.ChaoIDStrCartridge:            0.82, // Event (Birthday; Increase Odds During Event)
-	//enums.ChaoIDStrDeathEgg:             1.0, // Event (Birthday; Increase Odds During Event)
+	enums.ChaoIDStrDeathEgg:             1.47, // Event (Birthday; Increase Odds During Event)
 	//enums.ChaoIDStrRCFighter:            1.98,
 	enums.ChaoIDStrRCHovercraft:         0.82,
 	//enums.ChaoIDStrRCHelicopter:         1.98,
@@ -132,16 +132,16 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrDarkChaos:  1.55,
 	enums.ChaoIDStrChip:       1.55,
 	//enums.ChaoIDStrShahra:               4.0, // Runners' League Story Mode
-	enums.ChaoIDStrCaliburn:         1.55,
-	enums.ChaoIDStrKingArthursGhost: 1.55,
+	enums.ChaoIDStrCaliburn:         1.47,
+	enums.ChaoIDStrKingArthursGhost: 1.47,
 	//enums.ChaoIDStrRCTornado:        1.8,
-	enums.ChaoIDStrRCBattleCruiser:  1.55,
+	enums.ChaoIDStrRCBattleCruiser:  1.47,
 	//enums.ChaoIDStrRedCrystalMonsterS: 1.8,
 	//enums.ChaoIDStrRedCrystalMonsterL: 1.8,
-	enums.ChaoIDStrGoldenGoose:        1.55,
+	enums.ChaoIDStrGoldenGoose:        1.47,
 	//enums.ChaoIDStrRCPirateSpaceship: 1.8,
 	//enums.ChaoIDStrGoldenAngel:       1.8,
-	enums.ChaoIDStrRCTornado2:           1.55, // Event (Sonic Adventure; Increase Odds During Event)
+	enums.ChaoIDStrRCTornado2:           1.47, // Event (Sonic Adventure; Increase Odds During Event)
 	//enums.ChaoIDStrChaos:                1.8, // Event (Sonic Adventure; Increase Odds During Event)
 	//enums.ChaoIDStrOrca:                 1.98, // Event (Sonic Adventure; Increase Odds During Event)
 	//enums.ChaoIDStrChaoWalker:           0.0, // Daily Battle
