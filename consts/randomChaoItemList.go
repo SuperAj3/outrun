@@ -92,7 +92,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	//enums.ChaoIDStrMagLv1:               6.8, // Event (Phantasy Star Online 2)
 	//enums.ChaoIDStrBlowfishTransporter:  1.98, // Event (Tropical Coast; Increase Odds During Event)
 	//enums.ChaoIDStrMotherWisp:           1.2, // Event (Tropical Coast: Premium Roulette for Timed Mode Event Only; Obtainable through Rewards List Only for Story Event)
-	//enums.ChaoIDStrMarineChao:           1.98, // Event (Tropical Coast; Increase Odds During Event)
+	enums.ChaoIDStrMarineChao:           0.82, // Event (Tropical Coast; Increase Odds During Event)
 	//enums.ChaoIDStrGenesis:              1.5, // Event (Birthday: Premium Roulette for Timed Mode Event Only; Obtainable through Rewards List Only for Story Event)
 	enums.ChaoIDStrCartridge:            0.82, // Event (Birthday; Increase Odds During Event)
 	//enums.ChaoIDStrDeathEgg:             1.0, // Event (Birthday; Increase Odds During Event)
