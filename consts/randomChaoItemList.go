@@ -67,7 +67,7 @@ var RandomChaoWheelChaoPrizes = map[string]float64{
 	enums.ChaoIDStrBabyIndigoWisp:       3.7,
 	enums.ChaoIDStrBabyYellowWisp:       3.7,
 	enums.ChaoIDStrRCPinwheel:           3.7,
-	//enums.ChaoIDStrRCPiggyBank:          3.0,
+	enums.ChaoIDStrRCPiggyBank:          3.7,
 	//enums.ChaoIDStrRCBalloon:            3.0,
 	enums.ChaoIDStrEasterChao:           3.7, // Event (Easter; Increase Odds During Event)
 	//enums.ChaoIDStrEasterBunny:          3.5, // Event (Easter; Increase Odds During Event)
