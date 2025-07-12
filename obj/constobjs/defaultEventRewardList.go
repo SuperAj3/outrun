@@ -549,6 +549,7 @@ var DefaultEventRewardList = func() []obj.EventReward {
 			10,
 		),
 	}
+}
 
 var DefaultXmasEventRewardList = func() []obj.EventReward {
 	return []obj.EventReward{
